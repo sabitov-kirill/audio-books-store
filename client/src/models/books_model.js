@@ -11,16 +11,6 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-//class BookClass {
-//    constructor(id, title, imgPath, pagePath, status) {
-//        this.id = id;
-//        this.title = title;
-//        this.imgPath = imgPath;
-//        this.pagePath = pagePath;
-//        this.status = status;
-//    }
-//}
-
 // Trunks for calling books API
 const fetchBook = createAsyncThunk(
     'books/fetchBook',
@@ -29,35 +19,67 @@ const fetchBook = createAsyncThunk(
     }
 );
 
-export const booksSlice = createSlice({
+const fetchBookStorage = createAsyncThunk(
+    'books/fetchBookStorage',
+    async () => {
+        let bookList;
+        // запрос на получение данных из бд
+        return JSON.parse(bookList);
+    }
+);
+
+const booksSlice = createSlice({
     name: 'books',
     initialState: {
-        bookArray: [],
-        filters: '',
-        sortKey: '',
+        bookStorage: [],
+        filters: "All",
+        sortKey: "New first",
         selectingStatus: "unselected",
         selectedBook: {},
+        status: "unloaded",
         error: '',
     },
-    reducers: {},
+    reducers: {
+        filter: (state, key) => {
+            state.filters = key.payload;
+        },
+        sorting: (state, key) => {
+            state.sortKey = key.payload;
+        },
+        search: (state, key) => {
+            //поиск
+        },
+    },
 
     extraReducers: {
         [fetchBook.pending]: (state) => {
-            state.selectingStatus = 'pending'
+            state.selectingStatus = 'pending';
         },
         [fetchBook.fulfilled]: (state, action) => {
-            state.selectingStatus = 'selected'
+            state.selectingStatus = 'selected';
             state.selectedBook = action.payload;
         },
         [fetchBook.rejected]: (state, action) => {
-            state.selectingStatus = 'failed'
+            state.selectingStatus = 'failed';
             state.error = action.error.message;
-        }
+        },
+        [fetchBookStorage.pending]: (state) => {
+            state.status = 'pending';
+        },
+        [fetchBookStorage.fulfilled]: (state, action) => {
+            state.status = 'loaded';
+            state.bookStorage = new Array(action.payload)
+        },
+        [fetchBookStorage.rejected]: (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message;
+        },
     },
 });
 
 // Books slice reducer actions
-export { fetchBook };
+export { fetchBook, fetchBookStorage };
+export const { filter, sorting } = booksSlice.actions;
 
 // Books slice reducer
 export default booksSlice.reducer;
