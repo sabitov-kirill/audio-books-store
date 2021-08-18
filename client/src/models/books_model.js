@@ -11,15 +11,15 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-class BookClass {
-    constructor(id, title, imgPath, pagePath, status) {
-        this.id = id;
-        this.title = title;
-        this.imgPath = imgPath;
-        this.pagePath = pagePath;
-        this.status = status;
-    }
-}
+//class BookClass {
+//    constructor(id, title, imgPath, pagePath, status) {
+//        this.id = id;
+//        this.title = title;
+//        this.imgPath = imgPath;
+//        this.pagePath = pagePath;
+//        this.status = status;
+//    }
+//}
 
 // Trunks for calling books API
 const fetchBook = createAsyncThunk(
@@ -32,7 +32,7 @@ const fetchBook = createAsyncThunk(
 export const booksSlice = createSlice({
     name: 'books',
     initialState: {
-        bookArray: [new BookClass(1, "123a", "", "/", "need-to-buy")],
+        bookArray: [],
         filters: '',
         sortKey: '',
         selectingStatus: "unselected",
