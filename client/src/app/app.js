@@ -12,13 +12,13 @@
  */
 
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-
-import LoginForm from "../controllers/user/login_form_controller";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // Application pages routes
 const pagesRoutes = [
-  { path: '/login', Component: LoginForm },
+    { path: '/login', Component: React.lazy(() => import('../controllers/user/login_form_controller')) },
+    { path: '/reg', Component: React.lazy(() => import('../controllers/user/registration-form-controller')) },
+    { path: '/auth', Component: React.lazy(() => import('../views/user/auth_form_view')) },
 ];
 
 // Application main component
@@ -27,13 +27,13 @@ export default function App() {
         <Router>
             {/* Header */}
 
+            <React.Suspense fallback={<h1>Loading</h1>}>
             <Switch>
                 {pagesRoutes.map(({path, Component}) =>
-                    <Route key={path} path={path}>
-                        <Component />
-                    </Route>
+                    <Route key={path} path={path} component={Component} />
                 )}
             </Switch>
+            </React.Suspense>
 
             {/* Footer */}
         </Router>

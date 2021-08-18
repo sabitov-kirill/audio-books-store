@@ -21,3 +21,5 @@ export const store = configureStore({
     user: userReducer
   },
 });
+
+// store.dispatch({type: 'user/fetchUserLogin/pending'});

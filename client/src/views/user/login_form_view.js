@@ -11,41 +11,87 @@
 
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
+import Form from "react-bootstrap/Form";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
 
 // Component view
 export default function LoginFormView(props) {
     // Input fields states
-    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // On login callback
-    const onLogin = async (e) => await props.login(name, password)
+    // Errors showing states
+    const [isErrorShown, setIsErrorShown] = useState(true);
+    const [isFieldsError, setIsFieldsError] = useState(false);
+
+    // Evens callbacks handle
+    const onEmailInput = (e) => {
+        if (isFieldsError && email && password) setIsFieldsError(false);
+        setIsErrorShown(false);
+        setEmail(e.target.value)
+    }
+    const onPasswordInput = (e) => {
+        if (isFieldsError && email && password) setIsFieldsError(false);
+        setIsErrorShown(false);
+        setPassword(e.target.value)
+    }
+    const onRegistr = async (e) => {
+        e.preventDefault();
+
+        if (!email || !password) {
+            setIsFieldsError(true);
+            setIsErrorShown(false);
+        } else {
+            setIsErrorShown(true);
+            await props.login(email.toLowerCase().trim(), password);
+        }
+    }
 
     // Rendering element
     return (
-        <>
-            <h1>Login Form</h1>
-            <input
-                id='loginInput'
-                type='text'
-                value={name}
-                placeholder='Enter Your Name'
-                onChange={(e) => setName(e.target.value)}
-            />
-            <input
-                id='passwordInput'
-                type='password'
-                value={password}
-                placeholder='Enter Your Password'
-                onChange={(e) => setPassword(e.target.value)}
-            />
+        <div className="d-grid gap-3 p-3">
+            <Form className="d-grid gap-3">
+                <Form.Group>
+                    <FloatingLabel label="Enter your email">
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter your email"
+                            onChange={onEmailInput}
+                            isInvalid={(props.isLoginError && isErrorShown) || (isFieldsError && !email)}
+                            style={{backgroundColor: '#ffffffaa'}}
+                        />
+                    </FloatingLabel>
+                </Form.Group>
 
-            {props.isLoginError && <h1 className='errorMessage'>{props.error}</h1>}
-            {props.isLoginSuccess && <Redirect to='/'/>}
+                <Form.Group>
+                    <FloatingLabel label="Enter your password">
+                        <Form.Control
+                            type="password"
+                            placeholder="Enter your password"
+                            onChange={onPasswordInput}
+                            isInvalid={(props.isLoginError && isErrorShown) || (isFieldsError && !password)}
+                            style={{backgroundColor: '#ffffffaa'}}
+                        />
+                    </FloatingLabel>
+                </Form.Group>
 
-            <button onClick={onLogin} disabled={!name || !password || props.isLoginPending}>
-                Submit
-            </button>
-        </>
+                {props.isLoggedIn && <Redirect to='/books'/>}
+                {props.isLoginError && isErrorShown && <Alert variant='danger' className='mb-0'>{props.error}</Alert>}
+                {isFieldsError && <Alert variant='danger' className='mb-0'>Please, fill all the fields to login.</Alert>}
+
+                <Button
+                    variant="outline-dark"
+                    onClick={onRegistr}
+                    type='submit'
+                    className='m-auto'
+                    style={{ width: '100%'}}
+                    disabled={props.isLoginPending}
+                >
+                    {props.isLoginPending ? 'Loading...' : 'Submit'}
+                </Button>
+            </Form>
+        </div>
     );
 }

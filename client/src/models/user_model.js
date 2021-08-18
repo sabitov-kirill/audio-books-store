@@ -9,22 +9,15 @@
  *
  */
 
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-// Trunks for calling user API
-const fetchUserLogin = createAsyncThunk(
-    'user/fetchUserLogin',
-    async (name, password) => {
-        return { bag: [], books: [] };
-    }
-);
+import { createSlice } from "@reduxjs/toolkit";
 
 // App store user slice
 const userSlice = createSlice({
     name: 'user',
     initialState:  {
-        bag: [],
-        books: [],
+        name: '',
+        bagBooks: [],
+        ownedBooks: [],
         loginStatus: 'unlogged',
         error: ''
     },
@@ -32,23 +25,35 @@ const userSlice = createSlice({
     reducers: {},
 
     extraReducers: {
-        [fetchUserLogin.pending]: (state) => {
-            state.loginStatus = 'pending'
+        'user/fetchUserLogin/pending': (state) => {
+            state.loginStatus = 'pending';
         },
-        [fetchUserLogin.fulfilled]: (state, action) => {
-            state.loginStatus = 'success'
-            state.bag = action.payload.bag;
-            state.books = action.payload.books;
+        'user/fetchUserLogin/fulfilled': (state, action) => {
+            state.loginStatus = 'success';
+
+            state.name = action.payload.name;
+            state.bagBooks = action.payload.bagBooks;
+            state.ownedBooks = action.payload.ownedBooks;
         },
-        [fetchUserLogin.rejected]: (state, action) => {
-            state.loginStatus = 'failed'
+        'user/fetchUserLogin/rejected': (state, action) => {
+            state.loginStatus = 'failed';
+            state.error = action.error.message;
+        },
+
+        'user/fetchUserRegistr/pending': (state) => {
+            state.loginStatus = 'pending';
+        },
+        'user/fetchUserRegistr/fulfilled': (state, action) => {
+            state.loginStatus = 'success';
+
+            state.name = action.payload.name;
+        },
+        'user/fetchUserRegistr/rejected': (state, action) => {
+            state.loginStatus = 'failed';
             state.error = action.error.message;
         }
     }
 });
-
-// User slice reducer actions
-export { fetchUserLogin };
 
 // User slice reducer
 export default userSlice.reducer;

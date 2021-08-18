@@ -9,20 +9,36 @@
  *
  */
 
-import { connect } from "react-redux";
+import {connect} from "react-redux";
+import {createAsyncThunk} from "@reduxjs/toolkit";
 
-import { fetchUserLogin } from "../../models/user_model";
 import LoginFormView from "../../views/user/login_form_view";
 
-// Component view, connected to model
+// Creating login thunk
+const fetchUserLogin = createAsyncThunk(
+    'user/fetchUserLogin',
+    async (loginData) => {
+        const response = await fetch('/api/user/login', {
+            method: "POST",
+            headers: {"Contet-Type": "application/json;charset=utf-8"},
+            body: JSON.stringify(loginData)
+        });
+
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error);
+        return result;
+    }
+);
+
+// Connecting component view to model with controller
 export default connect(
     (state) => ({
         isLoginPending: state.user.loginStatus === 'pending',
         isLoginError:   state.user.loginStatus === 'failed',
-        isLoginSuccess: state.user.loginStatus === 'success',
+        isLoggedIn:     state.user.loginStatus === 'success',
         error:          state.user.error
     }),
     (dispatch) => ({
-        login: async (login, password) => await dispatch(fetchUserLogin(login, password))
+        login: (email, password) => dispatch(fetchUserLogin({ email, password }))
     })
 )(LoginFormView);

@@ -1,0 +1,20 @@
+{
+  "name": "audio-books-store",
+  "version": "1.0.0",
+  "description": "Audio books web store application.",
+  "main": "index.js",
+  "scripts": {
+    "server": "cd server && npm start",
+    "client": "cd client && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sabitov-kirill/audio-books-store.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sabitov-kirill/audio-books-store/issues"
+  },
+  "homepage": "https://github.com/sabitov-kirill/audio-books-store#readme"
+}
