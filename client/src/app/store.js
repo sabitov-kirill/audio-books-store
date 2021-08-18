@@ -14,10 +14,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import userReducer from '../models/user_model'
+import booksReducer from '../models/books_model'
 
 // Application global states store creation
 export const store = configureStore({
   reducer: {
+    books: booksReducer,
     user: userReducer
   },
 });

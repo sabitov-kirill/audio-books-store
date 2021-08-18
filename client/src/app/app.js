@@ -15,10 +15,12 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import LoginForm from "../controllers/user/login_form_controller";
+import BookList from "../controllers/books/books_controller";
 
 // Application pages routes
 const pagesRoutes = [
-  { path: '/login', Component: LoginForm },
+    { path: '/login', Component: LoginForm },
+    { path: '/', Component: BookList },
 ];
 
 // Application main component
