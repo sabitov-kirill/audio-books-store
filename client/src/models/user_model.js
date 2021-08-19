@@ -15,9 +15,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
     name: 'user',
     initialState:  {
+        id: '',
         name: '',
+        email: '',
         bagBooks: [],
         ownedBooks: [],
+
         loginStatus: 'unlogged',
         error: ''
     },
@@ -25,30 +28,34 @@ const userSlice = createSlice({
     reducers: {},
 
     extraReducers: {
-        'user/fetchUserLogin/pending': (state) => {
+        'user/userLogin/pending': (state) => {
             state.loginStatus = 'pending';
         },
-        'user/fetchUserLogin/fulfilled': (state, action) => {
+        'user/userLogin/fulfilled': (state, action) => {
             state.loginStatus = 'success';
 
+            state.id = action.payload.id;
             state.name = action.payload.name;
+            state.email = action.payload.email;
             state.bagBooks = action.payload.bagBooks;
             state.ownedBooks = action.payload.ownedBooks;
         },
-        'user/fetchUserLogin/rejected': (state, action) => {
+        'user/userLogin/rejected': (state, action) => {
             state.loginStatus = 'failed';
             state.error = action.error.message;
         },
 
-        'user/fetchUserRegistr/pending': (state) => {
+        'user/userRegistr/pending': (state) => {
             state.loginStatus = 'pending';
         },
-        'user/fetchUserRegistr/fulfilled': (state, action) => {
+        'user/userRegistr/fulfilled': (state, action) => {
             state.loginStatus = 'success';
 
+            state.id = action.payload.id;
             state.name = action.payload.name;
+            state.email = action.payload.email;
         },
-        'user/fetchUserRegistr/rejected': (state, action) => {
+        'user/userRegistr/rejected': (state, action) => {
             state.loginStatus = 'failed';
             state.error = action.error.message;
         }

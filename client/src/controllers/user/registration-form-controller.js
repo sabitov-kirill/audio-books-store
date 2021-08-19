@@ -9,25 +9,18 @@
  *
  */
 
-import {connect} from "react-redux";
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import { connect } from "react-redux";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
+import userApi from '../../api/user_api';
 import RegistrationFormView from "../../views/user/registration_form_view";
 
 // Creating registration thunk
-export const fetchUserRegistr = createAsyncThunk(
-    'user/fetchUserRegistr',
-    async (registrationData) => {
-        const response = await fetch('/api/user/registration', {
-            method: "POST",
-            headers: {"Contet-Type": "application/json;charset=utf-8"},
-            body: JSON.stringify(registrationData)
-        });
-
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.error);
-        return result;
-    }
+export const userRegistr = createAsyncThunk(
+    'user/userRegistr',
+    async (registrationData) => (
+        await userApi.registration(registrationData.name, registrationData.email, registrationData.password)
+    )
 );
 
 // Connecting component view to model with controller
@@ -39,6 +32,6 @@ export default connect(
         error:            state.user.error
     }),
     (dispatch) => ({
-        registr: (name, email, password) => dispatch(fetchUserRegistr({ name, email, password }))
+        registr: (name, email, password) => dispatch(userRegistr({ name, email, password }))
     })
 )(RegistrationFormView);

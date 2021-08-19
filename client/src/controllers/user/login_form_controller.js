@@ -9,25 +9,16 @@
  *
  */
 
-import {connect} from "react-redux";
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import { connect } from "react-redux";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
+import userApi from '../../api/user_api';
 import LoginFormView from "../../views/user/login_form_view";
 
 // Creating login thunk
-const fetchUserLogin = createAsyncThunk(
-    'user/fetchUserLogin',
-    async (loginData) => {
-        const response = await fetch('/api/user/login', {
-            method: "POST",
-            headers: {"Contet-Type": "application/json;charset=utf-8"},
-            body: JSON.stringify(loginData)
-        });
-
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.error);
-        return result;
-    }
+const userLogin = createAsyncThunk(
+    'user/userLogin',
+    async (loginData) => (await userApi.login(loginData.email, loginData.password))
 );
 
 // Connecting component view to model with controller
@@ -39,6 +30,6 @@ export default connect(
         error:          state.user.error
     }),
     (dispatch) => ({
-        login: (email, password) => dispatch(fetchUserLogin({ email, password }))
+        login: (email, password) => dispatch(userLogin({ email, password }))
     })
 )(LoginFormView);

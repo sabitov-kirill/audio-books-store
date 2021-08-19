@@ -11,11 +11,8 @@
 
 // Getting enviroment data
 require('dotenv').config();
-const PORT = process.env.PORT || 5000;
-const DB_URL = process.env.DB_URL || "";
+const path = require('path');
 
-// Configuring server
-const server = require('./models/server_model')(PORT, DB_URL);
-server.applyMiddlewares();
-server.handleRequests();
+// Creating new server exemplar and running it
+const server = require('./server')(process.env, path);
 server.start();

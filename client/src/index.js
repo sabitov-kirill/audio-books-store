@@ -16,8 +16,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import App from './app/app';
 import { store } from './app/store';
+import App from './controllers/app_controller';
 
 // Rendering main component witch store provider.
 ReactDOM.render(
