@@ -46,14 +46,14 @@ const booksSlice = createSlice({
 
     extraReducers: {
         'books/fetchBookStorage/pending': (state) => {
-            state.selectingStatus = 'pending'
+            state.status = 'pending';
         },
         'books/fetchBookStorage/fulfilled': (state, action) => {
-            state.selectingStatus = 'selected'
-            state.selectedBook = action.payload;
+            state.status = 'loaded';
+            state.bookStorage = new Array(action.payload)
         },
         'books/fetchBookStorage/rejected': (state, action) => {
-            state.selectingStatus = 'failed'
+            state.status = 'failed';
             state.error = action.error.message;
         },
     },
