@@ -1,30 +1,26 @@
-import { useEffect, useState } from "react";
+/**
+ *
+ * CREATION DATE: 19.08.2021
+ *
+ * PROGRAMMER:    Smirnov Daniil.
+ *
+ * PURPOSE:       Audio books web store application.
+ *                Books list.
+ *
+ */
+
+import { useEffect } from "react";
+import BookView from "./book_view"
 
 import {
-    Container, Card, Row, Col,
-    NavDropdown, Nav,
-    InputGroup, FormControl, Button
+    Row, Col
 } from 'react-bootstrap';
-import { Search } from 'react-bootstrap-icons'
-
-function BookView(props) {
-    return (
-        <Card onClick={props.select()}>
-            <Card.Header>{props.book.title}</Card.Header>
-            <Card.Img variant="top" src={props.book.imgPath} />
-        </Card>
-    );
-}
 
 export default function BooksListView(props) {
     useEffect(() => props.initBookStorage );
-    const handleSelect = (eventKey, callback) => callback(eventKey);
-    const [search, setSearch] = useState("");
-    const onSearchInput = (e) => {
-        setSearch(e.target.value);
-    };
 
     return (
+<<<<<<< HEAD
         <Container>
             <InputGroup className="mb-3">
                 <FormControl type="text"
@@ -91,5 +87,20 @@ export default function BooksListView(props) {
                 </Col>
             </Row>
         </Container>
+=======
+        <Row xs={2} sm={3} lg={4} xl={5} xxl={6}>
+            <Col>
+                {props.books.length !== 0
+                    ? props.books.map((book) => {
+                        return <BookView
+                            key={`todo-${book.id}`}
+                            book={book}
+                            select={() => props.visitBookPage(book)}
+                        />;
+                    })
+                    : ""}
+            </Col>
+        </Row>
+>>>>>>> 1fac74a5b06f4cd8591139480a872d325d57289a
     );
 };

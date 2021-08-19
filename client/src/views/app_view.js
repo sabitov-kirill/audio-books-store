@@ -19,7 +19,7 @@ const pagesRoutes = [
     { path: '/', Component: React.lazy(() => import('../controllers/books/books_controller')) },
     { path: '/login', Component: React.lazy(() => import('../controllers/user/login_form_controller')) },
     { path: '/reg', Component: React.lazy(() => import('../controllers/user/registration-form-controller')) },
-    { path: '/auth', Component: React.lazy(() => import('./user/auth_form_view')) },
+    { path: '/auth', Component: React.lazy(() => import('../views/user/auth_form_view')) }, 
 ];
 
 // Application main component

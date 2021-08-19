@@ -34,6 +34,7 @@ const booksSlice = createSlice({
         bookStorage: [],
         filters: "All",
         sortKey: "New first",
+        searchKey: '',
         selectingStatus: "unselected",
         selectedBook: {},
         status: "unloaded",
@@ -47,7 +48,7 @@ const booksSlice = createSlice({
             state.sortKey = key.payload;
         },
         search: (state, key) => {
-            //поиск
+            state.searchKey = key.payload;
         },
     },
 
@@ -79,7 +80,7 @@ const booksSlice = createSlice({
 
 // Books slice reducer actions
 export { fetchBook, fetchBookStorage };
-export const { filter, sorting } = booksSlice.actions;
+export const { filter, sorting, search } = booksSlice.actions;
 
 // Books slice reducer
 export default booksSlice.reducer;
