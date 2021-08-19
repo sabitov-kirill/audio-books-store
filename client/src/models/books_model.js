@@ -36,6 +36,17 @@ const booksSlice = createSlice({
     },
 
     extraReducers: {
+        'books/fetchBook/pending': (state) => {
+            state.selectingStatus = 'pending';
+        },
+        'books/fetchBook/fulfilled': (state, action) => {
+            state.selectingStatus = 'selected';
+            state.selectedBook = action.payload;
+        },
+        'books/fetchBook/rejected': (state, action) => {
+            state.selectingStatus = 'failed';
+            state.error = action.error.message;
+        },
         'books/fetchBookStorage/pending': (state) => {
             state.status = 'pending';
         },

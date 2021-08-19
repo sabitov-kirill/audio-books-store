@@ -9,22 +9,22 @@
  *
  */
 
- import { connect } from "react-redux";
- import { createAsyncThunk } from "@reduxjs/toolkit";
+import { connect } from "react-redux";
+import { createAsyncThunk } from "@reduxjs/toolkit";
  
- import BooksPageView from "../../views/books/books_page";
+import BooksPageView from "../../views/books/books_page";
  
- import bookApi from '../../api/book_api';
+import bookApi from '../../api/book_api';
  
- const fetchBookStorage = createAsyncThunk(
+const fetchBookStorage = createAsyncThunk(
     'books/fetchBookStorage',
     bookApi.downloadAllBooks
- );
+);
  
- // Component view, connected to model
- export default connect(
+// Component view, connected to model
+export default connect(
     null,
     (dispatch) => ({
         initBookStorage: async () => await dispatch(fetchBookStorage()),
     })
- )(BooksPageView);
+)(BooksPageView);
