@@ -9,24 +9,7 @@
  *
  */
 
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-// Trunks for calling books API
-const fetchBook = createAsyncThunk(
-    'books/fetchBook',
-    async (book) => {
-        return book;
-    }
-);
-
-const fetchBookStorage = createAsyncThunk(
-    'books/fetchBookStorage',
-    async () => {
-        let bookList;
-        // запрос на получение данных из бд
-        return JSON.parse(bookList);
-    }
-);
+import { createSlice } from "@reduxjs/toolkit";
 
 const booksSlice = createSlice({
     name: 'books',
@@ -53,25 +36,14 @@ const booksSlice = createSlice({
     },
 
     extraReducers: {
-        [fetchBook.pending]: (state) => {
-            state.selectingStatus = 'pending';
-        },
-        [fetchBook.fulfilled]: (state, action) => {
-            state.selectingStatus = 'selected';
-            state.selectedBook = action.payload;
-        },
-        [fetchBook.rejected]: (state, action) => {
-            state.selectingStatus = 'failed';
-            state.error = action.error.message;
-        },
-        [fetchBookStorage.pending]: (state) => {
+        'books/fetchBookStorage/pending': (state) => {
             state.status = 'pending';
         },
-        [fetchBookStorage.fulfilled]: (state, action) => {
+        'books/fetchBookStorage/fulfilled': (state, action) => {
             state.status = 'loaded';
             state.bookStorage = new Array(action.payload)
         },
-        [fetchBookStorage.rejected]: (state, action) => {
+        'books/fetchBookStorage/rejected': (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
         },
@@ -79,7 +51,6 @@ const booksSlice = createSlice({
 });
 
 // Books slice reducer actions
-export { fetchBook, fetchBookStorage };
 export const { filter, sorting, search } = booksSlice.actions;
 
 // Books slice reducer

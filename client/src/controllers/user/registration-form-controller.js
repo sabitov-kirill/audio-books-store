@@ -16,12 +16,7 @@ import userApi from '../../api/user_api';
 import RegistrationFormView from "../../views/user/registration_form_view";
 
 // Creating registration thunk
-export const userRegistr = createAsyncThunk(
-    'user/userRegistr',
-    async (registrationData) => (
-        await userApi.registration(registrationData.name, registrationData.email, registrationData.password)
-    )
-);
+export const userRegistr = createAsyncThunk('user/userRegistr', userApi.registration);
 
 // Connecting component view to model with controller
 export default connect(

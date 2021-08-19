@@ -15,6 +15,7 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
 const UserController = require('./controllers/user_controller');
+const BookController = require('./controllers/book_controller');
 
 // Server model handle
 class Server {
@@ -30,13 +31,25 @@ class Server {
         // Authentication requests handle
         this.router.post('/user/create',  this.userController.create.bind(this.userController));
         this.router.post('/user/access',  this.userController.access.bind(this.userController));
-        this.router.get('/user/reaccess', this.userController.validate.bind(this.userController));
+        this.router.get('/user/reaccess', this.userController.validate.bind(this.userController), 
+                                          this.userController.reAccess.bind(this.userController));
         this.router.post('/user/leave',   this.userController.leave.bind(this.userController));
+
+        // Book interation requests
+        this.router.post('api/books/create', this.bookController.upload.bind(this.bookController), 
+                                             this.bookController.create.bind(this.bookController));
+        this.router.get('api/books/data',    this.bookController.data.bind(this.bookController));
+        this.router.get('api/books/cards',   this.bookController.cards.bind(this.bookController));
     }
 
     handleBaseRequests() {
         // Setting up router to handle api requests
         this.app.use('/api', this.router);
+        this.app.post("/uploadImage", function (req, res) {
+            // handle error ??
+            if (!req.file) res.send("downloading error");
+            else res.send("succes");
+        });
 
         // Setting up react requests
         this.app.use(express.static(this.path.resolve(__dirname, '../client/public')));
@@ -53,6 +66,7 @@ class Server {
     constructor(env, path) {
         // Callign interfaces constructors
         this.userController = new UserController(env.TOKEN_KEY);
+        this.bookController = new BookController();
 
         // Creating http server
         this.app = express();
@@ -61,6 +75,7 @@ class Server {
         // Setting up enviroment data
         this.port = env.PORT;
         this.databaseURL = env.DB_URL;
+        this.booksPath = env.BOOKS_PATH;
         this.path = path;
 
         // Calling server initialisation functions

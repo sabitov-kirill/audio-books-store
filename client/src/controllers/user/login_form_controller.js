@@ -16,10 +16,7 @@ import userApi from '../../api/user_api';
 import LoginFormView from "../../views/user/login_form_view";
 
 // Creating login thunk
-const userLogin = createAsyncThunk(
-    'user/userLogin',
-    async (loginData) => (await userApi.login(loginData.email, loginData.password))
-);
+const userLogin = createAsyncThunk('user/userLogin', userApi.login);
 
 // Connecting component view to model with controller
 export default connect(

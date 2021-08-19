@@ -12,7 +12,6 @@
 import { connect } from "react-redux";
 
 import BookListView from "../../views/books/books_list_view";
-import { fetchBook, fetchBookStorage } from "../../models/books_model";
 
 function refactorBookArray(bookArray, sortKey, filter, searchKey) {
     let refArray = new Array(bookArray?.filter((book) => {
@@ -38,9 +37,5 @@ function refactorBookArray(bookArray, sortKey, filter, searchKey) {
 export default connect(
     (state) => ({
         books: refactorBookArray(state.books.bookStorage),
-    }),
-    (dispatch) => ({
-        visitBookPage: async (book) => await dispatch(fetchBook(book)),
-        initBookStorage: async () => await dispatch(fetchBookStorage()),
     })
 )(BookListView);

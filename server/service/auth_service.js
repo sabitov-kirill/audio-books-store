@@ -17,7 +17,7 @@ const UserDTO = require('../dtos/user_dto');
 const TokenSerice = require('./token_service');
 
 // User service class
-class UserService {
+class AuthService {
     constructor(accessSeckret) {
         this.tokenSerice = new TokenSerice(accessSeckret);
     }
@@ -62,9 +62,8 @@ class UserService {
         return { user: userDTO, accessToken };
     }
 
-    async reLogin(accessToken) {
+    async validate(accessToken) {
         // Check if user accessToken is valid and generated on this server
-        // If success return its data
         const payload = this.tokenSerice.validate(accessToken);
 
         // Finding user by stored in token id.
@@ -74,4 +73,4 @@ class UserService {
     }
 }
 
-module.exports = UserService;
+module.exports = AuthService;

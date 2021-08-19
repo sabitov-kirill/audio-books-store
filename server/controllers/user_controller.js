@@ -50,18 +50,8 @@ class UserController {
         }
     }
 
-    async validate(request, result) {
-        try {
-            // Get access token from cookie and validate it
-            const accessToken = request.cookies.acetsi;
-            if (!accessToken) throw new Error('Saved user data not found.');
-            const user = await this.authService.reLogin(accessToken);
-
-            // Return user data
-            result.status(200).json(user);
-        } catch (e) {
-            result.status(406).json({ error: e.message });
-        }
+    async reAccess(request, result) {
+        result.status(200).json(request.user);
     }
 
     async leave(request, result) {
@@ -73,6 +63,20 @@ class UserController {
             result.sendStatus(200);
         } catch (e) {
             result.status(400).json(e);
+        }
+    }
+
+    async validate(request, result, next) {
+        try {
+            // Get access token from cookie and validate it
+            const accessToken = request.cookies.acetsi;
+            if (!accessToken) throw new Error('You must login before.');
+            request.user = await this.authService.validate(accessToken);
+
+            // Return user data
+            next();
+        } catch (e) {
+            result.status(406).json({ error: e.message });
         }
     }
 }

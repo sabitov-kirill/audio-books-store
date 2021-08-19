@@ -10,7 +10,7 @@
  */
 
 const UserApi = {
-    async registration(name, email, password) {
+    async registration({ name, email, password }) {
         const response = await fetch('/api/user/create', {
             method: "POST",
             headers: {"Contet-Type": "application/json;charset=utf-8"},
@@ -22,7 +22,7 @@ const UserApi = {
         return { name };
     },
 
-    async login(email, password) {
+    async login({ email, password }) {
         const response = await fetch('/api/user/access', {
             method: "POST",
             headers: {"Contet-Type": "application/json;charset=utf-8"},
