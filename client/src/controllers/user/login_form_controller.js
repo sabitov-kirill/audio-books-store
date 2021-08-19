@@ -16,7 +16,7 @@ import userApi from '../../api/user_api';
 import LoginFormView from "../../views/user/login_form_view";
 
 // Creating login thunk
-const userLogin = createAsyncThunk('user/userLogin', userApi.login);
+const userReLogin = createAsyncThunk('user/userLogin', userApi.login);
 
 // Connecting component view to model with controller
 export default connect(
@@ -27,6 +27,6 @@ export default connect(
         error:          state.user.error
     }),
     (dispatch) => ({
-        login: (email, password) => dispatch(userLogin({ email, password }))
+        login: (email, password) => dispatch(userReLogin({ email, password }))
     })
 )(LoginFormView);
