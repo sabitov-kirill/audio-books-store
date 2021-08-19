@@ -11,7 +11,7 @@
 
 import { connect } from "react-redux";
 
-import BookListView from "../../views/books/books_list_view";
+import BookView from "../../views/books/book_view";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import bookApi from '../../api/book_api';
 
@@ -24,16 +24,14 @@ import bookApi from '../../api/book_api';
 //    data:        ??? (current String)
 
 // Trunks for calling books API
-const fetchBook = createAsyncThunk(
+export const fetchBook = createAsyncThunk(
     'books/fetchBook', bookApi.testFunc
 );
 
 // Component view, connected to model
 export default connect(
-    (state) => ({
-      books: state.books.bookArray,
-    }),
+    null,
     (dispatch) => ({
-        visitBookPage: async (book) => await dispatch(fetchBook(book))
+        select: async (book) => await dispatch(fetchBook(book))
     })
-)(BookListView);
+)(BookView);

@@ -9,16 +9,13 @@
  *
  */
 
-import { useEffect } from "react";
-import BookView from "./book_view"
+import BookView from "../../controllers/books/books_controller"
 
 import {
     Row, Col
 } from 'react-bootstrap';
 
 export default function BooksListView(props) {
-    useEffect(() => props.initBookStorage );
-
     return (
         <Row xs={2} sm={3} lg={4} xl={5} xxl={6}>
             <Col>
@@ -26,9 +23,7 @@ export default function BooksListView(props) {
                     ? props.books.map((book) => {
                         return <BookView
                             key={`todo-${book.id}`}
-                            book={book}
-                            select={() => props.visitBookPage(book)}
-                        />;
+                            book={book} />;
                     })
                     : ""}
             </Col>

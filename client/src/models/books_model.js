@@ -11,15 +11,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-const fetchBookStorage = createAsyncThunk(
-    'books/fetchBookStorage',
-    async () => {
-        let bookList;
-        // запрос на получение данных из бд
-        return JSON.parse(bookList);
-    }
-);
-
 const booksSlice = createSlice({
     name: 'books',
     initialState: {
@@ -58,6 +49,9 @@ const booksSlice = createSlice({
         },
     },
 });
+
+// Books slice reducer actions
+export const { filter, sorting, search } = booksSlice.actions;
 
 // Books slice reducer
 export default booksSlice.reducer;
