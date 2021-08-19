@@ -1,33 +1,37 @@
-import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+/**
+ *
+ * CREATION DATE: 19.08.2021
+ *
+ * PROGRAMMER:    Smirnov Daniil.
+ *
+ * PURPOSE:       Audio books web store application.
+ *                Books list.
+ *
+ */
 
-function BookView(props) {
-    return (
-        <Card onClick={props.select()}>
-            <Card.Header>{props.book.title}</Card.Header>
-            <Card.Img variant="top" src={props.book.imgPath} />
-        </Card>
-    );
-}
+import { useEffect } from "react";
+import BookView from "./book_view"
+
+import {
+    Row, Col
+} from 'react-bootstrap';
 
 export default function BooksListView(props) {
-    console.log(props);
+    useEffect(() => props.initBookStorage );
+
     return (
-        <Container>
-            <Row xs={2} sm={3} lg={4} xl={5} xxl={6}>
-                <Col>
-                    {props.books.length > 0
-                        ? props.books.map((book) => {
-                            return <BookView
-                                key={`todo-${book.id}`}
-                                book={book}
-                                select={() => props.visitBookPage(book)} />;
-                        })
-                        : ""}
-                </Col>
-            </Row>
-        </Container>
+        <Row xs={2} sm={3} lg={4} xl={5} xxl={6}>
+            <Col>
+                {props.books.length !== 0
+                    ? props.books.map((book) => {
+                        return <BookView
+                            key={`todo-${book.id}`}
+                            book={book}
+                            select={() => props.visitBookPage(book)}
+                        />;
+                    })
+                    : ""}
+            </Col>
+        </Row>
     );
 };

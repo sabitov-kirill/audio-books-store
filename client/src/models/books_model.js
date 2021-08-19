@@ -11,17 +11,38 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-export const booksSlice = createSlice({
+const fetchBookStorage = createAsyncThunk(
+    'books/fetchBookStorage',
+    async () => {
+        let bookList;
+        // запрос на получение данных из бд
+        return JSON.parse(bookList);
+    }
+);
+
+const booksSlice = createSlice({
     name: 'books',
     initialState: {
-        bookArray: [],
-        filters: '',
-        sortKey: '',
+        bookStorage: [],
+        filters: "All",
+        sortKey: "New first",
+        searchKey: '',
         selectingStatus: "unselected",
         selectedBook: {},
+        status: "unloaded",
         error: '',
     },
-    reducers: {},
+    reducers: {
+        filter: (state, key) => {
+            state.filters = key.payload;
+        },
+        sorting: (state, key) => {
+            state.sortKey = key.payload;
+        },
+        search: (state, key) => {
+            state.searchKey = key.payload;
+        },
+    },
 
     extraReducers: {
         'books/fetchBook/pending': (state) => {
@@ -34,7 +55,7 @@ export const booksSlice = createSlice({
         'books/fetchBook/rejected': (state, action) => {
             state.selectingStatus = 'failed'
             state.error = action.error.message;
-        }
+        },
     },
 });
 
