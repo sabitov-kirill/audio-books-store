@@ -12,7 +12,7 @@
 import { connect } from "react-redux";
 
 import BookListView from "../../views/books/books_list_view";
-import { fetchBook, fetchBookStorage, filter, sorting, search } from "../../models/books_model";
+import { fetchBook, fetchBookStorage } from "../../models/books_model";
 
 function refactorBookArray(bookArray, sortKey, filter, searchKey) {
     let refArray = new Array(bookArray?.filter((book) => {
@@ -38,16 +38,9 @@ function refactorBookArray(bookArray, sortKey, filter, searchKey) {
 export default connect(
     (state) => ({
         books: refactorBookArray(state.books.bookStorage),
-        sortKey: state.books.sortKey,
-        filters: state.books.filters,
-        searchKey: state.books.searchKey,
-        isSearch: state.books.searchKey !== '',
     }),
     (dispatch) => ({
         visitBookPage: async (book) => await dispatch(fetchBook(book)),
         initBookStorage: async () => await dispatch(fetchBookStorage()),
-        sorting: (key) => dispatch(sorting(key)),
-        filter: (key) => dispatch(filter(key)),
-        search: (key) => dispatch(search(key)),
     })
 )(BookListView);
