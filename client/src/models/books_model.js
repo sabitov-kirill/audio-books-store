@@ -9,25 +9,7 @@
  *
  */
 
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-//class BookClass {
-//    constructor(id, title, imgPath, pagePath, status) {
-//        this.id = id;
-//        this.title = title;
-//        this.imgPath = imgPath;
-//        this.pagePath = pagePath;
-//        this.status = status;
-//    }
-//}
-
-// Trunks for calling books API
-const fetchBook = createAsyncThunk(
-    'books/fetchBook',
-    async (book) => {
-        return book;
-    }
-);
+import { createSlice } from "@reduxjs/toolkit";
 
 export const booksSlice = createSlice({
     name: 'books',
@@ -42,22 +24,19 @@ export const booksSlice = createSlice({
     reducers: {},
 
     extraReducers: {
-        [fetchBook.pending]: (state) => {
+        'books/fetchBook/pending': (state) => {
             state.selectingStatus = 'pending'
         },
-        [fetchBook.fulfilled]: (state, action) => {
+        'books/fetchBook/fulfilled': (state, action) => {
             state.selectingStatus = 'selected'
             state.selectedBook = action.payload;
         },
-        [fetchBook.rejected]: (state, action) => {
+        'books/fetchBook/rejected': (state, action) => {
             state.selectingStatus = 'failed'
             state.error = action.error.message;
         }
     },
 });
-
-// Books slice reducer actions
-export { fetchBook };
 
 // Books slice reducer
 export default booksSlice.reducer;

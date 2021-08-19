@@ -12,7 +12,21 @@
 import { connect } from "react-redux";
 
 import BookListView from "../../views/books/books_list_view";
-import { fetchBook } from "../../models/books_model";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import bookApi from '../../api/book_api';
+
+
+// <<book>> data structure:
+//    title:       String
+//    author:      String
+//    description: String
+//    price:       Number
+//    data:        ??? (current String)
+
+// Trunks for calling books API
+const fetchBook = createAsyncThunk(
+    'books/fetchBook', bookApi.testFunc
+);
 
 // Component view, connected to model
 export default connect(

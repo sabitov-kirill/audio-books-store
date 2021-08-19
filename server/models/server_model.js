@@ -11,10 +11,29 @@
 
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
 const mongoose = require('mongoose');
 const path = require('path');
 
 const router = require('../router');
+
+// image loader configurations. Not sure it should be here
+const imagePath = '';
+const storageConfig = multer.diskStorage({
+    destination: (req, file, cb) =>{
+        cb(null, imagePath);
+    },
+    filename: (req, file, cb) =>{
+        cb(null, file.originalname);
+    }
+});
+const fileFilter = (req, file, cb) => {
+  
+    if (file.mimetype === "image/png" || 
+        file.mimetype === "image/jpg"|| 
+        file.mimetype === "image/jpeg") cb(null, true);
+    else cb(null, false);
+ }
 
 // Server model handle
 class Server {
@@ -29,6 +48,12 @@ class Server {
     applyMiddlewares() {
         this.app.use(express.text());
         this.app.use(cookieParser());
+        this.app.use(multer({storage: storageConfig, fileFilter: fileFilter}).single('imageData'));
+        this.app.post("/uploadImage", function (req, res, next) {
+            // handle error ??
+            if (!req.file) res.send("downloading error");
+            else res.send("succes");
+        });
     }
 
     handleRequests() {

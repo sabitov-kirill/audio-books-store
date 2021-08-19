@@ -12,6 +12,7 @@
 const Router = require('express').Router;
 
 const authController = require('./controllers/auth_controller');
+const bookController = require('./controllers/book_controller');
 
 const router = new Router();
 
@@ -19,5 +20,9 @@ const router = new Router();
 router.post('/user/registration', authController.registration);
 router.post('/user/login',        authController.login);
 router.post('/user/logout',       authController.logout);
+
+// Book interation requests
+router.post('api/book/getAll',       bookController.getBooks);
+router.post('api/book/getBook',      bookController.getBook);
 
 module.exports = router;
