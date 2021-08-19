@@ -10,14 +10,25 @@
  */
 
 import { connect } from "react-redux";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, configureStore } from "@reduxjs/toolkit";
+
+import userReducer from '../models/user_model'
+import booksReducer from '../models/books_model'
 
 import userApi from '../api/user_api';
 import AppView from "../views/app_view";
 
+// Application global states store creation
+export const store = configureStore({
+  reducer: {
+    books: booksReducer,
+    user: userReducer
+  },
+});
+
 // Creating auto re-login thunk
 const userReLogin = createAsyncThunk(
-    'user/userLogin',
+    'user/userReLogin',
     async () => (await userApi.reLogin())
 );
 
@@ -25,6 +36,6 @@ const userReLogin = createAsyncThunk(
 export default connect(
     null,
     (dispatch) => ({
-        userReLogin: (email, password) => dispatch(userReLogin())
+        userReLogin: () => dispatch(userReLogin())
     })
 )(AppView);

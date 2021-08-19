@@ -36,7 +36,7 @@ export default function AppView(props) {
             <React.Suspense fallback={<h1>Loading</h1>}>
             <Switch>
                 {pagesRoutes.map(({path, Component}) =>
-                    <Route key={path} exact path={path} component={Component} />
+                    <Route key={path} exact path={path} render={() => <Component />} />
                 )}
             </Switch>
             </React.Suspense>

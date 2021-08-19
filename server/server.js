@@ -45,7 +45,8 @@ class Server {
              * For production build:
              * result.sendFile(this.path.resolve(__dirname, '../client/build', 'index.html'));
              */
-            result.sendFile(this.path.resolve(__dirname, '../client/public', 'index.html'));
+            let a = this.path.resolve(__dirname, '../client/public', 'index.html')
+            result.sendFile(a);
         });
     }
 

@@ -28,6 +28,21 @@ const userSlice = createSlice({
     reducers: {},
 
     extraReducers: {
+        'user/userRegistr/pending': (state) => {
+            state.loginStatus = 'pending';
+        },
+        'user/userRegistr/fulfilled': (state, action) => {
+            state.loginStatus = 'success';
+
+            state.id = action.payload.id;
+            state.name = action.payload.name;
+            state.email = action.payload.email;
+        },
+        'user/userRegistr/rejected': (state, action) => {
+            state.loginStatus = 'failed';
+            state.error = action.error.message;
+        },
+
         'user/userLogin/pending': (state) => {
             state.loginStatus = 'pending';
         },
@@ -45,19 +60,12 @@ const userSlice = createSlice({
             state.error = action.error.message;
         },
 
-        'user/userRegistr/pending': (state) => {
-            state.loginStatus = 'pending';
-        },
-        'user/userRegistr/fulfilled': (state, action) => {
+        'user/userReLogin/fulfilled': (state, action) => {
             state.loginStatus = 'success';
 
             state.id = action.payload.id;
             state.name = action.payload.name;
             state.email = action.payload.email;
-        },
-        'user/userRegistr/rejected': (state, action) => {
-            state.loginStatus = 'failed';
-            state.error = action.error.message;
         }
     }
 });

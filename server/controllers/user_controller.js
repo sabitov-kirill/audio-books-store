@@ -15,14 +15,14 @@ const AuthService = require('../service/auth_service')
 // User controller class
 class UserController {
     constructor(tokenKey) {
-        this.userService = new AuthService(tokenKey);
+        this.authService = new AuthService(tokenKey);
     }
 
     async create(request, result) {
         try {
             // Getting login data from body
             const { name, email, password } = JSON.parse(request.body);
-            const userData = await this.userService.registration(name, email, password);
+            const userData = await this.authService.registration(name, email, password);
 
             // Set user id and its refresh token sign to cookies
             result.cookie('acetsi', userData.accessToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
@@ -38,7 +38,7 @@ class UserController {
         try {
             // Getting registration data from body
             const { email, password } = JSON.parse(request.body);
-            const userData = await this.userService.login(email, password);
+            const userData = await this.authService.login(email, password);
 
             // Set user id and its refresh token sign to cookies
             result.cookie('acetsi', userData.accessToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
@@ -55,7 +55,7 @@ class UserController {
             // Get access token from cookie and validate it
             const accessToken = request.cookies.acetsi;
             if (!accessToken) throw new Error('Saved user data not found.');
-            const user = await this.userService.validate(accessToken);
+            const user = await this.authService.reLogin(accessToken);
 
             // Return user data
             result.status(200).json(user);

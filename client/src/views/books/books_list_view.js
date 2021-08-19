@@ -42,12 +42,14 @@ export default function BooksListView(props) {
                              onSelect={(eventKey) => handleSelect(eventKey, props.sorting)}>
                     <NavDropdown.Item
                         eventKey="New first"
-                        active={props.sort === "New first"}>
+                        active={props.sort === "New first"}
+                    >
                         New first
                     </NavDropdown.Item>
                     <NavDropdown.Item
                         eventKey="Old first"
-                        active={props.sort === "Old first"}>
+                        active={props.sort === "Old first"}
+                    >
                         Old first
                     </NavDropdown.Item>
                     <NavDropdown.Item

@@ -14,7 +14,7 @@ const UserApi = {
         const response = await fetch('/api/user/create', {
             method: "POST",
             headers: {"Contet-Type": "application/json;charset=utf-8"},
-            body: JSON.stringify(name, email, password)
+            body: JSON.stringify({ name, email, password })
         });
 
         const result = await response.json();

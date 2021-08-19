@@ -37,7 +37,7 @@ export default function LoginFormView(props) {
         setIsErrorShown(false);
         setPassword(e.target.value)
     }
-    const onRegistr = async (e) => {
+    const onLogin = async (e) => {
         e.preventDefault();
 
         if (!email || !password) {
@@ -48,6 +48,8 @@ export default function LoginFormView(props) {
             await props.login(email.toLowerCase().trim(), password);
         }
     }
+    
+    if (props.isLoggedIn) return <Redirect to='/books'/>
 
     // Rendering element
     return (
@@ -77,13 +79,12 @@ export default function LoginFormView(props) {
                     </FloatingLabel>
                 </Form.Group>
 
-                {props.isLoggedIn && <Redirect to='/books'/>}
                 {props.isLoginError && isErrorShown && <Alert variant='danger' className='mb-0'>{props.error}</Alert>}
                 {isFieldsError && <Alert variant='danger' className='mb-0'>Please, fill all the fields to login.</Alert>}
 
                 <Button
                     variant="outline-dark"
-                    onClick={onRegistr}
+                    onClick={onLogin}
                     type='submit'
                     className='m-auto'
                     style={{ width: '100%'}}

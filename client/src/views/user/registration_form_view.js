@@ -31,52 +31,61 @@ export default function RegistrationFormView(props) {
 
     // Errors showing states
     const [isErrorShown, setIsErrorShown] = useState(true);
-    const [isFieldsError, setIsFieldsError] = useState(false);
-    const [isEmailError, setIsEmailError] = useState(false);
-    const [isPasswordError, setIsPasswordError] = useState(false);
+    const [errorCode, setErrorCode] = useState('');
 
     // Evens callbacks handle
     const onNameInput = (e) => {
-        if (isFieldsError && name && email && password) setIsFieldsError(false);
-        setIsErrorShown(false);
         setName(e.target.value);
+        setIsErrorShown(false);
+        if (isFieldsError && name && email && password) {
+            setErrorCode('');
+        }
     }
     const onEmailInput = (e) => {
-        if (isFieldsError && name && email && password) setIsFieldsError(false);
-        setIsErrorShown(false);
         setEmail(e.target.value);
+        setIsErrorShown(false);
+        if (isFieldsError && name && email && password) {
+            setErrorCode('');
+        }
     }
     const onPasswordInput = (e) => {
-        if (isFieldsError && name && email && password) setIsFieldsError(false);
-        setIsErrorShown(false);
         setPassword(e.target.value);
+        setIsErrorShown(false);
+        if (isFieldsError && name && email && password) {
+            setErrorCode('');
+        }
     }
     const onRegistr = async (e) => {
         e.preventDefault();
 
+        // Set errors codes, if not alling api function
         if (!name || !email || !password) {
-            setIsFieldsError(true);
-
+            setErrorCode('fields');
             setIsErrorShown(false);
-            setIsPasswordError(false);
-            setIsEmailError(false);
         } else if (!validateEmail(email)) {
-            setIsEmailError(true);
-
+            setErrorCode('email');
             setIsErrorShown(false);
-            setIsFieldsError(false);
-            setIsPasswordError(false);
         } else if (password.length < 6) {
-            setIsPasswordError(true);
-
+            setErrorCode('password');
             setIsErrorShown(false);
-            setIsFieldsError(false);
-            setIsEmailError(false);
         } else {
+            setErrorCode('');
             setIsErrorShown(true);
             props.registr(name, email.toLowerCase().trim(), password);
         }
     }
+
+    if (props.isLoggedIn) return <Redirect to='/books'/>
+
+    // Errors handle
+    let isFieldsError = errorCode === 'fields';
+    let isEmailError = errorCode === 'email';
+    let isPasswordError = errorCode === 'password';
+    const errorComponent =
+        isFieldsError   ? <Alert variant='danger'>Please, fill all the fields to register.</Alert>          :
+        isEmailError    ? <Alert variant='danger'>Please, enter valid email address.</Alert>                :
+        isPasswordError ? <Alert variant='danger'>Please, create password of at least 6 characters.</Alert> :
+        props.isRegistrError && isErrorShown ? <Alert variant='danger'>{props.error}</Alert> : <></>;
 
     // Rendering element
     return (
@@ -119,16 +128,13 @@ export default function RegistrationFormView(props) {
                     <Form.Text className='m-0 p-0'>🛈 Password must be at least 6 characters long.</Form.Text>
                 </Form.Group>
 
-                {props.isLoggedIn && <Redirect to='/books'/>}
-                {props.isRegistrError && isErrorShown && <Alert variant='danger'>{props.error}</Alert>}
-                {isFieldsError && <Alert variant='danger'>Please, fill all the fields to register.</Alert>}
-                {isEmailError && <Alert variant='danger'>Please, enter valid email address.</Alert>}
-                {isPasswordError && <Alert variant='danger'>Please, create password of at least 6 characters.</Alert>}
+                {errorComponent}
 
                 <Button
                     variant="outline-dark"
                     onClick={onRegistr}
                     type='submit'
+                    disabled={props.isLoginPending}
                 >
                     {props.isRegistrPending ? 'Loading...' : 'Submit'}
                 </Button>
