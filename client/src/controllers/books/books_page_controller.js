@@ -5,7 +5,7 @@
  * PROGRAMMER:    Daniil Smirnov.
  *
  * PURPOSE:       Audio books web store application.
- *                Books controller handle module
+ *                Books page controller handle module
  *
  */
 
@@ -13,24 +13,12 @@ import { connect } from "react-redux";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import BooksPageView from "../../views/books/books_page";
-/**
- *
- * CREATION DATE: 16.08.2021
- *
- * PROGRAMMER:    Daniil Smirnov.
- *
- * PURPOSE:       Audio books web store application.
- *                Books page controller handle module
- *
- */
+
+import bookApi from '../../api/book_api';
 
 const fetchBookStorage = createAsyncThunk(
     'books/fetchBookStorage',
-    async () => {
-        let bookList;
-        // запрос на получение данных из бд
-        //return JSON.parse(bookList);
-    }
+    bookApi.downloadAllBooks
 );
 
 // Component view, connected to model
