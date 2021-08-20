@@ -15,7 +15,8 @@ const booksSlice = createSlice({
     name: 'books',
     initialState: {
         bookStorage: [],
-        filters: "All",
+        filterOptions: ["Owned"],
+        filters: [],
         sortKey: "New first",
         searchKey: '',
         selectingStatus: "unselected",

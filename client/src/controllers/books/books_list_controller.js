@@ -13,11 +13,12 @@ import { connect } from "react-redux";
 
 import BookListView from "../../views/books/books_list_view";
 
-function refactorBookArray(bookArray, sortKey, filter, searchKey) {
-    let refArray = new Array(bookArray?.filter((book) => {
-        return true && book?.title.include(searchKey);
+function refactorBookArray(state) {
+    let refArray = new Array(state.books.bookStorage.filter((book) => {
+        return book.title.include(state.books.searchKey)
+        //фильтры?
     }));
-    switch (sortKey) {
+    switch (state.books.sortKey) {
         case "All":
             return refArray;
         case "New first":
@@ -36,6 +37,6 @@ function refactorBookArray(bookArray, sortKey, filter, searchKey) {
 // Component view, connected to model
 export default connect(
     (state) => ({
-        books: refactorBookArray(state.books.bookStorage),
+        books: refactorBookArray(state),
     })
 )(BookListView);

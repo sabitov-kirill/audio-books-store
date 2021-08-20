@@ -17,8 +17,9 @@ import { filter, sorting } from "../../models/books_model";
 // Component view, connected to model
 export default connect(
     (state) => ({
-        sortKey: state.books.sortKey,
+        options: state.books.filterOptions,
         filters: state.books.filters,
+        sortKey: state.books.sortKey,
     }),
     (dispatch) => ({
         sorting: (key) => dispatch(sorting(key)),
