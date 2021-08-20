@@ -9,10 +9,10 @@
  *
  */
 
-import React from "react";
+import React, { Fragment } from "react";
 import { Nav, NavDropdown } from "react-bootstrap";
 import { Typeahead } from 'react-bootstrap-typeahead';
-import 'react-bootstrap-typeahead/css/Typeahead.css' ;
+import './button.css'
 
 function FilterBar(props) {
     const handleInputChange = (selectedOptions) => {
@@ -21,7 +21,7 @@ function FilterBar(props) {
 
     return (
         <Typeahead
-            style={{ width: '45%'}}
+            className='d-flex justify-content-center'
             id="filter-bar"
             multiple
             options={props.options}
@@ -35,8 +35,12 @@ function SortingBar(props) {
     const handleSelect = (eventKey) => props.sorting(eventKey);
 
     return (
-        <NavDropdown title={`Sorted by: ${props.sortKey}`} id={"sort"}
-                     onSelect={(eventKey) => handleSelect(eventKey)}>
+        <NavDropdown
+            className='d-flex justify-content-left'
+            title={`Sorted by: ${props.sortKey}`}
+            id={"sort"}
+            onSelect={(eventKey) => handleSelect(eventKey)}
+        >
             <NavDropdown.Item
                 eventKey="New first"
                 active={props.sortKey === "New first"}>
@@ -63,13 +67,13 @@ function SortingBar(props) {
 
 export default function SortNFilterForm(props) {
     return (
-        <Nav>
-            <SortingBar sortKey={props.sortKey}
-                        sorting={props.sorting}
-            />
+        <Fragment>
             <FilterBar filter={props.filter}
                        options={props.options}
             />
-        </Nav>
+            <SortingBar sortKey={props.sortKey}
+                        sorting={props.sorting}
+            />
+        </Fragment>
     );
 }

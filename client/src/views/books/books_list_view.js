@@ -9,7 +9,7 @@
  *
  */
 
- import BookView from "../../controllers/books/books_controller"
+ import BookView from "../../controllers/books/book_controller"
 
 import {
     Row, Col

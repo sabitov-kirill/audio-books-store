@@ -15,8 +15,9 @@ import BookListView from "../../views/books/books_list_view";
 
 function refactorBookArray(state) {
     let refArray = new Array(state.books.bookStorage.filter((book) => {
-        return book.title.include(state.books.searchKey)
-        //фильтры?
+        if (state.filters.has("Owned") && !state.user.ownedBooks.has(book.id))
+            return false;
+        return book.title.include(state.books.searchKey);
     }));
     switch (state.books.sortKey) {
         case "All":

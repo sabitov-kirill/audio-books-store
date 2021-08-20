@@ -10,7 +10,7 @@ export default function SearchBarForm(props) {
     };
 
     return (
-        <InputGroup className="mb-3">
+        <InputGroup className='mb-1 d-flex justify-content-center'>
             <FormControl type="search"
                          placeholder="Search..."
                          onChange={onSearchInput}/>
