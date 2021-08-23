@@ -17,8 +17,8 @@ import {
 
 export default function BooksListView(props) {
     return (
-        <Row xs={2} sm={3} lg={4} xl={5} xxl={6}>
-            <Col>
+        <Row xs={1}
+             className='d-flex justify-content-center'>
                 {props.books.length > 0
                     ? props.books.map((book) => (
                             <BookView
@@ -28,7 +28,6 @@ export default function BooksListView(props) {
                         ))
                     : ""
                 }
-            </Col>
         </Row>
     );
 };
