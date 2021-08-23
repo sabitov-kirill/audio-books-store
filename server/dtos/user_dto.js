@@ -17,6 +17,7 @@ class UserDTO {
         this.name        = model.name;
         this.bagBooks    = model.bagBooks;
         this.ownedBooks  = model.ownedBooks;
+        this.isAdmin     = model.isAdmin;
     }
 }
 

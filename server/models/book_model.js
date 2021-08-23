@@ -15,6 +15,7 @@ const mongoose = require("mongoose");
 const bookSchema = new mongoose.Schema({
     title:         { type: String },
     author:        { type: String },
+    year:          { type: Number },
     description:   { type: String },
     price:         { type: Number },
     imagePath:     { type: String },

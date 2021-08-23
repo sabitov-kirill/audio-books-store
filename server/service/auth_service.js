@@ -73,17 +73,6 @@ class AuthService {
         await user.populate('bagBooks').execPopulate();
         return new UserDTO(user);
     }
-
-    async validateAdmin(adminAccessToken) {
-        // Check if user adminAccessToken is valid and generated on this server
-        const payload = this.tokenSerice.validate(adminAccessToken);
-
-        // Finding user by stored in token id
-        const user = await userModel.findOne({ _id: payload.userId });
-        if (!user) throw new Error('User with stored id in admin token not found.');
-        if (!user.isAdmin) throw new Error('User with stored id in admin token dont have permissions for that operation.');
-        return new UserDTO(user);
-    }
 }
 
 module.exports = AuthService;

@@ -36,7 +36,8 @@ class Server {
         this.router.post('/user/leave',   this.userController.leave.bind(this.userController));
 
         // Book interactions requests
-        this.router.post('/books/create', this.userController.validateAdmin.bind(this.bookController),
+        this.router.post('/books/create', this.userController.validate.bind(this.userController),
+                                          this.userController.validateAdmin.bind(this.userController),
                                           this.bookController.uploadFiles,
                                           this.bookController.create.bind(this.bookController));
         this.router.get('/books/data',    this.userController.validate.bind(this.bookController),

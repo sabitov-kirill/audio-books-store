@@ -24,9 +24,9 @@ class BookController {
     async create(request, result) {
         try {
             // const { title, author, description, price } = request.body;
-            const { title, author, description, price } = request.body;
+            const { title, author, year, description, price } = request.body;
             const files = request.files;
-            await this.bookService.create(title, author, description, Number(price), files);
+            await this.bookService.create(title, author, Number(year), description, Number(price), files);
             
             result.sendStatus(200);
         } catch (error) {

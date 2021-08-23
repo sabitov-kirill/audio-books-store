@@ -71,9 +71,10 @@ class UserController {
             // Get access token from cookie and validate it
             const accessToken = request.cookies.acetsi;
             if (!accessToken) throw new Error('You must login before.');
+
+            // Set user data
             request.user = await this.authService.validate(accessToken);
 
-            // Return user data
             next();
         } catch (e) {
             result.status(406).json({ error: e.message });
@@ -82,12 +83,9 @@ class UserController {
 
     async validateAdmin(request, result, next) {
         try {
-            // Get access token from cookie and validate it
-            const adminAccessToken = request.cookies.adminAccessToken;
-            if (!adminAccessToken) throw new Error('You dont have permissions for that opperation.');
-            request.admin = await this.authService.validateAdmin(adminAccessToken);
+            const { user } = request;
+            if (!user.isAdmin) throw new Error('User dont have permissions for that operation.');
 
-            // Return user data
             next();
         } catch (e) {
             result.status(406).json({ error: e.message });

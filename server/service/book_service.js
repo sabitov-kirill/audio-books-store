@@ -50,20 +50,17 @@ class BookService {
         this.createFiles = multer({ storage: this.storage }).fields(this.fields);
     }
 
-    async create(title, author, description, price, files) {
-        if (!files['image'] || !files['text'] || !files['speech'] || !files['speechMap']) {
-            throw new Error('Not all book data files was loaded.')
-        }
-
+    async create(title, author, year, description, price, files) {
         await bookModel.create({
             title,
             author,
+            year,
             description,
             price,
-            imagePath: files.image[0].destination,
-            textPath: files.text[0].destination,
-            speechPath: files.speech[0].destination,
-            speechMapPath: files.speechMap[0].destination            
+            imagePath: files.image[0].path.slice(14),
+            textPath: files.text[0].path.slice(14),
+            speechPath: files.speech[0].path.slice(14),
+            speechMapPath: files.speechMap[0].path.slice(14)            
         });
     }
 
