@@ -10,29 +10,20 @@
  */
   
  const jwt = require('jsonwebtoken');
-
-class TokenService {
-    constructor(accessTokenSeckret) {
-        this.accessTokenSeckret = accessTokenSeckret;
+ 
+ class TokenService {
+    constructor(secret) {
+        this.secret = secret;
     }
 
     generate(payload) {
-        return jwt.sign(payload, this.accessTokenSeckret, {expiresIn: '20d'});
+        const signString = jwt.sign(payload, this.secret, {expiresIn: '20d'});
+        return signString;
     }
-
+   
     validate(token) {
-        const payload = jwt.verify(token, this.accessTokenSeckret);
+        const payload = jwt.verify(token, this.secret);
         return payload;
-    }
-
-    update(token) {
-        const payload = jwt.verify(token, this.accessTokenSeckret);
-        delete payload.iat;
-        delete payload.exp;
-        delete payload.nbf;
-        delete payload.jti;
-
-        return jwt.sign(payload, this.secretOrPrivateKey, {expiresIn: '20d'});
     }
 }
 

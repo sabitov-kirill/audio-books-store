@@ -48,14 +48,15 @@ const booksSlice = createSlice({
             state.selectingStatus = 'failed';
             state.error = action.error.message;
         },
-        'books/fetchBookStorage/pending': (state) => {
+        
+        'books/fillBooksStorage/pending': (state) => {
             state.status = 'pending';
         },
-        'books/fetchBookStorage/fulfilled': (state, action) => {
+        'books/fillBooksStorage/fulfilled': (state, action) => {
             state.status = 'loaded';
-            state.bookStorage = new Array(action.payload)
+            state.bookStorage = action.payload.books
         },
-        'books/fetchBookStorage/rejected': (state, action) => {
+        'books/fillBooksStorage/rejected': (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
         },

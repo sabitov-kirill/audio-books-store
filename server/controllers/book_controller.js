@@ -14,19 +14,19 @@ const BookService = require('../service/book_service');
 
 // Book controller class
 class BookController {
-    constructor(storePath) {
-        this.bookService = new BookService(storePath);
-    }
+    constructor(booksStorePath) {
+        this.bookService = new BookService(booksStorePath);
 
-    upload() {
-        return this.bookService.upload;
+        // Files uploading middleware
+        this.uploadFiles = this.bookService.createFiles;
     }
 
     async create(request, result) {
         try {
-            const { title, author, description, price } = JSON.parse(request.body);
+            // const { title, author, description, price } = request.body;
+            const { title, author, description, price } = request.body;
             const files = request.files;
-            await this.bookService.create(title, author, description, price, files);
+            await this.bookService.create(title, author, description, Number(price), files);
             
             result.sendStatus(200);
         } catch (error) {
@@ -34,7 +34,7 @@ class BookController {
         } 
     }
 
-    async data(request, result) {
+    async sendData(request, result) {
         try {
             const { id } = JSON.parse(request.body);
             const book = await this.bookService.data(id);
@@ -45,7 +45,7 @@ class BookController {
         }
     }
 
-    async cards(request, result) {
+    async sendCards(request, result) {
         try {
             const books = await this.bookService.cards();
 

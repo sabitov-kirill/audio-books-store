@@ -14,11 +14,11 @@ const AuthService = require('../service/auth_service')
 
 // User controller class
 class UserController {
-    constructor(tokenKey) {
-        this.authService = new AuthService(tokenKey);
+    constructor(accessTokenKey, adminAccessTokenKey) {
+        this.authService = new AuthService(accessTokenKey, adminAccessTokenKey);
     }
 
-    async create(request, result) {
+    async add(request, result) {
         try {
             // Getting login data from body
             const { name, email, password } = JSON.parse(request.body);
@@ -75,6 +75,33 @@ class UserController {
 
             // Return user data
             next();
+        } catch (e) {
+            result.status(406).json({ error: e.message });
+        }
+    }
+
+    async validateAdmin(request, result, next) {
+        try {
+            // Get access token from cookie and validate it
+            const adminAccessToken = request.cookies.adminAccessToken;
+            if (!adminAccessToken) throw new Error('You dont have permissions for that opperation.');
+            request.admin = await this.authService.validateAdmin(adminAccessToken);
+
+            // Return user data
+            next();
+        } catch (e) {
+            result.status(406).json({ error: e.message });
+        }
+    }
+
+    async validateBookOwnership(request, result, next) {
+        try {
+            const { user } = request.user;
+            const { bookId } = JSON.parse(request.body);
+
+            if (!user.ownedBooks.includes(bookId)) {
+                throw new Error('User does not own this book');
+            }
         } catch (e) {
             result.status(406).json({ error: e.message });
         }

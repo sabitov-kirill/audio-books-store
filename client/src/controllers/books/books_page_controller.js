@@ -16,15 +16,15 @@ import BooksPageView from "../../views/books/books_page";
  
 import bookApi from '../../api/book_api';
  
-const fetchBookStorage = createAsyncThunk(
-    'books/fetchBookStorage',
-    bookApi.downloadAllBooks
+const fillBooksStorage = createAsyncThunk(
+    'books/fillBooksStorage',
+    bookApi.fetchBooksCards
 );
  
 // Component view, connected to model
 export default connect(
     null,
     (dispatch) => ({
-        initBookStorage: async () => await dispatch(fetchBookStorage()),
+        initBookStorage: async () => await dispatch(fillBooksStorage()),
     })
 )(BooksPageView);

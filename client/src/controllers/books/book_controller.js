@@ -31,7 +31,7 @@ export const fetchBook = createAsyncThunk(
 // Component view, connected to model
 export default connect(
     (state) => ({
-        isOwned: state.user.ownedBooks.has(state.books.selectedBook.id),
+        isOwned: state.user.ownedBooks.includes(state.books.selectedBook.id),
     }),
     (dispatch) => ({
         select: async (book) => await dispatch(fetchBook(book))

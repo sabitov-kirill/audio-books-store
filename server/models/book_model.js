@@ -13,11 +13,14 @@ const mongoose = require("mongoose");
 
 // Book model schema definition
 const bookSchema = new mongoose.Schema({
-    title:       { type: String },
-    author:      { type: String },
-    description: { type: String },
-    price:       { type: Number },
-    dataPath:    { type: String }
+    title:         { type: String },
+    author:        { type: String },
+    description:   { type: String },
+    price:         { type: Number },
+    imagePath:     { type: String },
+    textPath:      { type: String },
+    speechPath:    { type: String },
+    speechMapPath: { type: String }
 });
 
 module.exports = new mongoose.model('Book', bookSchema);

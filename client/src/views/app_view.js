@@ -17,8 +17,9 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 // Application pages routes
 const pagesRoutes = [
     { path: '/login', Component: React.lazy(() => import('../controllers/user/login_form_controller')) },
-    { path: '/reg', Component: React.lazy(() =>   import('../controllers/user/registration-form-controller')) },
+    { path: '/reg', Component: React.lazy(() =>   import('../controllers/user/registration_form_controller')) },
     { path: '/auth', Component: React.lazy(() =>  import('./user/auth_form')) },
+    { path: '/admin', Component: React.lazy(() => import('./books/admin_books_creation')) },
     { path: '/', Component: React.lazy(() =>      import('../controllers/books/books_page_controller')) },
 ];
 

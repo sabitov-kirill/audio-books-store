@@ -18,8 +18,8 @@ const TokenSerice = require('./token_service');
 
 // User service class
 class AuthService {
-    constructor(accessSeckret) {
-        this.tokenSerice = new TokenSerice(accessSeckret);
+    constructor(accessTokenKey) {
+        this.tokenSerice = new TokenSerice(accessTokenKey);
     }
 
     async registration(name, email, password) {
@@ -40,7 +40,7 @@ class AuthService {
 
         // Generating user access and refresh tokens
         const accessToken = this.tokenSerice.generate({ userId: user._id });
-            
+
         // Return user info object
         return { user: userDTO, accessToken };
     }
@@ -53,11 +53,12 @@ class AuthService {
         // Comparing passwords, if success 
         const isPassEquals = await bcrypt.compare(password, user.password);
         if (!isPassEquals) throw new Error(`Wrong password.`);
+        await user.populate('bagBooks').execPopulate();
         const userDTO = new UserDTO(user);
 
         // Generating user access and refresh tokens 
         const accessToken = this.tokenSerice.generate({ userId: user._id });
-            
+
         // Return user info object
         return { user: userDTO, accessToken };
     }
@@ -66,9 +67,21 @@ class AuthService {
         // Check if user accessToken is valid and generated on this server
         const payload = this.tokenSerice.validate(accessToken);
 
-        // Finding user by stored in token id.
+        // Finding user by stored in token id
         const user = await userModel.findOne({ _id: payload.userId });
         if (!user) throw new Error('User with stored id not found.');
+        await user.populate('bagBooks').execPopulate();
+        return new UserDTO(user);
+    }
+
+    async validateAdmin(adminAccessToken) {
+        // Check if user adminAccessToken is valid and generated on this server
+        const payload = this.tokenSerice.validate(adminAccessToken);
+
+        // Finding user by stored in token id
+        const user = await userModel.findOne({ _id: payload.userId });
+        if (!user) throw new Error('User with stored id in admin token not found.');
+        if (!user.isAdmin) throw new Error('User with stored id in admin token dont have permissions for that operation.');
         return new UserDTO(user);
     }
 }

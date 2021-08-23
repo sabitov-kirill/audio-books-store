@@ -10,7 +10,8 @@
  *
  */
 
-const multer = require('multer');
+const multer = require("multer");
+const fs = require("fs")
 
 const bookModel = require("../models/book_model");
 const BookDTO = require("../dtos/book_dto");
@@ -20,32 +21,49 @@ class BookService {
     constructor(booksStorePath) {
         this.booksStorePath = booksStorePath;
 
-        // Middleware for handling uploaded files for book creation
-        const storage = multer.diskStorage({
-            destination: (req, file, cb) => {
-                const { title } = JSON.parse(req.body);
-                cb(null, `${booksStorePath}${title}/`);
+        // Setup files creatino middleware
+        this.storage = multer.diskStorage({
+            destination: (request, file, cb) => {
+                const { title } = request.body;
+
+                // Creatin direcory for book files with title without spaces as name
+                const path = `${this.booksStorePath}/${title.replace(/\s+/g, '')}/`;
+                fs.mkdirSync(path, { recursive: true });
+
+                cb(null, path);
             },
-            filename: function (req, file, cb) {
+            filename: function (request, file, cb) {
+                // Creating file new by adding extestion to its fieldname
                 let extArray = file.mimetype.split('/');
                 let extension = extArray[extArray.length - 1];
-                cb(null, `${file.fieldname}.${extension}`);
+                const name = `${file.fieldname}.${extension}`
+
+                cb(null, name);
             }
-        });
-        this.upload = multer({ storage });
+        });    
+        this.fields = [
+            { name: 'image'     },
+            { name: 'text'      },
+            { name: 'speech'    },
+            { name: 'speechMap' }
+        ];
+        this.createFiles = multer({ storage: this.storage }).fields(this.fields);
     }
 
-    async create(name, author, description, price, files) {
-        if (!files['text'] || !files['speech'] || !files['speechMap']) {
+    async create(title, author, description, price, files) {
+        if (!files['image'] || !files['text'] || !files['speech'] || !files['speechMap']) {
             throw new Error('Not all book data files was loaded.')
         }
 
         await bookModel.create({
-            name,
+            title,
             author,
             description,
             price,
-            dataPath: `${this.booksStorePath}${name}`            
+            imagePath: files.image[0].destination,
+            textPath: files.text[0].destination,
+            speechPath: files.speech[0].destination,
+            speechMapPath: files.speechMap[0].destination            
         });
     }
 

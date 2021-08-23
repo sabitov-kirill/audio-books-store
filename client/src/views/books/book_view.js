@@ -14,11 +14,11 @@ import { Book, CartPlus } from "react-bootstrap-icons";
 
 export default function BookView(props) {
     return (
-        <OverlayTrigger overlay={<Tooltip id="book-description">{props.description}</Tooltip>}>
+        <OverlayTrigger overlay={<Tooltip id="book-description">{props.book.description}</Tooltip>}>
             <Card>
-                <Card.Img variant="top" src={props.book.imgPath} />
+                <Card.Img variant="top" src={props.book.imagePath} />
                 <Card.Header>{props.book.title}</Card.Header>
-                <Card.Text>{`Author: ${props.book.author}, Year: ${props.year}`}</Card.Text>
+                <Card.Text>{`Author: ${props.book.author}. Year: ${props.book.year}`}</Card.Text>
                 <Button onClick={props.select}>
                     {props.isOwned ? <Book /> : <CartPlus />}
                 </Button>

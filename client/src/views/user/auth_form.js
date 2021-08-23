@@ -12,7 +12,7 @@
  import { useState } from "react";
 
  import LoginFormController from '../../controllers/user/login_form_controller';
- import RegistrationFormController from '../../controllers/user/registration-form-controller';
+ import RegistrationFormController from '../../controllers/user/registration_form_controller';
  
  // Component to render if login sign in selected
  function LoginForm(props) {

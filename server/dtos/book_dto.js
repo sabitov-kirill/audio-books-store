@@ -12,15 +12,14 @@
 // User data transfer object
 class BookDTO {
     constructor(model) {
-        this.title =       model.title;
-        this.author =      model.author;
-        this.description = model.description;
-        this.price =       model.price;
-        this.image =       model.fspath + ".png";
-
-        this.audio =       model.fspath + ".mp4";
-        this.text =        model.fspath + ".txt";
-        this.spechMap =    model.fspath + ".json";
+        this.title =        model.title;
+        this.author =       model.author;
+        this.description =  model.description;
+        this.price =        model.price;
+        this.imagePath =    model.imagePath;
+        this.textPath =     model.textPath;
+        this.speechPath =    model.speechPath;
+        this.spechMapPath = model.spechMapPath;
     }
 
     card() {
@@ -29,16 +28,15 @@ class BookDTO {
             author: this.author,
             description: this.description,
             price: this.price,
-            image: this.image
+            imagePath: this.imagePath
         }
     }
 
     data() {
         return {
-            audio: this.audio,
-            text: this.text,
-            spechMap: this.spechMap,
-            image: this.image
+            textPath: this.textPath,
+            speechPath: this.speechPath,
+            spechMapPath: this.spechMapPath
         }    
     }
 }

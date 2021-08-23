@@ -14,8 +14,8 @@ const bookApi = {
         return book; // lol idk why
     },
 
-    async downloadAllBooks() {
-        const response = await fetch('api/book/cards', {
+    async fetchBooksCards() {
+        const response = await fetch('api/books/cards', {
             method: "GET",
             headers: {"Content-Type": "application/json;charset=utf-8"},
         });
@@ -25,8 +25,8 @@ const bookApi = {
         return result;
     },
 
-    async downloadBook(bookData) {
-        const response = await fetch('api/book/data', {
+    async fetchBookData(bookData) {
+        const response = await fetch('api/books/data', {
             method: "GET",
             headers: {"Content-Type": "application/json;charset=utf-8"},
             body: JSON.stringify(bookData),
@@ -38,7 +38,7 @@ const bookApi = {
     },
 
     async create() {
-        const response = await fetch('api/book/create', {
+        const response = await fetch('api/books/create', {
             method: "GET",
             headers: {"Content-Type": "application/json;charset=utf-8"},
             body: JSON.stringify(),

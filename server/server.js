@@ -29,44 +29,42 @@ class Server {
         this.router = new Router();
 
         // Authentication requests handle
-        this.router.post('/user/create',  this.userController.create.bind(this.userController));
+        this.router.post('/user/create',  this.userController.add.bind(this.userController));
         this.router.post('/user/access',  this.userController.access.bind(this.userController));
         this.router.get('/user/reaccess', this.userController.validate.bind(this.userController), 
                                           this.userController.reAccess.bind(this.userController));
         this.router.post('/user/leave',   this.userController.leave.bind(this.userController));
 
-        // Book interation requests
-        this.router.post('api/books/create', this.bookController.upload.bind(this.bookController), 
-                                             this.bookController.create.bind(this.bookController));
-        this.router.get('api/books/data',    this.bookController.data.bind(this.bookController));
-        this.router.get('api/books/cards',   this.bookController.cards.bind(this.bookController));
+        // Book interactions requests
+        this.router.post('/books/create', this.userController.validateAdmin.bind(this.bookController),
+                                          this.bookController.uploadFiles,
+                                          this.bookController.create.bind(this.bookController));
+        this.router.get('/books/data',    this.userController.validate.bind(this.bookController),
+                                          this.userController.validateBookOwnership.bind(this.bookController),
+                                          this.bookController.sendData.bind(this.bookController));
+        this.router.get('/books/cards',   this.bookController.sendCards.bind(this.bookController));
     }
 
     handleBaseRequests() {
         // Setting up router to handle api requests
         this.app.use('/api', this.router);
-        this.app.post("/uploadImage", function (req, res) {
-            // handle error ??
-            if (!req.file) res.send("downloading error");
-            else res.send("succes");
-        });
 
         // Setting up react requests
         this.app.use(express.static(this.path.resolve(__dirname, '../client/public')));
+        this.app.use(express.static(this.path.resolve(__dirname, '../client/books')));
         this.app.get('*', (request, result) => {
             /**
              * For production build:
              * result.sendFile(this.path.resolve(__dirname, '../client/build', 'index.html'));
              */
-            let a = this.path.resolve(__dirname, '../client/public', 'index.html')
-            result.sendFile(a);
+            result.sendFile(this.path.resolve(__dirname, '../client/public', 'index.html'));
         });
     }
 
     constructor(env, path) {
         // Callign interfaces constructors
-        this.userController = new UserController(env.TOKEN_KEY);
-        this.bookController = new BookController();
+        this.userController = new UserController(env.TOKEN_KEY, env.ADMIN_TOKEN_KEY);
+        this.bookController = new BookController(env.BOOKS_PATH);
 
         // Creating http server
         this.app = express();
@@ -75,7 +73,6 @@ class Server {
         // Setting up enviroment data
         this.port = env.PORT;
         this.databaseURL = env.DB_URL;
-        this.booksPath = env.BOOKS_PATH;
         this.path = path;
 
         // Calling server initialisation functions
