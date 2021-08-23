@@ -17,7 +17,8 @@ export default function SearchBarForm(props) {
             <Button variant="outline-success"
                     type='submit'
                     onClick={handleSearch}
-                    id="search-button">
+                    id="search-button"
+                    aria-label="submit search button">
                 <Search />
             </Button>
         </InputGroup>
