@@ -22,6 +22,7 @@ export default function BooksListView(props) {
                 {props.books.length > 0
                     ? props.books.map((book) => (
                             <BookView
+                                isOwned={props.ownedBooks.includes(book.id)}
                                 key={`todo-${book.id}`}
                                 book={book}
                             />
