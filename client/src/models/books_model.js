@@ -15,26 +15,12 @@ const booksSlice = createSlice({
     name: 'books',
     initialState: {
         bookStorage: [],
-        filterOptions: ["Owned"],
-        filters: [],
-        sortKey: "New first",
-        searchKey: '',
         selectingStatus: "unselected",
-        selectedBook: {},
+        selectedBookContent: {},
         status: "unloaded",
         error: '',
     },
-    reducers: {
-        filter: (state, key) => {
-            state.filters = key.payload;
-        },
-        sorting: (state, key) => {
-            state.sortKey = key.payload;
-        },
-        search: (state, key) => {
-            state.searchKey = key.payload;
-        },
-    },
+    reducers: {},
 
     extraReducers: {
         'books/fetchBook/pending': (state) => {
@@ -42,7 +28,7 @@ const booksSlice = createSlice({
         },
         'books/fetchBook/fulfilled': (state, action) => {
             state.selectingStatus = 'selected';
-            state.selectedBook = action.payload;
+            state.selectedBookContent = action.payload;
         },
         'books/fetchBook/rejected': (state, action) => {
             state.selectingStatus = 'failed';
@@ -62,9 +48,6 @@ const booksSlice = createSlice({
         },
     },
 });
-
-// Books slice reducer actions
-export const { filter, sorting, search } = booksSlice.actions;
 
 // Books slice reducer
 export default booksSlice.reducer;

@@ -42,8 +42,9 @@ export default function AdminBooksCreationView(props) {
         }
     }
 
-    if (!props.user.isAdmin) return <Redirect to='/'/>
- 
+    if (props.isLoading) return <h1>Loading accoutn data...</h1>
+    if (!props.isAdmin) return <Redirect to='/'/>
+
     return (
         <form onSubmit={onUploadBook} ref={form} >
             <div className="d-grid gap-1 p-3">
@@ -53,7 +54,7 @@ export default function AdminBooksCreationView(props) {
                 <input type='text' name='year' placeholder='Year' />
                 <textarea type='text' name='description' placeholder='Description' />
                 <input type='text' name='price' placeholder='Price' className='mb-3' />
- 
+
                 <label>
                     Select Book Image:{' '}
                     <input type='file' name='image' ref={image} />
@@ -70,9 +71,9 @@ export default function AdminBooksCreationView(props) {
                     Select Books Speech Map:{' '}
                     <input type='file' name='speechMap' className='mb-3' ref={speechMap} />
                 </label>
- 
+
                 {error !== '' && <div className="alert alert-danger mb-3" role="alert">{error}</div>}
- 
+
                 <input type='submit' value='Submit' />
             </div>
         </form>

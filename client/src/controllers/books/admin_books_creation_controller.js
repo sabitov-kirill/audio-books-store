@@ -16,6 +16,7 @@ import AdminBooksCreationView from '../../views/books/admin_books_creation_view'
 // Component view, connected to model
 export default connect(
     (state) => ({
-        user: state.user,
+        isLoading: state.user.loginStatus === 'pending',
+        isAdmin: state.user.isAdmin,
     })
 )(AdminBooksCreationView);

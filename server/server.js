@@ -52,12 +52,7 @@ class Server {
 
         // Setting up react requests
         this.app.use(express.static(this.path.resolve(__dirname, '../client/public')));
-        this.app.use(express.static(this.path.resolve(__dirname, '../client/books')));
         this.app.get('*', (request, result) => {
-            /**
-             * For production build:
-             * result.sendFile(this.path.resolve(__dirname, '../client/build', 'index.html'));
-             */
             result.sendFile(this.path.resolve(__dirname, '../client/public', 'index.html'));
         });
     }

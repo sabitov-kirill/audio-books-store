@@ -29,13 +29,13 @@ export const store = configureStore({
 // Creating auto re-login thunk
 const userReLogin = createAsyncThunk(
     'user/userReLogin',
-    async () => (await userApi.reLogin())
+    userApi.reLogin
 );
 
 // Connecting component view to model with controller
 export default connect(
-    null,
-    (dispatch) => ({
-        userReLogin: () => dispatch(userReLogin())
-    })
+  null,
+  (dispatch) => ({
+    userReLogin: () => dispatch(userReLogin())
+  })
 )(AppView);

@@ -18,19 +18,15 @@ import './app.scss'
 
 // Application pages routes
 const pagesRoutes = [
-    { path: '/login', Component: React.lazy(() => import('../controllers/user/login_form_controller')) },
-    { path: '/reg', Component: React.lazy(() =>   import('../controllers/user/registration_form_controller')) },
-    { path: '/auth', Component: React.lazy(() =>  import('./authorization/auth_form')) },
-    { path: '/admin', Component: React.lazy(() => import('../controllers/books/admin_books_creation_controller')) },
-    { path: '/', Component: React.lazy(() =>      import('../controllers/books/books_page_controller')) },
+    { path: '/authorization', Component: React.lazy(() => import('./authorization/auth_form')) },
+    { path: '/admin',         Component: React.lazy(() => import('../controllers/books/admin_books_creation_controller')) },
+    { path: '/',              Component: React.lazy(() => import('../controllers/books/books_page_controller')) },
 ];
 
 // Application main component
 export default function AppView(props) {
-    useEffect(() => {
-        const userReLoginCall = async () => await props.userReLogin();
-        userReLoginCall().then();
-    }, [props]);
+    const reLogin = props.userReLogin;
+    useEffect(() => reLogin(), [reLogin]);
 
     return (
         <Router>
@@ -42,7 +38,8 @@ export default function AppView(props) {
                     <Route 
                         key={path} 
                         exact path={path} 
-                        render={() => <Component className='page'/>} />
+                        render={() => <Component className='page'/>}
+                    />
                 )}
             </Switch>
             </React.Suspense>

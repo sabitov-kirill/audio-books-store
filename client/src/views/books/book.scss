@@ -1,15 +1,25 @@
-@import '../../app.scss';
+@import '../app.scss';
+
+.actionButton {
+    background-color: $accent !important;
+    color: $main-1;
+    transition: background-color 0.5s !important;
+    cursor: pointer !important;
+
+    &:hover {
+        background-color: $accent-active !important;
+    }
+}
 
 .cardContainer {
     flex-wrap: nowrap;
+    
     display: flex;
-
     padding: 15px;
     gap: 15px;
     margin-bottom: 2rem;
     border-radius: 10px;
     position: relative;
-
     box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
     background-color: $main-1;
     color: #ffffff;
@@ -31,7 +41,7 @@
         height: 5px;
         margin-bottom: 10px;
         border-radius: 5px;
-        background-color: $accent-1;
+        background-color: $accent;
         transition: width 0.2s ease-in-out;
     }
     
@@ -39,13 +49,14 @@
         position: relative;
         display: flex;
         flex-direction: column;
+        flex-grow: 1;
 
         .title {
             font-size: 1.5rem;
         }
         .title:hover {
             cursor: pointer;
-            color: $accent-1;
+            color: $accent-active;
             transition: color 0.2s ease-in-out;
         }
 
@@ -65,7 +76,6 @@
             font-size: 14px;
             padding: 0;
             margin: 0;
-            justify-content: start;
         
             .tagItem {
                 display: inline-block;
@@ -169,11 +179,5 @@
             height: 130%;
             width: 55px;
         }  
-    }
-}
-
-@media screen and (min-width: 1200px) {
-    .cardContainer {
-        max-width: 800px;
     }
 }

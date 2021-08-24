@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Baloo+2&display=swap");
-$accent-1: #f8e9a1 !default;
-$accent-2: #f76c6c !default;
-$background: #a8d0e6a9 !default;
-$main-1: #374785a8 !default;
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+$accent: #f8e9a1 !default;
+$accent-active: #ff8080 !default;
+$background: #a8d0e6b6 !default;
+$main-1: #3747856e !default;
 $main-2: #24305e !default;
 
 $def-border-radius: 10px;
@@ -10,7 +10,7 @@ $def-border-radius: 10px;
 body {
     width: 100vw;
     height: 100vh;
-	font-family: "Baloo 2", cursive;
+	font-family: 'Comfortaa', cursive;
 	font-size: 16px;
 	text-rendering: optimizeLegibility;
 	font-weight: initial;
