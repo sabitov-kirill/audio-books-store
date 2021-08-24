@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/sabitov-kirill/audio-books-store/issues"
   },
-  "homepage": "https://github.com/sabitov-kirill/audio-books-store#readme"
+  "homepage": "https://github.com/sabitov-kirill/audio-books-store#readme",
+  "dependencies": {
+    "node-sass": "^6.0.1"
+  }
 }

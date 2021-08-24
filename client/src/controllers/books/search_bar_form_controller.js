@@ -11,7 +11,7 @@
 
 import { connect } from "react-redux";
 
-import SearchBarForm from "../../views/books/search_bar_form";
+import SearchBarForm from "../../views/books/list_page/search_bar_form_view";
 import { search } from "../../models/books_model";
 
 // Component view, connected to model

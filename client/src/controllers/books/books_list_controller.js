@@ -11,7 +11,7 @@
 
 import { connect } from "react-redux";
 
-import BookListView from "../../views/books/books_list_view";
+import BookListView from "../../views/books/list_page/books_list_view";
 
 function refactorBookArray(state) {
     let refArray = state.books.bookStorage.filter((book) => {

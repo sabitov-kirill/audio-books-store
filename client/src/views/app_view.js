@@ -14,11 +14,13 @@
 import React, {useEffect} from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import './app.scss'
+
 // Application pages routes
 const pagesRoutes = [
     { path: '/login', Component: React.lazy(() => import('../controllers/user/login_form_controller')) },
     { path: '/reg', Component: React.lazy(() =>   import('../controllers/user/registration_form_controller')) },
-    { path: '/auth', Component: React.lazy(() =>  import('./user/auth_form')) },
+    { path: '/auth', Component: React.lazy(() =>  import('./authorization/auth_form')) },
     { path: '/admin', Component: React.lazy(() => import('../controllers/books/admin_books_creation_controller')) },
     { path: '/', Component: React.lazy(() =>      import('../controllers/books/books_page_controller')) },
 ];
@@ -37,7 +39,10 @@ export default function AppView(props) {
             <React.Suspense fallback={<h1>Loading</h1>}>
             <Switch>
                 {pagesRoutes.map(({path, Component}) =>
-                    <Route key={path} exact path={path} render={() => <Component />} />
+                    <Route 
+                        key={path} 
+                        exact path={path} 
+                        render={() => <Component className='page'/>} />
                 )}
             </Switch>
             </React.Suspense>

@@ -11,13 +11,17 @@ export default function SearchBarForm(props) {
 
     return (
         <InputGroup className='mb-1 d-flex justify-content-center'>
-            <FormControl type="search"
-                         placeholder="Search..."
-                         onChange={onSearchInput}/>
-            <Button variant="outline-success"
-                    type='submit'
-                    onClick={handleSearch}
-                    id="search-button">
+            <FormControl 
+                type="search"
+                placeholder="Search..."
+                onChange={onSearchInput}
+            />
+            <Button 
+                variant="outline-success"
+                type='submit'
+                onClick={handleSearch}
+                id="search-button"
+            >
                 <Search />
             </Button>
         </InputGroup>

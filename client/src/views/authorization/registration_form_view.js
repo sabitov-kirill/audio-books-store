@@ -89,7 +89,7 @@ export default function RegistrationFormView(props) {
 
     // Rendering element
     return (
-        <div className="d-grid gap-3 p-3">
+        <div className="d-grid gap-3 p-3 authForm">
             <Form className="d-grid gap-3">
                 <Form.Group>
                     <FloatingLabel label="Enter your name">

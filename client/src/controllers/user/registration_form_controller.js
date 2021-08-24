@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import userApi from '../../api/user_api';
-import RegistrationFormView from "../../views/user/registration_form_view";
+import RegistrationFormView from "../../views/authorization/registration_form_view";
 
 // Creating registration thunk
 export const userRegistr = createAsyncThunk(

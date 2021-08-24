@@ -10,7 +10,7 @@
  */
 
 import React, { Fragment } from "react";
-import { Nav, NavDropdown } from "react-bootstrap";
+import { NavDropdown } from "react-bootstrap";
 import { Typeahead } from 'react-bootstrap-typeahead';
 import './button.css'
 
@@ -68,11 +68,13 @@ function SortingBar(props) {
 export default function SortNFilterForm(props) {
     return (
         <Fragment>
-            <FilterBar filter={props.filter}
-                       options={props.options}
+            <FilterBar 
+                filter={props.filter}
+                options={props.options}
             />
-            <SortingBar sortKey={props.sortKey}
-                        sorting={props.sorting}
+            <SortingBar
+                sortKey={props.sortKey}
+                sorting={props.sorting}
             />
         </Fragment>
     );

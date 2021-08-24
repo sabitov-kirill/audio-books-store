@@ -1,0 +1,179 @@
+@import '../../app.scss';
+
+.cardContainer {
+    flex-wrap: nowrap;
+    display: flex;
+
+    padding: 15px;
+    gap: 15px;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    position: relative;
+
+    box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
+    background-color: $main-1;
+    color: #ffffff;
+
+    .coverContainer {
+        display: contents;
+        
+        .cover {
+            height: 180px;
+            width: 180px;
+            object-fit: contain;
+            position: relative;
+            border-radius: $def-border-radius;
+        }
+    }   
+
+    .separator {
+        width: 50px;
+        height: 5px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        background-color: $accent-1;
+        transition: width 0.2s ease-in-out;
+    }
+    
+    .textContainer {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+
+        .title {
+            font-size: 1.5rem;
+        }
+        .title:hover {
+            cursor: pointer;
+            color: $accent-1;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .descripion {
+            display: none;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: justify;
+            height: 100%;
+            margin: 0;
+        }
+
+        .tagsContainer {
+            display: flex;
+            flex-flow: row wrap;
+            gap: 5px;
+            font-size: 14px;
+            padding: 0;
+            margin: 0;
+            justify-content: start;
+        
+            .tagItem {
+                display: inline-block;
+                background: rgba(83, 83, 83, 0.4);
+                border-radius: 3px;
+                padding: 2.5px 10px;
+                cursor: default;
+                user-select: none;
+                transition: background-color 0.3s;
+        
+                &:hover {
+                    background: rgba(83, 83, 83, 0.8);
+                }
+            }
+        }
+    }
+
+    &:hover .separator {
+        width: 100px;
+    }
+}
+
+@media screen and (min-width: 550px) {
+    .cardContainer {
+        flex-wrap: nowrap;
+        display: flex; 
+    
+        .separator {
+            display: unset;
+        }
+        
+        .textContainer {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+    
+            .title {
+                font-size: 1.75rem;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .cardContainer {
+    
+        .coverContainer {
+            
+            .cover {
+                width: 200px;
+                height: 200px;
+                transition: transform 0.3s ease-in-out;
+            }
+        }  
+
+        .separator {
+            height: 10px;
+        }
+        
+        .textContainer {
+            .title {
+                font-size: 2rem !important;
+            }
+    
+            .descripion {
+                display: initial;
+            }
+
+            .tagsContainer {
+                justify-content: start;
+            }
+        }
+
+        &:hover {
+            .cover {
+                transform: scale(1.1);
+            }
+        }   
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .cardContainer {
+        flex-wrap: nowrap;
+    
+        .coverContainer {
+            
+            .cover {
+                width: 200px;
+                height: 200px;
+                transition: transform 0.3s ease-in-out;
+            }
+        }
+
+        .textContainer:before {
+            content: "";
+            position: absolute;
+            display: block;
+            
+            top: -20%;
+            height: 130%;
+            width: 55px;
+        }  
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .cardContainer {
+        max-width: 800px;
+    }
+}

@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import userApi from '../../api/user_api';
-import LoginFormView from "../../views/user/login_form_view";
+import LoginFormView from "../../views/authorization/login_form_view";
 
 // Creating login thunk
 const userReLogin = createAsyncThunk('user/userLogin', userApi.login);

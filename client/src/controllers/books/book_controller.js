@@ -10,18 +10,10 @@
  */
 
 import { connect } from "react-redux";
-
-import BookView from "../../views/books/book_view";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
+import BookView from "../../views/books/card/book_view";
 import bookApi from '../../api/book_api';
-
-
-// <<book>> data structure:
-//    title:       String
-//    author:      String
-//    description: String
-//    price:       Number
-//    data:        ??? (current String)
 
 // Trunks for calling books API
 export const fetchBook = createAsyncThunk(

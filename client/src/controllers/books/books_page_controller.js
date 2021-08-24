@@ -11,10 +11,9 @@
 
 import { connect } from "react-redux";
 import { createAsyncThunk } from "@reduxjs/toolkit";
- 
-import BooksPageView from "../../views/books/books_page";
- 
+  
 import bookApi from '../../api/book_api';
+import BooksPageView from "../../views/books/list_page/books_page";
  
 const fillBooksStorage = createAsyncThunk(
     'books/fillBooksStorage',

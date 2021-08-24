@@ -11,7 +11,7 @@
 
 import { connect } from "react-redux";
 
-import SortNFilterForm from "../../views/books/books_sort_and_filter_form";
+import SortNFilterForm from "../../views/books/list_page/books_sort_and_filter_form";
 import { filter, sorting } from "../../models/books_model";
 
 // Component view, connected to model
