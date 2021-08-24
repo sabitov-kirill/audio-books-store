@@ -14,10 +14,11 @@ import { connect } from "react-redux";
 import BookListView from "../../views/books/books_list_view";
 
 function refactorBookArray(state) {
+    const searchKey = state.books.searchKey.toLowerCase();
     let refArray = state.books.bookStorage.filter((book) => {
         if (state.books.filters.includes("Owned") && !state.user.ownedBooks.includes(book.id))
             return false;
-        return book.title.includes(state.books.searchKey);
+        return book.title.toLowerCase().includes(searchKey);
     });
     switch (state.books.sortKey) {
         case "All":
