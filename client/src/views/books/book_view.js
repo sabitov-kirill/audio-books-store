@@ -25,6 +25,7 @@ function Cover(props) {
     return (
         <div className='coverContainer'>
             <img 
+                onClick={props.select}
                 src={props.imagePath} 
                 style={activeFlag}
                 className='cover'
@@ -67,7 +68,7 @@ function Text(props) {
 export default function BookView(props) {
     return (
         <div className='cardContainer'>
-            <Cover isActive={props.isOwned} imagePath={props.book.imagePath} />
+            <Cover isActive={props.isOwned} imagePath={props.book.imagePath} select={props.select} />
             <Text book={props.book} isOwned={props.isOwned} select={props.select} />          
         </div>
     );

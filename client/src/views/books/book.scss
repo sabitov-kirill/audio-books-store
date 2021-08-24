@@ -1,18 +1,7 @@
 @import '../app.scss';
 
-.actionButton {
-    background-color: $accent !important;
-    color: $main-1;
-    transition: background-color 0.5s !important;
-    cursor: pointer !important;
-
-    &:hover {
-        background-color: $accent-active !important;
-    }
-}
-
 .cardContainer {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     
     display: flex;
     padding: 15px;
@@ -28,8 +17,7 @@
         display: contents;
         
         .cover {
-            height: 180px;
-            width: 180px;
+            width: 100%;
             object-fit: contain;
             position: relative;
             border-radius: $def-border-radius;
@@ -37,6 +25,7 @@
     }   
 
     .separator {
+        display: none;
         width: 50px;
         height: 5px;
         margin-bottom: 10px;
@@ -52,6 +41,7 @@
         flex-grow: 1;
 
         .title {
+            display: none;
             font-size: 1.5rem;
         }
         .title:hover {
@@ -98,10 +88,17 @@
     }
 }
 
-@media screen and (min-width: 550px) {
+@media screen and (min-width: 450px) {
     .cardContainer {
         flex-wrap: nowrap;
         display: flex; 
+
+        .coverContainer {            
+            .cover {
+                height: 180px;
+                width: 180px;
+            }
+        }  
     
         .separator {
             display: unset;
@@ -113,6 +110,7 @@
             flex-direction: column;
     
             .title {
+                display: unset;
                 font-size: 1.75rem;
             }
         }
@@ -122,8 +120,7 @@
 @media screen and (min-width: 769px) {
     .cardContainer {
     
-        .coverContainer {
-            
+        .coverContainer {            
             .cover {
                 width: 200px;
                 height: 200px;
@@ -141,7 +138,7 @@
             }
     
             .descripion {
-                display: initial;
+                display: inline-table;
             }
 
             .tagsContainer {

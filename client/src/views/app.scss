@@ -16,3 +16,14 @@ body {
 	font-weight: initial;
     background-color: $background;    
 }
+
+.actionButton {
+    background-color: $accent !important;
+    color: $main-1;
+    transition: background-color 0.5s !important;
+    cursor: pointer !important;
+
+    &:hover {
+        background-color: $accent-active !important;
+    }
+}
