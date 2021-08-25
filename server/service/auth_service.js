@@ -33,7 +33,7 @@ class AuthService {
             password: hashedPassword
         })
             .catch((error) => {
-                if (error.code === 11000) throw new Error(`User with login "${login}" already exist.`);
+                if (error.code === 11000) throw new Error(`Пользователь с логином "${login}" уже существует.`);
                 else                      throw error;
             });
         const userDTO = new UserDTO(user);
@@ -48,11 +48,11 @@ class AuthService {
     async login(login, password) {
         // Check if user with passed login exist
         const user = await userModel.findOne({ login });
-        if (!user) throw new Error('Wrong login. User not found.');
+        if (!user) throw new Error('Неправильный логин. Пользователь не найден.');
 
         // Comparing passwords, if success 
         const isPassEquals = await bcrypt.compare(password, user.password);
-        if (!isPassEquals) throw new Error(`Wrong password.`);
+        if (!isPassEquals) throw new Error(`Неправельный пароль.`);
         await user.populate('bagBooks').execPopulate();
         const userDTO = new UserDTO(user);
 
@@ -69,7 +69,7 @@ class AuthService {
 
         // Finding user by stored in token id
         const user = await userModel.findOne({ _id: payload.userId });
-        if (!user) throw new Error('User with stored id not found.');
+        if (!user) throw new Error('Пользователь с сохраненым идентификатором не найден.');
         await user.populate('bagBooks').execPopulate();
         return new UserDTO(user);
     }

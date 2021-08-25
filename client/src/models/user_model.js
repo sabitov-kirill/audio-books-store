@@ -73,8 +73,12 @@ const userSlice = createSlice({
         },
          
         // Logout
-        'user/userLogout/fullfiled': (state) => {
-            state.loginStatus = 'loggedout'
+        'user/userLogout/fulfilled': (state) => {
+            state.loginStatus = 'loggedout';
+
+            state.name = '';
+            state.isAdmin = '';
+            state.ownedBooks = '';
         }
     }
 });

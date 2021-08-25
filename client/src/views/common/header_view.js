@@ -12,6 +12,7 @@
  */
 
 import { VpnKey, ExitToApp, AccountBox } from '@material-ui/icons';
+import { useHistory } from 'react-router-dom';
 
 import './header.scss';
 
@@ -38,13 +39,18 @@ function UserGreeting(props) {
 }
 
 function UserActions(props) {
+    const history = useHistory();
+    const redirectToLogin = () => {
+        history.push('/authorization');
+    }
+
     const LoginButton = 
-        <button className='actionButton'>
+        <button className='actionButton' onClick={redirectToLogin} >
             <VpnKey />
-            <p>Войти</p>    
+            <p>Войти</p>   
         </button>
     const LogoutButton = 
-        <button className='actionButton'>
+        <button className='actionButton' onClick={props.userLogout} >
             <ExitToApp />
             <p>Выйти</p>    
         </button>

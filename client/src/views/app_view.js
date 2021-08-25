@@ -11,19 +11,17 @@
  *
  */
 
-import React, { useEffect, useState, Fragment } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './app.scss'
-import Header from '../controllers/common/header_controller'
-import {IconButton, Snackbar} from "@material-ui/core";
-import {GetApp, Close} from '@material-ui/icons';
+import Header from '../controllers/common/header_controller';
 
 // Application pages routes
 const pagesRoutes = [
-    { path: '/authorization', Component: React.lazy(() => import('./authorization/auth_form')) },
-    { path: '/admin',         Component: React.lazy(() => import('../controllers/books/admin_books_creation_controller')) },
-    { path: '/',              Component: React.lazy(() => import('../controllers/books/books_page_controller')) },
+    { path: '/authorization', isHeader: false, Component: React.lazy(() => import('./authorization/auth_form')) },
+    { path: '/admin',         isHeader: false, Component: React.lazy(() => import('../controllers/books/admin_books_creation_controller')) },
+    { path: '/',              isHeader: true,  Component: React.lazy(() => import('../controllers/books/books_page_controller')) },
 ];
 
 let deferredPrompt;
@@ -32,15 +30,17 @@ let deferredPrompt;
 export default function AppView(props) {
     return (
         <Router>
-            <Header />
-
             <React.Suspense fallback={<h1>Loading</h1>}>
             <Switch>
-                {pagesRoutes.map(({path, Component}) =>
+                {pagesRoutes.map(({path, isHeader, Component}) =>
                     <Route
                         key={path}
                         exact path={path}
-                        render={() => <Component className='page'/>}
+                        render={() => <>
+                                {isHeader && <Header />}
+                                <Component className='page'/>
+                            </>
+                        }
                     />
                 )}
             </Switch>

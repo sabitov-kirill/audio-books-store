@@ -49,9 +49,7 @@ const UserApi = {
             method: "GET"
         });
 
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.error);
-        return result;
+        if (!response.ok) throw new Error("Ошибка при выходе из системы.");
     },
 }
 

@@ -33,7 +33,7 @@ class Server {
         this.router.post('/user/access',  this.userController.access.bind(this.userController));
         this.router.get('/user/reaccess', this.userController.validate.bind(this.userController), 
                                           this.userController.reAccess.bind(this.userController));
-        this.router.get('/user/leave',   this.userController.leave.bind(this.userController));
+        this.router.get('/user/leave',    this.userController.leave.bind(this.userController));
 
         // Book interactions requests
         this.router.post('/books/create', this.userController.validate.bind(this.userController),
@@ -51,9 +51,9 @@ class Server {
         this.app.use('/api', this.router);
 
         // Setting up react requests
-        this.app.use(express.static(this.path.resolve(__dirname, '../client/public')));
+        this.app.use(express.static(this.path.resolve(__dirname, '../client/build')));
         this.app.get('*', (request, result) => {
-            result.sendFile(this.path.resolve(__dirname, '../client/public', 'index.html'));
+            result.sendFile(this.path.resolve(__dirname, '../client/build', 'index.html'));
         });
     }
 
