@@ -117,7 +117,7 @@ export default function RegistrationFormView(props) {
                     type={'text'}
                     value={values.name}
                     error={
-                        (props.isLoginError && values.isErrorShown) ||
+                        (props.isRegisterError&& values.isErrorShown) ||
                         (values.isFieldsError && !values.name)
                     }
                     endAdornment={
@@ -139,7 +139,7 @@ export default function RegistrationFormView(props) {
                     type={'text'}
                     value={values.login}
                     error={
-                        (props.isLoginError && values.isErrorShown) ||
+                        (props.isRegisterError && values.isErrorShown) ||
                         (values.isFieldsError && !values.login)
                     }
                     endAdornment={
@@ -179,7 +179,7 @@ export default function RegistrationFormView(props) {
                     }
                     labelWidth={70}
                 />
-                <FormHelperText id="outlined-adornment-password" >
+                <FormHelperText id="outlined-adornment-password" style={{fontSize: "xx-small"}}>
                     🛈 Пароль должен содержать как минимум 6 символов.
                 </FormHelperText>
             </FormControl>

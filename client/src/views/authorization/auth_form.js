@@ -13,63 +13,8 @@ import { useState } from "react";
 
 import LoginFormController from '../../controllers/user/login_form_controller';
 import RegistrationFormController from '../../controllers/user/registration_form_controller';
-import './auth.scss';
-import {Box, Grid, Link, makeStyles, withStyles} from "@material-ui/core";
-
-const palette = {
-    accent: '#f9bf7f',
-    accentActive: '#fa7f38',
-    background: '#e6c7a9',
-    main: '#ffebc5',
-    text: '#8a7764',
-};
-
-const GlobalCss = withStyles({
-    '@global': {
-        '.MuiButton-root': {
-            backgroundColor: palette.accent,
-            color: palette.text,
-            cursor: 'pointer',
-            margin: '5px',
-            "&:hover": {
-                backgroundColor: palette.accentActive
-            },
-            "&:active": {
-                backgroundColor: palette.accentActive
-            },
-        },
-        '.MuiOutlinedInput-adornedEnd': {
-            width: '270px',
-        },
-        '.MuiInputBase-input': {
-            color: palette.text,
-        },
-        '.MuiPaperBase-root': {
-            width: '270px',
-        },
-        '.MuiSvgIcon-root': {
-            color: palette.accentActive,
-        },
-        '.MuiFormLabel-root.Mui-focused': {
-            color: palette.accentActive,
-        },
-        '.MuiFormLabel-root': {
-            color: palette.accent,
-        },
-        '.MuiOutlinedInput-notchedOutline': {
-            borderColor: palette.accent,
-        },
-        '.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: palette.accent,
-        },
-        '.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: palette.accentActive,
-        },
-        '.MuiGrid-item': {
-            margin: '7px',
-        },
-    },
-})(() => null);
+import {palette} from './../cool_css';
+import {Grid, Link} from "@material-ui/core";
 
 // Component to render if login sign in selected
 function LoginForm(props) {
@@ -141,14 +86,13 @@ export default function AuthForm() {
         color: palette.text,
         paddingTop: '10px',
         paddingBottom: '3px',
+        marginTop: '20px',
+        marginBottom: '5px',
     }
 
     return (
-        <div>
-            <GlobalCss/>
-            {isLoginForm
-                ? <LoginForm formStyle={formStyle} onSetRegister={onSetRegister} />
-                : <RegisterForm  formStyle={formStyle} onSetLogin={onSetLogin} />}
-        </div>
+        isLoginForm
+            ? <LoginForm formStyle={formStyle} onSetRegister={onSetRegister} />
+            : <RegisterForm  formStyle={formStyle} onSetLogin={onSetLogin} />
     );
 }
