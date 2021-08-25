@@ -87,7 +87,7 @@ export default function LoginFormView(props) {
         >
             <Grid item>
             <FormControl variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-login">Login</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-login">Логин</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-login"
                     type={'text'}
@@ -109,7 +109,7 @@ export default function LoginFormView(props) {
 
             <Grid item>
             <FormControl variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-password">Пароль</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-password"
                     type={values.showPassword ? 'text' : 'password'}
@@ -144,7 +144,7 @@ export default function LoginFormView(props) {
             }
             {
                 values.isFieldsError &&
-                <Alert variant="outlined" severity='error'>Please, fill all the fields to login.</Alert>
+                <Alert variant="outlined" severity='error'>Пожалуйста, заполните все поля.</Alert>
             }
             </Grid>
 
@@ -154,7 +154,7 @@ export default function LoginFormView(props) {
                 type='submit'
                 disabled={props.isLoginPending}
             >
-                {props.isLoginPending ? 'Loading...' : 'Log in'}
+                {props.isLoginPending ? 'Вход...' : 'Войти'}
             </Button>
             </Grid>
         </Grid>

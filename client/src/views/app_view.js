@@ -11,11 +11,13 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './app.scss'
 import Header from '../controllers/common/header_controller'
+import {IconButton, Snackbar} from "@material-ui/core";
+import {GetApp, Close} from '@material-ui/icons';
 
 // Application pages routes
 const pagesRoutes = [
@@ -28,49 +30,8 @@ let deferredPrompt;
 
 // Application main component
 export default function AppView(props) {
-    const reLogin = props.userReLogin;
-    useEffect(() => {
-        window.addEventListener("beforeinstallprompt", (e) => {
-            // Prevent the mini-infobar from appearing on mobile
-            e.preventDefault();
-            // Stash the event so it can be triggered later.
-            deferredPrompt = e;
-            // Update UI notify the user they can install the PWA
-            setInstallable(true);
-        });
-
-        window.addEventListener('appinstalled', () => {
-            // Log install to analytics
-            console.log('INSTALL: Success');
-        });
-
-        reLogin();
-    }, [reLogin]);
-
-    const [installable, setInstallable] = useState(false);
-
-    const handleInstallClick = (e) => {
-        // Hide the app provided install promotion
-        setInstallable(false);
-        // Show the install prompt
-        deferredPrompt.prompt();
-        // Wait for the user to respond to the prompt
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-            } else {
-                console.log('User dismissed the install prompt');
-            }
-        });
-    };
-
     return (
         <Router>
-            {installable &&
-            <button className="install-button" onClick={handleInstallClick}>
-                INSTALL ME
-            </button>}
-
             <Header />
 
             <React.Suspense fallback={<h1>Loading</h1>}>
