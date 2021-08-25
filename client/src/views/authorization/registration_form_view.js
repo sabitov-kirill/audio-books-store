@@ -31,13 +31,12 @@ export default function RegistrationFormView(props) {
         login: '',
         password: '',
         isErrorShown: false,
-        isFieldsError: false,
         errorCode: '',
         showPassword: false,
     });
 
     const handleChange = (prop) => (event) => {
-        if (values.isFieldsError && values.name && values.login && values.password)
+        if (values.errorCode === 'fields' && values.name && values.login && values.password)
             setValues({
                 ...values,
                 errorCode: ''
@@ -88,8 +87,7 @@ export default function RegistrationFormView(props) {
     // Errors handle
     let isFieldsError = values.errorCode === 'fields';
     let isPasswordError = values.errorCode === 'password';
-    const errorComponent =
-        isFieldsError
+    const errorComponent = isFieldsError
             ? <Alert variant="outlined" severity='error'>
                 Пожалуйста, заполните все поля.
               </Alert> : isPasswordError
@@ -117,8 +115,8 @@ export default function RegistrationFormView(props) {
                     type={'text'}
                     value={values.name}
                     error={
-                        (props.isLoginError && values.isErrorShown) ||
-                        (values.isFieldsError && !values.name)
+                        (props.isRegisterError && values.isErrorShown) ||
+                        (isFieldsError && !values.name)
                     }
                     endAdornment={
                         <InputAdornment position="end">
@@ -139,8 +137,8 @@ export default function RegistrationFormView(props) {
                     type={'text'}
                     value={values.login}
                     error={
-                        (props.isLoginError && values.isErrorShown) ||
-                        (values.isFieldsError && !values.login)
+                        (props.isRegisterError && values.isErrorShown) ||
+                        (isFieldsError && !values.login)
                     }
                     endAdornment={
                         <InputAdornment position="end">
@@ -162,7 +160,7 @@ export default function RegistrationFormView(props) {
                     value={values.password}
                     error={
                         (props.isLoginError && values.isErrorShown) ||
-                        (values.isFieldsError && !values.password)
+                        (isFieldsError && !values.password)
                     }
                     onChange={handleChange('password')}
                     endAdornment={
@@ -179,7 +177,7 @@ export default function RegistrationFormView(props) {
                     }
                     labelWidth={70}
                 />
-                <FormHelperText id="outlined-adornment-password" >
+                <FormHelperText id="outlined-adornment-password" style={{fontSize: "xx-small"}}>
                     🛈 Пароль должен содержать как минимум 6 символов.
                 </FormHelperText>
             </FormControl>

@@ -30,15 +30,15 @@ export default function LoginFormView(props) {
         login: '',
         password: '',
         isErrorShown: false,
-        isFieldsError: false,
+        errorCode: '',
         showPassword: false,
     });
 
     const handleChange = (prop) => (event) => {
-        if (values.isFieldsError && values.login && values.password)
+        if (values.errorCode === 'fields' && values.login && values.password)
             setValues({
                 ...values,
-                isFieldsError: false
+                errorCode: ''
             });
         setValues({
             ...values,
@@ -63,7 +63,7 @@ export default function LoginFormView(props) {
             setValues({
                 ...values,
                 isErrorShown: true,
-                IsFieldsError: true
+                errorCode: 'fields'
             });
         } else {
             setValues({
@@ -94,7 +94,7 @@ export default function LoginFormView(props) {
                     value={values.login}
                     error={
                         (props.isLoginError && values.isErrorShown) ||
-                        (values.isFieldsError && !values.login)
+                        (values.errorCode === 'fields' && !values.login)
                     }
                     endAdornment={
                         <InputAdornment position="end">
@@ -116,7 +116,7 @@ export default function LoginFormView(props) {
                     value={values.password}
                     error={
                         (props.isLoginError && values.isErrorShown) ||
-                        (values.isFieldsError && !values.password)
+                        (values.errorCode === 'fields' && !values.password)
                     }
                     onChange={handleChange('password')}
                     endAdornment={

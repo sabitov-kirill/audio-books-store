@@ -11,11 +11,13 @@
  *
  */
 
-import React from 'react';
+import React,  { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import InstallPWA from "./PWA_install_bar";
 
 import './app.scss'
 import Header from '../controllers/common/header_controller';
+import {GlobalCss} from "./cool_css";
 
 // Application pages routes
 const pagesRoutes = [
@@ -24,12 +26,17 @@ const pagesRoutes = [
     { path: '/',              isHeader: true,  Component: React.lazy(() => import('../controllers/books/books_page_controller')) },
 ];
 
-let deferredPrompt;
-
 // Application main component
 export default function AppView(props) {
+    const reLogin = props.userReLogin;
+    useEffect(() => reLogin(), [reLogin]);
+
     return (
         <Router>
+            <GlobalCss />
+            <InstallPWA />
+            {}
+
             <React.Suspense fallback={<h1>Loading</h1>}>
             <Switch>
                 {pagesRoutes.map(({path, isHeader, Component}) =>
