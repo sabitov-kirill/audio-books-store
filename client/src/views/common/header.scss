@@ -1,0 +1,29 @@
+@import '../app.scss';
+
+.header {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    background-color: #a1525f;
+
+    width: calc(100% - 20px);
+    height: 30px;
+    padding: 10px;
+
+    .actionButton {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .actionText {
+        
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .header {
+        width: calc(100% - 30px);
+        height: 35px;
+        padding: 15px;
+    }
+}

@@ -45,7 +45,13 @@ const UserApi = {
     },
 
     async logout() {
+        const response = await fetch('/api/user/leave', {
+            method: "GET"
+        });
 
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error);
+        return result;
     },
 }
 

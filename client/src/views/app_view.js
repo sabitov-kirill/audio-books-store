@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './app.scss'
+import Header from '../controllers/common/header_controller'
 
 // Application pages routes
 const pagesRoutes = [
@@ -70,6 +71,8 @@ export default function AppView(props) {
                 INSTALL ME
             </button>}
 
+            <Header />
+
             <React.Suspense fallback={<h1>Loading</h1>}>
             <Switch>
                 {pagesRoutes.map(({path, Component}) =>
@@ -81,8 +84,6 @@ export default function AppView(props) {
                 )}
             </Switch>
             </React.Suspense>
-
-            {/* Footer */}
         </Router>
     );
 }

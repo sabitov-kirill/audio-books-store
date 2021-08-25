@@ -14,7 +14,7 @@ const mongoose = require('mongoose')
 // User model schema definition
 const userSchema = new mongoose.Schema({
     name: { type: String },
-    email: { type: String, unique: true},
+    email: { type: String, unique: true },
     password: { type: String },
     isAdmin: { type: Boolean },
     bagBooks: [{ type: mongoose.ObjectId, ref: 'Book' }],
