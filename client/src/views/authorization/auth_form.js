@@ -9,51 +9,58 @@
  *
  */
 
- import { useState } from "react";
+import { useState } from "react";
 
- import LoginFormController from '../../controllers/user/login_form_controller';
- import RegistrationFormController from '../../controllers/user/registration_form_controller';
- import './auth.scss';
+import LoginFormController from '../../controllers/user/login_form_controller';
+import RegistrationFormController from '../../controllers/user/registration_form_controller';
+import './auth.scss';
+import {Box, Grid, Link} from "@material-ui/core";
  
- // Component to render if login sign in selected
- function LoginForm(props) {
-     return (
-        <div className='d-flex flex-column justify-content-center'>
-            <h1 className='mx-auto my-5'>Sign In</h1>
-            <div style={props.formStyle}>
-                <LoginFormController />
-            </div>
-            <p className='mx-auto'>
-                Don' have account yet?
-                <button
-                    type="button"
-                    className="btn btn-link m-0 p-0 ps-1"
-                    onClick={props.onSetRegistr}
-                    style={{color: 'gray'}}
-                >Sign Up!</button>
-            </p>
-        </div>
-     );
- }
- 
+// Component to render if login sign in selected
+function LoginForm(props) {
+    return (
+        <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+        >
+           <h1>Sign In</h1>
+           <div style={props.formStyle}>
+               <LoginFormController />
+           </div>
+           <p style={{textAlign: "center"}}>
+               Don' have account yet?
+               <Link
+                   onClick={props.onSetRegister}
+                   color="inherit"
+               >Sign Up!</Link>
+           </p>
+       </Grid>
+    );
+}
+
  // Component to render if login sign up selected
- function RegistrForm(props) {
+ function RegisterForm(props) {
      return (
-         <div className='d-flex flex-column justify-content-center'>
-             <h1 className='mx-auto my-5'>Sign Up</h1>
+         <Grid
+             container
+             direction="column"
+             justifyContent="center"
+             alignItems="center"
+         >
+             <h1>Sign In</h1>
              <div style={props.formStyle}>
                  <RegistrationFormController />
              </div>
-             <p className='mx-auto'>
-                 Already have an account?
-                 <button
-                     type="button"
-                     className="btn btn-link m-0 p-0 ps-1"
+             <p style={{textAlign: "center"}}>
+                 Don' have account yet?
+                 <Link
                      onClick={props.onSetLogin}
-                     style={{color: 'gray'}}
-                 >Sign In!</button>
+                     color="inherit"
+                 >Sign In!</Link>
              </p>
-         </div>
+         </Grid>
      );
  }
  
@@ -66,7 +73,7 @@
          setIsLoginForm(true);
      }
      // Evens callbacks handle
-     const onSetRegistr = () => {
+     const onSetRegister = () => {
          setIsLoginForm(false);
      }
  
@@ -79,6 +86,6 @@
      }
  
      return isLoginForm
-         ? <LoginForm formStyle={formStyle} onSetRegistr={onSetRegistr} /> 
-         : <RegistrForm  formStyle={formStyle} onSetLogin={onSetLogin} />;
+         ? <LoginForm formStyle={formStyle} onSetRegister={onSetRegister} />
+         : <RegisterForm  formStyle={formStyle} onSetLogin={onSetLogin} />;
  }

@@ -27,6 +27,6 @@ export default connect(
         error:          state.user.error
     }),
     (dispatch) => ({
-        login: (email, password) => dispatch(userReLogin({ email, password }))
+        login: (login, password) => dispatch(userReLogin({ login: login, password }))
     })
 )(LoginFormView);

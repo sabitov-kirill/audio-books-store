@@ -16,20 +16,20 @@ import userApi from '../../api/user_api';
 import RegistrationFormView from "../../views/authorization/registration_form_view";
 
 // Creating registration thunk
-export const userRegistr = createAsyncThunk(
-    'user/userRegistr',
+export const userRegister = createAsyncThunk(
+    'user/userRegister',
     userApi.registration
 );
 
 // Connecting component view to model with controller
 export default connect(
     (state) => ({
-        isRegistrPending: state.user.loginStatus === 'pending',
-        isRegistrError:   state.user.loginStatus === 'failed',
+        isRegisterPending: state.user.loginStatus === 'pending',
+        isRegisterError:   state.user.loginStatus === 'failed',
         isLoggedIn:       state.user.loginStatus === 'success',
         error:            state.user.error
     }),
     (dispatch) => ({
-        registr: (name, email, password) => dispatch(userRegistr({ name, email, password }))
+        register: (name, login, password) => dispatch(userRegister({ name, login, password }))
     })
 )(RegistrationFormView);

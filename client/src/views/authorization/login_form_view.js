@@ -11,88 +11,155 @@
 
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
-import Form from "react-bootstrap/Form";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
+import {
+    InputLabel, OutlinedInput,
+    InputAdornment, IconButton,
+    FormControl, Button, Grid
+} from '@material-ui/core';
+import {
+    Alert
+} from '@material-ui/lab';
+import {
+    AccountCircle,
+    Visibility, VisibilityOff
+} from "@material-ui/icons";
+
 
 // Component view
 export default function LoginFormView(props) {
-    // Input fields states
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [values, setValues] = useState({
+        login: '',
+        password: '',
+        isErrorShown: false,
+        isFieldsError: false,
+        showPassword: false,
+    });
 
-    // Errors showing states
-    const [isErrorShown, setIsErrorShown] = useState(true);
-    const [isFieldsError, setIsFieldsError] = useState(false);
+    const handleChange = (prop) => (event) => {
+        if (values.isFieldsError && values.login && values.password)
+            setValues({
+                ...values,
+                isFieldsError: false
+            });
+        setValues({
+            ...values,
+            isErrorShown: false,
+            [prop]: event.target.value
+        });
+    };
 
-    // Evens callbacks handle
-    const onEmailInput = (e) => {
-        if (isFieldsError && email && password) setIsFieldsError(false);
-        setIsErrorShown(false);
-        setEmail(e.target.value)
-    }
-    const onPasswordInput = (e) => {
-        if (isFieldsError && email && password) setIsFieldsError(false);
-        setIsErrorShown(false);
-        setPassword(e.target.value)
-    }
+    const handleClickShowPassword = () => {
+        setValues({ ...values, showPassword: !values.showPassword });
+    };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
+
     const onLogin = async (e) => {
         e.preventDefault();
 
-        if (!email || !password) {
-            setIsFieldsError(true);
-            setIsErrorShown(false);
+        if (!values.login || !values.password) {
+            setValues({
+                ...values,
+                isErrorShown: true,
+                IsFieldsError: true
+            });
         } else {
-            setIsErrorShown(true);
-            await props.login(email.toLowerCase().trim(), password);
+            setValues({
+                ...values,
+                isErrorShown: true
+            });
+            await props.login(values.login.toLowerCase().trim(), values.password);
         }
     }
     
-    if (props.isLoggedIn) return <Redirect to='/books'/>
+    if (props.isLoggedIn) return <Redirect to='/'/>
 
     // Rendering element
     return (
-        <div className="d-grid gap-3 p-3 authForm">
-            <Form className="d-grid gap-3">
-                <Form.Group>
-                    <FloatingLabel label="Enter your email">
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter your email"
-                            onChange={onEmailInput}
-                            isInvalid={(props.isLoginError && isErrorShown) || (isFieldsError && !email)}
-                            style={{backgroundColor: '#ffffffaa'}}
-                        />
-                    </FloatingLabel>
-                </Form.Group>
+        <Grid
+            container
+            spacing={0}
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+        >
+            <Grid item>
+            <FormControl variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-login">Login</InputLabel>
+                <OutlinedInput
+                    id="outlined-adornment-login"
+                    type={'text'}
+                    value={values.login}
+                    error={
+                        (props.isLoginError && values.isErrorShown) ||
+                        (values.isFieldsError && !values.login)
+                    }
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <AccountCircle/>
+                        </InputAdornment>
+                    }
+                    onChange={handleChange('login')}
+                    labelWidth={40}
+                />
+            </FormControl>
+            </Grid>
 
-                <Form.Group>
-                    <FloatingLabel label="Enter your password">
-                        <Form.Control
-                            type="password"
-                            placeholder="Enter your password"
-                            onChange={onPasswordInput}
-                            isInvalid={(props.isLoginError && isErrorShown) || (isFieldsError && !password)}
-                            style={{backgroundColor: '#ffffffaa'}}
-                        />
-                    </FloatingLabel>
-                </Form.Group>
+            <Grid item>
+            <FormControl variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={values.showPassword ? 'text' : 'password'}
+                    value={values.password}
+                    error={
+                        (props.isLoginError && values.isErrorShown) ||
+                        (values.isFieldsError && !values.password)
+                    }
+                    onChange={handleChange('password')}
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                            >
+                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                        </InputAdornment>
+                    }
+                    labelWidth={70}
+                />
+            </FormControl>
+            </Grid>
 
-                {props.isLoginError && isErrorShown && <Alert variant='danger' className='mb-0'>{props.error}</Alert>}
-                {isFieldsError && <Alert variant='danger' className='mb-0'>Please, fill all the fields to login.</Alert>}
+            <Grid item>
+            {
+                props.isLoginError &&
+                values.isErrorShown &&
+                <Alert variant="outlined" severity='error' style={{width: '90%'}}>{props.error}</Alert>
+            }
+            {
+                values.isFieldsError &&
+                <Alert variant="outlined" severity='error' style={{width: '90%'}}>Please, fill all the fields to login.</Alert>
+            }
+            </Grid>
 
-                <Button
-                    variant="outline-dark"
-                    onClick={onLogin}
-                    type='submit'
-                    className='m-auto'
-                    style={{ width: '100%'}}
-                    disabled={props.isLoginPending}
-                >
-                    {props.isLoginPending ? 'Loading...' : 'Submit'}
-                </Button>
-            </Form>
-        </div>
+            <Grid item>
+            <Button
+                variant="outline"
+                onClick={onLogin}
+                type='submit'
+                style={{ width: '100%'}}
+                disabled={props.isLoginPending}
+            >
+                {props.isLoginPending ? 'Loading...' : 'Log in'}
+            </Button>
+            </Grid>
+        </Grid>
     );
 }
