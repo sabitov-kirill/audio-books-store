@@ -25,7 +25,7 @@ function LoginForm(props) {
             justifyContent="center"
             alignItems="center"
         >
-            <h1 className="accActCol">Вход</h1>
+            <h1 className="accActCol start-margin">Вход</h1>
             <div className="authForm">
                 <LoginFormController />
             </div>
@@ -49,7 +49,7 @@ function RegisterForm(props) {
             justifyContent="center"
             alignItems="center"
         >
-            <h1 className="accActCol">Регистрация</h1>
+            <h1 className="accActCol start-margin">Регистрация</h1>
             <div  className="authForm">
                 <RegistrationFormController />
             </div>

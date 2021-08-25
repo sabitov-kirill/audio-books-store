@@ -58,7 +58,7 @@ export default function InstallPWA() {
             open={open && installable}
             autoHideDuration={60000}
             onClose={handleClose}
-            message="You can install an application to use it offline!"
+            message="Вы можете установить наше приложение, что бы использовать оффлайн!"
             action={
                 <Fragment>
                     <IconButton

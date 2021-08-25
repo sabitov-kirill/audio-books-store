@@ -145,7 +145,7 @@ export default function LoginFormView(props) {
                 <Alert variant="outlined" severity='error'>{props.error}</Alert>
             }
             {
-                values.isFieldsError &&
+                values.errorCode === 'fields' &&
                 <Alert variant="outlined" severity='error'>Пожалуйста, заполните все поля.</Alert>
             }
             </Grid>
