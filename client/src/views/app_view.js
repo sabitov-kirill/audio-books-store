@@ -11,10 +11,12 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './app.scss'
+import {IconButton, Snackbar} from "@material-ui/core";
+import {GetApp, Close} from '@material-ui/icons';
 
 // Application pages routes
 const pagesRoutes = [
@@ -28,6 +30,9 @@ let deferredPrompt;
 // Application main component
 export default function AppView(props) {
     const reLogin = props.userReLogin;
+
+    const [installable, setInstallable] = useState(false);
+    const [open, setOpen] = useState(false);
     useEffect(() => {
         window.addEventListener("beforeinstallprompt", (e) => {
             // Prevent the mini-infobar from appearing on mobile
@@ -36,6 +41,10 @@ export default function AppView(props) {
             deferredPrompt = e;
             // Update UI notify the user they can install the PWA
             setInstallable(true);
+            setOpen(true);
+
+            console.log(open);
+            console.log(installable);
         });
 
         window.addEventListener('appinstalled', () => {
@@ -45,8 +54,11 @@ export default function AppView(props) {
 
         reLogin();
     }, [reLogin]);
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') return;
 
-    const [installable, setInstallable] = useState(false);
+        setOpen(false);
+    };
 
     const handleInstallClick = (e) => {
         // Hide the app provided install promotion
@@ -62,13 +74,39 @@ export default function AppView(props) {
             }
         });
     };
-
+    console.log(open);
+    console.log(installable);
     return (
         <Router>
-            {installable &&
-            <button className="install-button" onClick={handleInstallClick}>
-                INSTALL ME
-            </button>}
+            {<Snackbar
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                open={open && installable}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message="You can install an application to use it offline!"
+                action={
+                    <Fragment>
+                        <IconButton
+                            aria-label="install"
+                            onClick={() => {
+                                handleInstallClick();
+                                handleClose('install', 'success');
+                            }}>Install
+                            <GetApp />
+                        </IconButton>
+                        <IconButton
+                            aria-label="close"
+                            onClick={() => {
+                                handleClose('close', 'later');
+                            }}>
+                            <Close />
+                        </IconButton>
+                    </Fragment>
+                }
+            />}
 
             <React.Suspense fallback={<h1>Loading</h1>}>
             <Switch>
