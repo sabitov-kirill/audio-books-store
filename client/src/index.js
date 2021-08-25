@@ -17,10 +17,6 @@ import { Provider } from 'react-redux';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'react-bootstrap-typeahead/css/Typeahead.css';
-
-
 import App, { store } from './controllers/app_controller';
 
 // Rendering main component witch store provider.

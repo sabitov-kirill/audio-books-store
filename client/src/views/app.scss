@@ -1,9 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
-$accent: #f8e9a1 !default;
-$accent-active: #ff8080 !default;
-$background: #a8d0e6b6 !default;
-$main-1: #3747856e !default;
-$main-2: #24305e !default;
+$accent: #f9bf7f !default;
+$accent-active: #faa538 !default;
+$background: #fef0d6 !default;
+$main: #e6c7aa !default;
 
 $def-border-radius: 10px;
 
@@ -18,35 +17,12 @@ body {
 }
 
 .actionButton {
-    background-color: $accent !important;
-    color: $main-1;
-    transition: background-color 0.5s !important;
-    cursor: pointer !important;
+	background-color: $accent !important;
+	color: $main;
+	transition: background-color 0.5s !important;
+	cursor: pointer !important;
 
-    &:hover {
-        background-color: $accent-active !important;
-    }
-}
-
-::-webkit-scrollbar {
-	width: 15px;
-}
-  
-::-webkit-scrollbar-track {
- 	background-color: transparent;
-}
-  
-::-webkit-scrollbar-thumb {
-	background-color: #d6dee1;
-	border-radius: 15px;
-	border: 6px solid transparent;
-	background-clip: content-box;
-}
-  
-::-webkit-scrollbar-thumb:hover {
-	background-color: #a8bbbf;
-}
-
-::-webkit-scrollbar-corner {
-  background-color: transparent;
+	&:hover {
+		background-color: $accent-active !important;
+	}
 }

@@ -8,12 +8,11 @@
  *                Book card.
  *
  */
-
- import { 
-    PersonFill, CalendarFill,
-    TagFill, CartCheckFill, 
-    CartPlusFill, PlayFill
-} from "react-bootstrap-icons";
+import {
+    Event, LocalOffer,
+    ShoppingCart, AddShoppingCart,
+    PlayArrow, AccountBox
+} from '@material-ui/icons'
 
 import './book.scss';
 
@@ -37,18 +36,18 @@ function Cover(props) {
 
 function Tags(props) {
     const notOwnedTags = <>
-        <li className="tagItem"><TagFill />{' '}{props.book.price + ' ₽'}</li>
-        <li className="actionButton tagItem" onClick={props.select}><CartPlusFill />{' '}{'Купить'}</li>
+        <li className="tagItem"><LocalOffer />{' '}{props.book.price + ' ₽'}</li>
+        <li className="actionButton tagItem" onClick={props.select}><AddShoppingCart />{' '}{'Купить'}</li>
     </>
     const ownedTags = <>
-        <li className="tagItem" ><CartCheckFill />{' '}{'Куплено'}</li>
-        <li className="actionButton tagItem" onClick={props.select}><PlayFill />{' '}{'Читать'}</li>
+        <li className="tagItem" ><ShoppingCart />{' '}{'Куплено'}</li>
+        <li className="actionButton tagItem" onClick={props.select}><PlayArrow />{' '}{'Читать'}</li>
     </>
 
     return (
         <ul className="tagsContainer">
-            <li className="tagItem"><PersonFill />{' '}{props.book.author}</li>
-            <li className="tagItem"><CalendarFill />{' '}{props.book.year + ' г.'}</li>
+            <li className="tagItem"><AccountBox />{' '}{props.book.author}</li>
+            <li className="tagItem"><Event />{' '}{props.book.year + ' г.'}</li>
             {props.isOwned ? ownedTags : notOwnedTags}
         </ul>
     );

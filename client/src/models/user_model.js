@@ -58,15 +58,15 @@ const userSlice = createSlice({
         },
          
         // Registration
-        'user/userRegistr/pending': (state) => {
+        'user/userRegister/pending': (state) => {
             state.loginStatus = 'pending';
         },
-        'user/userRegistr/fulfilled': (state, action) => {
+        'user/userRegister/fulfilled': (state, action) => {
             state.loginStatus = 'success';
 
             state.name = action.payload.name;
         },
-        'user/userRegistr/rejected': (state, action) => {
+        'user/userRegister/rejected': (state, action) => {
             state.loginStatus = 'failed';
             
             state.error = action.error.message;
