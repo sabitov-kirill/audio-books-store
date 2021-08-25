@@ -21,6 +21,7 @@
             object-fit: contain;
             position: relative;
             border-radius: $def-border-radius;
+            transition: transform 0.3s ease-in-out;
         }
     }   
 
@@ -28,7 +29,6 @@
         display: none;
         width: 50px;
         height: 5px;
-        margin-bottom: 10px;
         border-radius: 5px;
         background-color: $accent;
         transition: width 0.2s ease-in-out;
@@ -39,8 +39,10 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+        gap: 5px;
 
         .title {
+            margin: 0;
             display: none;
             font-size: 1.5rem;
         }
@@ -52,10 +54,9 @@
 
         .descripion {
             display: none;
-            overflow: hidden;
+            overflow: scroll;
             text-overflow: ellipsis;
             text-align: justify;
-            height: 100%;
             margin: 0;
         }
 
@@ -101,7 +102,7 @@
         }  
     
         .separator {
-            display: unset;
+            display: block;
         }
         
         .textContainer {
@@ -114,7 +115,13 @@
                 font-size: 1.75rem;
             }
         }
-    }
+
+        &:hover {
+            .cover {
+                transform: scale(1.1);
+            }
+        }
+    } 
 }
 
 @media screen and (min-width: 769px) {
@@ -124,7 +131,6 @@
             .cover {
                 width: 200px;
                 height: 200px;
-                transition: transform 0.3s ease-in-out;
             }
         }  
 
@@ -136,45 +142,11 @@
             .title {
                 font-size: 2rem !important;
             }
-    
+
             .descripion {
-                display: inline-table;
+                display: inline-block;
+                height: 111px;
             }
-
-            .tagsContainer {
-                justify-content: start;
-            }
-        }
-
-        &:hover {
-            .cover {
-                transform: scale(1.1);
-            }
-        }   
-    }
-}
-
-@media screen and (min-width: 1024px) {
-    .cardContainer {
-        flex-wrap: nowrap;
-    
-        .coverContainer {
-            
-            .cover {
-                width: 200px;
-                height: 200px;
-                transition: transform 0.3s ease-in-out;
-            }
-        }
-
-        .textContainer:before {
-            content: "";
-            position: absolute;
-            display: block;
-            
-            top: -20%;
-            height: 130%;
-            width: 55px;
         }  
     }
 }
