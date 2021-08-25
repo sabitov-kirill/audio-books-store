@@ -14,7 +14,7 @@ import { Redirect } from "react-router-dom";
 import {
     InputLabel, OutlinedInput,
     InputAdornment, IconButton,
-    FormControl, Button, Grid
+    FormControl, Button, Grid, withStyles, makeStyles
 } from '@material-ui/core';
 import {
     Alert
@@ -23,7 +23,6 @@ import {
     AccountCircle,
     Visibility, VisibilityOff
 } from "@material-ui/icons";
-
 
 // Component view
 export default function LoginFormView(props) {
@@ -141,20 +140,18 @@ export default function LoginFormView(props) {
             {
                 props.isLoginError &&
                 values.isErrorShown &&
-                <Alert variant="outlined" severity='error' style={{width: '90%'}}>{props.error}</Alert>
+                <Alert variant="outlined" severity='error'>{props.error}</Alert>
             }
             {
                 values.isFieldsError &&
-                <Alert variant="outlined" severity='error' style={{width: '90%'}}>Please, fill all the fields to login.</Alert>
+                <Alert variant="outlined" severity='error'>Please, fill all the fields to login.</Alert>
             }
             </Grid>
 
             <Grid item>
             <Button
-                variant="outline"
                 onClick={onLogin}
                 type='submit'
-                style={{ width: '100%'}}
                 disabled={props.isLoginPending}
             >
                 {props.isLoginPending ? 'Loading...' : 'Log in'}
