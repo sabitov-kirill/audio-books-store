@@ -35,20 +35,22 @@ export default function LoginFormView(props) {
     });
 
     const handleChange = (prop) => (event) => {
+        const newValues = {...values};
         if (values.errorCode === 'fields' && values.login && values.password)
             setValues({
-                ...values,
+                ...newValues,
                 errorCode: ''
             });
         setValues({
-            ...values,
+            ...newValues,
             isErrorShown: false,
             [prop]: event.target.value
         });
     };
 
     const handleClickShowPassword = () => {
-        setValues({ ...values, showPassword: !values.showPassword });
+        const newValues = {...values};
+        setValues({ ...newValues, showPassword: !newValues.showPassword });
     };
 
     const handleMouseDownPassword = (event) => {
@@ -58,16 +60,16 @@ export default function LoginFormView(props) {
 
     const onLogin = async (e) => {
         e.preventDefault();
-
+        const newValues = {...values};
         if (!values.login || !values.password) {
             setValues({
-                ...values,
+                ...newValues,
                 isErrorShown: true,
                 errorCode: 'fields'
             });
         } else {
             setValues({
-                ...values,
+                ...newValues,
                 isErrorShown: true
             });
             await props.login(values.login.toLowerCase().trim(), values.password);
