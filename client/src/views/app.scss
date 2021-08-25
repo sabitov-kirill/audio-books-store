@@ -1,35 +1,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
-$accent:  #ffebc5 !default;
-$accent-active: #faa538 !default;
-$background: #f9bf7f !default;
-$main: #e6c7a9 !default;
+$eye-catching: #a16452 !default;
+$accent:  #f9bf7f !default;
+$accent-active: #fa7f38 !default;
+$background: #e6c7a9 !default;
+$main: #ffebc5 !default;
+$text: #8a7764 !default;
+$fogging: rgba(83, 83, 83, 0.4) !default;
 
 $def-border-radius: 10px;
 
 * {
 	margin: 0;
 	padding: 0;
+	font-size: 16px;
+	font-family: 'Comfortaa', cursive;
 }
 
 body {
 	max-height: 100vh;
 	overflow: hidden;
-	font-family: 'Comfortaa', cursive;
-	font-size: 16px;
 	text-rendering: optimizeLegibility;
 	font-weight: initial;
     background-color: $background;
+	color: $text;
 }
 
 .actionButton {
+	border-radius: 3px;
+	padding: 2.5px 10px;
 	background-color: $accent !important;
-	color: $main;
+	color: $text;
 	transition: background-color 0.5s ease !important;
 	cursor: pointer !important;
 	border-style: none;
 
 	&:hover {
 		background-color: $accent-active !important;
+		color: white;
 	}
 }
 
@@ -40,6 +47,21 @@ body {
 
 	&:hover {
 		color: $accent-active !important;
+	}
+}
+
+.fogged {
+	color: #fff;
+	background: $fogging;
+	border-radius: 3px;
+	padding: 2.5px 10px;
+	font-size: 14px;
+	cursor: default;
+	user-select: none;
+	transition: background-color 0.3s;
+
+	&:hover {
+		background: rgba(83, 83, 83, 0.8);
 	}
 }
 

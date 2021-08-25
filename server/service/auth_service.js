@@ -22,18 +22,18 @@ class AuthService {
         this.tokenSerice = new TokenSerice(accessTokenKey);
     }
 
-    async registration(name, email, password) {
+    async registration(name, login, password) {
         // Creatign password hash to store
         const hashedPassword = await bcrypt.hash(password, 4);
 
         // Creating new user document, creating its transfer object
         const user = await userModel.create({
             name,
-            email,
+            login,
             password: hashedPassword
         })
             .catch((error) => {
-                if (error.code === 11000) throw new Error(`User with email "${email}" already exist.`);
+                if (error.code === 11000) throw new Error(`User with login "${login}" already exist.`);
                 else                      throw error;
             });
         const userDTO = new UserDTO(user);
@@ -45,10 +45,10 @@ class AuthService {
         return { user: userDTO, accessToken };
     }
 
-    async login(email, password) {
-        // Check if user with passed email exist
-        const user = await userModel.findOne({ email });
-        if (!user) throw new Error('Wrong email. User not found.');
+    async login(login, password) {
+        // Check if user with passed login exist
+        const user = await userModel.findOne({ login });
+        if (!user) throw new Error('Wrong login. User not found.');
 
         // Comparing passwords, if success 
         const isPassEquals = await bcrypt.compare(password, user.password);

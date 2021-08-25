@@ -10,7 +10,7 @@
     border-radius: 10px;
     position: relative;
     background-color: $main;
-    color: #ffffff;
+    color: $text;
 
     .coverContainer {
         display: contents;
@@ -63,24 +63,13 @@
             display: flex;
             flex-flow: row wrap;
             gap: 5px;
-            font-size: 14px;
             padding: 0;
             margin: 0;
         
             .tagItem {
-                display: flex;
-                flex-wrap: nowrap;
                 align-items: center;
-                background: rgba(83, 83, 83, 0.4);
-                border-radius: 3px;
-                padding: 2.5px 10px;
-                cursor: default;
-                user-select: none;
-                transition: background-color 0.3s;
-        
-                &:hover {
-                    background: rgba(83, 83, 83, 0.8);
-                }
+                display: flex;
+                flex-direction: row; 
             }
         }
     }

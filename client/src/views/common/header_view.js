@@ -31,8 +31,8 @@ function Brand(props) {
 
 function UserGreeting(props) {
     return (
-        <div className='greetings' >
-            Привет, <AccountBox />{props.userName}
+        <div className='greetings fogged' >
+            Добро пожаловать,<AccountBox />{props.userName}!
         </div>
     );
 }
@@ -41,12 +41,12 @@ function UserActions(props) {
     const LoginButton = 
         <button className='actionButton'>
             <VpnKey />
-            <p className='actionText' >Войти</p>    
+            <p>Войти</p>    
         </button>
     const LogoutButton = 
         <button className='actionButton'>
             <ExitToApp />
-            <p className='actionText' >Выйти</p>    
+            <p>Выйти</p>    
         </button>
     const Action = props.isLoggedIn ? LogoutButton : LoginButton;
 
@@ -57,10 +57,10 @@ function UserActions(props) {
 export default function HeaderView(props) {
     return (
         <div className='header'>
+            <UserActions isLoggedIn={props.isLoggedIn} userLogout={props.userLogout} />
+            {props.isLoggedIn && <UserGreeting userName={props.userName} />}
             <Logo />
             <Brand />
-            {props.isLoggedIn && <UserGreeting userLogin={props.userName} />}
-            <UserActions isLoggedIn={props.isLoggedIn} userLogout={props.userLogout} />
         </div>
     );
 }

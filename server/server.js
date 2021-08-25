@@ -51,9 +51,9 @@ class Server {
         this.app.use('/api', this.router);
 
         // Setting up react requests
-        this.app.use(express.static(this.path.resolve(__dirname, '../client/build')));
+        this.app.use(express.static(this.path.resolve(__dirname, '../client/public')));
         this.app.get('*', (request, result) => {
-            result.sendFile(this.path.resolve(__dirname, '../client/build', 'index.html'));
+            result.sendFile(this.path.resolve(__dirname, '../client/public', 'index.html'));
         });
     }
 

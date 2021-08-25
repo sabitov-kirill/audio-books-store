@@ -36,18 +36,18 @@ function Cover(props) {
 
 function Tags(props) {
     const notOwnedTags = <>
-        <li className="tagItem"><LocalOffer fontSize='small' />{' '}{props.book.price + ' ₽'}</li>
+        <li className="tagItem fogged"><LocalOffer fontSize='small' />{' '}{props.book.price + ' ₽'}</li>
         <li className="actionButton tagItem" onClick={props.select}><AddShoppingCart fontSize='small' />{' '}{'Купить'}</li>
     </>
     const ownedTags = <>
-        <li className="tagItem" ><ShoppingCart fontSize='small' />{' '}{'Куплено'}</li>
+        <li className="tagItem fogged" ><ShoppingCart fontSize='small' />{' '}{'Куплено'}</li>
         <li className="actionButton tagItem" onClick={props.select}><PlayArrow fontSize='small' />{' '}{'Читать'}</li>
     </>
 
     return (
         <ul className="tagsContainer">
-            <li className="tagItem"><AccountBox fontSize='small' />{' '}{props.book.author}</li>
-            <li className="tagItem"><Event fontSize='small' />{' '}{props.book.year + ' г.'}</li>
+            <li className="tagItem fogged"><AccountBox fontSize='small' />{' '}{props.book.author}</li>
+            <li className="tagItem fogged"><Event fontSize='small' />{' '}{props.book.year + ' г.'}</li>
             {props.isOwned ? ownedTags : notOwnedTags}
         </ul>
     );
