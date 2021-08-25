@@ -1,0 +1,68 @@
+@import './app';
+
+
+.MuiButton-root {
+  background-color: $accent !important;
+  color: $text !important;
+  cursor: pointer !important;
+  margin: 5px !important;
+
+  &:hover {
+    background-color: $accent-active !important;
+  }
+;
+
+  &:active {
+    background-color: $accent-active !important;
+  }
+;
+}
+
+.MuiIconButton-root {
+  color: $accent-active !important;
+}
+
+.MuiOutlinedInput-adornedEnd {
+  width: 270px !important;
+}
+
+.MuiInputBase-input {
+  color: $text !important;
+}
+
+.MuiPaperBase-root {
+  width: 270px !important;
+}
+
+.MuiSvgIcon-root {
+  color: $accent-active !important;
+}
+
+.MuiFormLabel-root.Mui-focused {
+  color: $accent-active !important;
+}
+
+.MuiFormLabel-root {
+  color: $accent !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: $accent !important;
+}
+
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: $accent !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: $accent-active !important;
+}
+
+.MuiGrid-item {
+  margin: 7px !important;
+}
+
+.MuiPaper-elevation6 {
+  background-color: $main !important;
+  color: $text !important;
+}

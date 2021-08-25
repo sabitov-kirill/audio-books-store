@@ -13,8 +13,8 @@ import { useState } from "react";
 
 import LoginFormController from '../../controllers/user/login_form_controller';
 import RegistrationFormController from '../../controllers/user/registration_form_controller';
-import {palette} from './../cool_css';
 import {Grid, Link} from "@material-ui/core";
+import './auth.scss'
 
 // Component to render if login sign in selected
 function LoginForm(props) {
@@ -25,15 +25,15 @@ function LoginForm(props) {
             justifyContent="center"
             alignItems="center"
         >
-            <h1 style={{color: palette.accentActive}}>Вход</h1>
-            <div style={props.formStyle}>
+            <h1 className="accActCol">Вход</h1>
+            <div className="authForm">
                 <LoginFormController />
             </div>
-            <p style={{color: palette.text, textAlign: "center"}}>
+            <p className="text">
                 {"Ещё не зарегестрированы? "}
                 <Link
                     onClick={props.onSetRegister}
-                    style={{color: palette.accentActive}}
+                    className="accActCol"
                 >Регистрация!</Link>
             </p>
         </Grid>
@@ -49,15 +49,15 @@ function RegisterForm(props) {
             justifyContent="center"
             alignItems="center"
         >
-            <h1 style={{color: palette.accentActive}}>Регистрация</h1>
-            <div style={props.formStyle}>
+            <h1 className="accActCol">Регистрация</h1>
+            <div  className="authForm">
                 <RegistrationFormController />
             </div>
-            <p style={{color: palette.text, textAlign: "center"}}>
+            <p className="text">
                 {"Уже есть аккаунт? "}
                 <Link
                     onClick={props.onSetLogin}
-                    style={{color: palette.accentActive}}
+                    className="accActCol"
                 >Вход!</Link>
             </p>
         </Grid>
@@ -77,22 +77,9 @@ export default function AuthForm() {
         setIsLoginForm(false);
     }
 
-    // Background image style
-    const formStyle = {
-        width: '400px',
-        margin: '0 auto',
-        borderRadius: '10px',
-        background: palette.main,
-        color: palette.text,
-        paddingTop: '10px',
-        paddingBottom: '3px',
-        marginTop: '20px',
-        marginBottom: '5px',
-    }
-
     return (
         isLoginForm
-            ? <LoginForm formStyle={formStyle} onSetRegister={onSetRegister} />
-            : <RegisterForm  formStyle={formStyle} onSetLogin={onSetLogin} />
+            ? <LoginForm onSetRegister={onSetRegister} />
+            : <RegisterForm onSetLogin={onSetLogin} />
     );
 }

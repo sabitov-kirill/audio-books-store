@@ -1,6 +1,20 @@
 @import '../app.scss';
 
 .authForm {
+    width: 400px;
+    margin: 20px auto 5px;
+    color: $text;
+    padding-top: 10px;
+    padding-bottom: 3px;
     background-color: $main;
     border-radius: $def-border-radius;
+}
+
+.accActCol {
+    color: $accent-active !important;
+}
+
+.text {
+    color: $text;
+    text-align: center;
 }
