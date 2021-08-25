@@ -6,7 +6,7 @@ let deferredPrompt;
 
 export default function InstallPWA() {
     const [installable, setInstallable] = useState(false);
-    const [open, setOpen] = useState(true);//false
+    const [open, setOpen] = useState(false);
     useEffect(() => {
         window.addEventListener("beforeinstallprompt", (e) => {
             // Prevent the mini-infobar from appearing on mobile
@@ -53,15 +53,16 @@ export default function InstallPWA() {
         <Snackbar
             anchorOrigin={{
                 vertical: 'bottom',
-                horizontal: 'left',
+                horizontal: 'center',
             }}
-            open={open}//&& installable
-            autoHideDuration={6000}
+            open={open && installable}
+            autoHideDuration={60000}
             onClose={handleClose}
             message="You can install an application to use it offline!"
             action={
                 <Fragment>
                     <IconButton
+                        size="small"
                         aria-label="install"
                         onClick={() => {
                             handleInstallClick();
@@ -70,6 +71,7 @@ export default function InstallPWA() {
                         <GetApp />
                     </IconButton>
                     <IconButton
+                        size="small"
                         aria-label="close"
                         onClick={() => {
                             handleClose('close', 'later');

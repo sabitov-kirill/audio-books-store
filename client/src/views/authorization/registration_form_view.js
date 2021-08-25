@@ -36,20 +36,22 @@ export default function RegistrationFormView(props) {
     });
 
     const handleChange = (prop) => (event) => {
+        const newValues = {...values};
         if (values.errorCode === 'fields' && values.name && values.login && values.password)
             setValues({
-                ...values,
+                ...newValues,
                 errorCode: ''
             });
         setValues({
-            ...values,
+            ...newValues,
             isErrorShown: false,
             [prop]: event.target.value
         });
     };
 
     const handleClickShowPassword = () => {
-        setValues({ ...values, showPassword: !values.showPassword });
+        const newValues = {...values};
+        setValues({ ...newValues, showPassword: !newValues.showPassword });
     };
 
     const handleMouseDownPassword = (event) => {
@@ -58,23 +60,24 @@ export default function RegistrationFormView(props) {
 
     const onRegister = async (e) => {
         e.preventDefault();
+        const newValues = {...values};
 
         // Set errors codes, if not alling api function
         if (!values.name || !values.login || !values.password) {
             setValues({
-                ...values,
+                ...newValues,
                 errorCode: 'fields',
                 isErrorShown: false
             })
         } else if (values.password.length < 6) {
             setValues({
-                ...values,
+                ...newValues,
                 errorCode: 'password',
                 isErrorShown: false
             })
         } else {
             setValues({
-                ...values,
+                ...newValues,
                 errorCode: '',
                 isErrorShown: true
             });

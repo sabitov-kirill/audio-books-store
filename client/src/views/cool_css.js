@@ -21,6 +21,9 @@ export const GlobalCss = withStyles({
                 backgroundColor: palette.accentActive
             },
         },
+        '.MuiIconButton-root': {
+            color: palette.accentActive,
+        },
         '.MuiOutlinedInput-adornedEnd': {
             width: '270px',
         },
@@ -50,6 +53,10 @@ export const GlobalCss = withStyles({
         },
         '.MuiGrid-item': {
             margin: '7px',
+        },
+        '.MuiPaper-elevation6': {
+            backgroundColor: palette.main,
+            color: palette.text,
         },
     },
 })(() => null);
