@@ -11,9 +11,8 @@ import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import {NavigationRoute, registerRoute} from 'workbox-routing';
-import {NetworkFirst, NetworkOnly, StaleWhileRevalidate} from 'workbox-strategies';
-import { CacheableResponsePlugin } from 'workbox-cacheable-response'
-import { CacheFirst } from 'workbox-strategies'
+import {NetworkFirst, NetworkOnly, StaleWhileRevalidate, CacheFirst} from 'workbox-strategies';
+import { CacheableResponsePlugin } from 'workbox-cacheable-response'  
 import {BackgroundSyncPlugin} from "workbox-background-sync";
 
 clientsClaim();

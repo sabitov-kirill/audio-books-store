@@ -9,7 +9,7 @@ export default function InstallPWA() {
     const [open, setOpen] = useState(false);
     useEffect(() => {
         window.addEventListener("beforeinstallprompt", (e) => {
-            // Prevent the mini-infobar from appearing on mobile
+                // Prevent the mini-infobar from appearing on mobile
             e.preventDefault();
             // Stash the event so it can be triggered later.
             deferredPrompt = e;
@@ -62,12 +62,13 @@ export default function InstallPWA() {
             action={
                 <Fragment>
                     <IconButton
+                        className="instl"
                         size="small"
                         aria-label="install"
                         onClick={() => {
                             handleInstallClick();
                             handleClose('install', 'success');
-                        }}>Install
+                        }}>Скачать
                         <GetApp />
                     </IconButton>
                     <IconButton
