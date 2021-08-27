@@ -33,6 +33,7 @@ const userSlice = createSlice({
         'user/userRegister/fulfilled': (state, action) => {
             state.loginStatus = 'success';
 
+            state.name = action.payload.name;
             state.login = action.payload.login;
         },
         'user/userRegister/rejected': (state, action) => {
