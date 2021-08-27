@@ -22,7 +22,7 @@ const userSlice = createSlice({
         reLoginTried: false,
         error: ''
     },
- 
+
     reducers: {},
  
     extraReducers: {
@@ -38,7 +38,7 @@ const userSlice = createSlice({
         },
         'user/userRegister/rejected': (state, action) => {
             state.loginStatus = 'failed';
-            
+
             state.error = action.error.message;
         },
 
