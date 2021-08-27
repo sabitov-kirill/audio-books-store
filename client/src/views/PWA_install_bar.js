@@ -45,8 +45,6 @@ export default function InstallPWA() {
             }
         });
     };
-    console.log(open);
-    console.log(installable);
 
     return (
         <Snackbar

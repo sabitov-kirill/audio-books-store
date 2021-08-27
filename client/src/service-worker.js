@@ -88,9 +88,6 @@ registerRoute(
         url.pathname.startsWith('/api/user/leave'),
     new NetworkOnly({
         plugins: [
-            new CacheableResponsePlugin({
-                statuses: [200]
-            }),
             connectionSyncPlugin
         ]
     })
