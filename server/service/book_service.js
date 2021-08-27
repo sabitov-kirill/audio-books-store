@@ -66,7 +66,7 @@ class BookService {
 
     async data(id) {
         const book = await bookModel.find({ _id: id });
-        if (!book) throw Error('This book does not exist');
+        if (!book) throw Error('Такой книги не существует.');
 
         const bookDTO = new BookDTO(book);
         return new bookDTO.data();

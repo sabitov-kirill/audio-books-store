@@ -26,6 +26,21 @@ const userSlice = createSlice({
     reducers: {},
  
     extraReducers: {
+        // Registration
+        'user/userRegister/pending': (state) => {
+            state.loginStatus = 'pending';
+        },
+        'user/userRegister/fulfilled': (state, action) => {
+            state.loginStatus = 'success';
+
+            state.login = action.payload.login;
+        },
+        'user/userRegister/rejected': (state, action) => {
+            state.loginStatus = 'failed';
+            
+            state.error = action.error.message;
+        },
+
         // Login
         'user/userLogin/pending': (state) => {
             state.loginStatus = 'pending';
@@ -57,19 +72,13 @@ const userSlice = createSlice({
             state.loginStatus = 'unlogged';
         },
          
-        // Registration
-        'user/userRegister/pending': (state) => {
-            state.loginStatus = 'pending';
-        },
-        'user/userRegister/fulfilled': (state, action) => {
-            state.loginStatus = 'success';
+        // Logout
+        'user/userLogout/fulfilled': (state) => {
+            state.loginStatus = 'loggedout';
 
-            state.name = action.payload.name;
-        },
-        'user/userRegister/rejected': (state, action) => {
-            state.loginStatus = 'failed';
-            
-            state.error = action.error.message;
+            state.name = '';
+            state.isAdmin = '';
+            state.ownedBooks = '';
         }
     }
 });

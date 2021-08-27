@@ -24,32 +24,33 @@ import {
     Visibility, VisibilityOff
 } from "@material-ui/icons";
 
-
 // Component view
 export default function LoginFormView(props) {
     const [values, setValues] = useState({
         login: '',
         password: '',
         isErrorShown: false,
-        isFieldsError: false,
+        errorCode: '',
         showPassword: false,
     });
 
     const handleChange = (prop) => (event) => {
-        if (values.isFieldsError && values.login && values.password)
+        const newValues = {...values};
+        if (values.errorCode === 'fields' && values.login && values.password)
             setValues({
-                ...values,
-                isFieldsError: false
+                ...newValues,
+                errorCode: ''
             });
         setValues({
-            ...values,
+            ...newValues,
             isErrorShown: false,
             [prop]: event.target.value
         });
     };
 
     const handleClickShowPassword = () => {
-        setValues({ ...values, showPassword: !values.showPassword });
+        const newValues = {...values};
+        setValues({ ...newValues, showPassword: !newValues.showPassword });
     };
 
     const handleMouseDownPassword = (event) => {
@@ -59,16 +60,16 @@ export default function LoginFormView(props) {
 
     const onLogin = async (e) => {
         e.preventDefault();
-
+        const newValues = {...values};
         if (!values.login || !values.password) {
             setValues({
-                ...values,
+                ...newValues,
                 isErrorShown: true,
-                IsFieldsError: true
+                errorCode: 'fields'
             });
         } else {
             setValues({
-                ...values,
+                ...newValues,
                 isErrorShown: true
             });
             await props.login(values.login.toLowerCase().trim(), values.password);
@@ -88,14 +89,14 @@ export default function LoginFormView(props) {
         >
             <Grid item>
             <FormControl variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-login">Login</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-login">Логин</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-login"
                     type={'text'}
                     value={values.login}
                     error={
                         (props.isLoginError && values.isErrorShown) ||
-                        (values.isFieldsError && !values.login)
+                        (values.errorCode === 'fields' && !values.login)
                     }
                     endAdornment={
                         <InputAdornment position="end">
@@ -110,14 +111,14 @@ export default function LoginFormView(props) {
 
             <Grid item>
             <FormControl variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-password">Пароль</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-password"
                     type={values.showPassword ? 'text' : 'password'}
                     value={values.password}
                     error={
                         (props.isLoginError && values.isErrorShown) ||
-                        (values.isFieldsError && !values.password)
+                        (values.errorCode === 'fields' && !values.password)
                     }
                     onChange={handleChange('password')}
                     endAdornment={
@@ -141,23 +142,21 @@ export default function LoginFormView(props) {
             {
                 props.isLoginError &&
                 values.isErrorShown &&
-                <Alert variant="outlined" severity='error' style={{width: '90%'}}>{props.error}</Alert>
+                <Alert variant="outlined" severity='error'>{props.error}</Alert>
             }
             {
-                values.isFieldsError &&
-                <Alert variant="outlined" severity='error' style={{width: '90%'}}>Please, fill all the fields to login.</Alert>
+                values.errorCode === 'fields' &&
+                <Alert variant="outlined" severity='error'>Пожалуйста, заполните все поля.</Alert>
             }
             </Grid>
 
             <Grid item>
             <Button
-                variant="outline"
                 onClick={onLogin}
                 type='submit'
-                style={{ width: '100%'}}
                 disabled={props.isLoginPending}
             >
-                {props.isLoginPending ? 'Loading...' : 'Log in'}
+                {props.isLoginPending ? 'Вход...' : 'Войти'}
             </Button>
             </Grid>
         </Grid>

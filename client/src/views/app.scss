@@ -1,28 +1,90 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
-$accent: #f9bf7f !default;
-$accent-active: #faa538 !default;
-$background: #fef0d6 !default;
-$main: #e6c7aa !default;
+$eye-catching: #a16452 !default;
+$accent:  #f9bf7f !default;
+$accent-active: #fa7f38 !default;
+$background: #e6c7a9 !default;
+$main: #ffebc5 !default;
+$text: #8a7764 !default;
+$fogging: rgba(83, 83, 83, 0.4) !default;
 
 $def-border-radius: 10px;
 
-body {
-    width: 100vw;
-    height: 100vh;
+* {
+	margin: 0;
+	padding: 0;
 	font-family: 'Comfortaa', cursive;
-	font-size: 16px;
+}
+
+body {
+	max-height: 100vh;
+	overflow: hidden;
 	text-rendering: optimizeLegibility;
 	font-weight: initial;
-    background-color: $background;    
+    background-color: $background;
+	color: $text;
 }
 
 .actionButton {
+	border-radius: 3px;
+	padding: 2.5px 10px;
 	background-color: $accent !important;
-	color: $main;
-	transition: background-color 0.5s !important;
+	color: $text;
+	transition: background-color 0.5s ease !important;
 	cursor: pointer !important;
+	border-style: none;
 
 	&:hover {
 		background-color: $accent-active !important;
+		color: white;
 	}
 }
+
+.actionText {
+	color: $accent !important;
+	transition: color 0.5s ease !important;
+	cursor: pointer !important;
+
+	&:hover {
+		color: $accent-active !important;
+	}
+}
+
+.fogged {
+	color: #fff;
+	background: $fogging;
+	border-radius: 3px;
+	padding: 2.5px 10px;
+	font-size: 14px;
+	cursor: default;
+	user-select: none;
+	transition: background-color 0.3s;
+
+	&:hover {
+		background: rgba(83, 83, 83, 0.8);
+	}
+}
+
+.shadow {
+	box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
+}
+
+/* Changind default scrollbar */
+::-webkit-scrollbar {
+	width: 15px;
+}
+::-webkit-scrollbar-track {
+ 	background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+	background-color: $main;
+	border-radius: 15px;
+	border: 6px solid transparent;
+	background-clip: content-box;
+	transition: color 0.5s ease-in-out !important;
+	&:hover {
+		background-color: $accent;
+	}
+}
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+} 

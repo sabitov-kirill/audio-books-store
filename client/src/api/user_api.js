@@ -45,7 +45,11 @@ const UserApi = {
     },
 
     async logout() {
+        const response = await fetch('/api/user/leave', {
+            method: "GET"
+        });
 
+        if (!response.ok) throw new Error("Ошибка при выходе из системы.");
     },
 }
 

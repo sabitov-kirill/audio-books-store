@@ -9,11 +9,14 @@
  *
  */
 
- import BookView from "../../controllers/books/book_controller"
+import { Container } from "@material-ui/core";
+
+import BookView from "../../controllers/books/book_controller";
+import './books_list.scss';
 
 export default function BooksListView(props) {
     return (
-        <section className='container py-4'>
+        <Container maxWidth="md" className='booksList' >
             {props.books.length > 0
                 ? props.books.map((book) => (
                         <BookView
@@ -24,6 +27,6 @@ export default function BooksListView(props) {
                     ))
                 : ""
             }
-        </section>
+        </Container>
     );
 };

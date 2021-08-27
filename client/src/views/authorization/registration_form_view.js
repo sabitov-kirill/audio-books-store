@@ -12,7 +12,16 @@
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import {Alert} from "@material-ui/lab";
-import {Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput} from "@material-ui/core";
+import {
+    Button,
+    FormControl,
+    FormHelperText,
+    Grid,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    OutlinedInput
+} from "@material-ui/core";
 import {AccountCircle, Visibility, VisibilityOff, Face} from "@material-ui/icons";
 
 // Component view
@@ -22,26 +31,27 @@ export default function RegistrationFormView(props) {
         login: '',
         password: '',
         isErrorShown: false,
-        isFieldsError: false,
         errorCode: '',
         showPassword: false,
     });
 
     const handleChange = (prop) => (event) => {
-        if (values.isFieldsError && values.name && values.login && values.password)
+        const newValues = {...values};
+        if (values.errorCode === 'fields' && values.name && values.login && values.password)
             setValues({
-                ...values,
+                ...newValues,
                 errorCode: ''
             });
         setValues({
-            ...values,
+            ...newValues,
             isErrorShown: false,
             [prop]: event.target.value
         });
     };
 
     const handleClickShowPassword = () => {
-        setValues({ ...values, showPassword: !values.showPassword });
+        const newValues = {...values};
+        setValues({ ...newValues, showPassword: !newValues.showPassword });
     };
 
     const handleMouseDownPassword = (event) => {
@@ -50,23 +60,24 @@ export default function RegistrationFormView(props) {
 
     const onRegister = async (e) => {
         e.preventDefault();
+        const newValues = {...values};
 
         // Set errors codes, if not alling api function
         if (!values.name || !values.login || !values.password) {
             setValues({
-                ...values,
+                ...newValues,
                 errorCode: 'fields',
                 isErrorShown: false
             })
         } else if (values.password.length < 6) {
             setValues({
-                ...values,
+                ...newValues,
                 errorCode: 'password',
                 isErrorShown: false
             })
         } else {
             setValues({
-                ...values,
+                ...newValues,
                 errorCode: '',
                 isErrorShown: true
             });
@@ -79,14 +90,13 @@ export default function RegistrationFormView(props) {
     // Errors handle
     let isFieldsError = values.errorCode === 'fields';
     let isPasswordError = values.errorCode === 'password';
-    const errorComponent =
-        isFieldsError
+    const errorComponent = isFieldsError
             ? <Alert variant="outlined" severity='error'>
-                Please, fill all the fields to register.
+                Пожалуйста, заполните все поля.
               </Alert> : isPasswordError
             ? <Alert variant="outlined" severity='error'>
-                Please, create password of at least 6 characters.
-              </Alert> : props.isRegistrError && values.isErrorShown
+                Пароль должен содержать как минимум 6 символов.
+              </Alert> : props.isRegisterError && values.isErrorShown
             ? <Alert variant="outlined" severity='error'>
                 {props.error}
               </Alert> : <></>;
@@ -102,14 +112,14 @@ export default function RegistrationFormView(props) {
         >
             <Grid item>
             <FormControl variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-name">Name</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-name">Имя</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-name"
                     type={'text'}
                     value={values.name}
                     error={
-                        (props.isLoginError && values.isErrorShown) ||
-                        (values.isFieldsError && !values.name)
+                        (props.isRegisterError && values.isErrorShown) ||
+                        (isFieldsError && !values.name)
                     }
                     endAdornment={
                         <InputAdornment position="end">
@@ -124,14 +134,14 @@ export default function RegistrationFormView(props) {
 
             <Grid item>
             <FormControl variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-login">Login</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-login">Логин</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-login"
                     type={'text'}
                     value={values.login}
                     error={
-                        (props.isLoginError && values.isErrorShown) ||
-                        (values.isFieldsError && !values.login)
+                        (props.isRegisterError && values.isErrorShown) ||
+                        (isFieldsError && !values.login)
                     }
                     endAdornment={
                         <InputAdornment position="end">
@@ -146,15 +156,14 @@ export default function RegistrationFormView(props) {
 
             <Grid item>
             <FormControl variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-password">Пароль</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-password"
                     type={values.showPassword ? 'text' : 'password'}
                     value={values.password}
-                    helperText="🛈 Password must be at least 6 characters long."
                     error={
                         (props.isLoginError && values.isErrorShown) ||
-                        (values.isFieldsError && !values.password)
+                        (isFieldsError && !values.password)
                     }
                     onChange={handleChange('password')}
                     endAdornment={
@@ -171,6 +180,9 @@ export default function RegistrationFormView(props) {
                     }
                     labelWidth={70}
                 />
+                <FormHelperText id="outlined-adornment-password" style={{fontSize: "xx-small"}}>
+                    🛈 Пароль должен содержать как минимум 6 символов.
+                </FormHelperText>
             </FormControl>
             </Grid>
 
@@ -186,7 +198,7 @@ export default function RegistrationFormView(props) {
                 style={{ width: '100%'}}
                 disabled={props.isRegisterPending}
             >
-                {props.isRegisterPending ? 'Loading...' : 'Reg'}
+                {props.isRegisterPending ? 'Регистрация...' : 'Зарегестрироваться'}
             </Button>
             </Grid>
         </Grid>

@@ -21,8 +21,8 @@ class UserController {
     async add(request, result) {
         try {
             // Getting login data from body
-            const { name, email, password } = JSON.parse(request.body);
-            const userData = await this.authService.registration(name, email, password);
+            const { name, login, password } = JSON.parse(request.body);
+            const userData = await this.authService.registration(name, login, password);
 
             // Set user id and its refresh token sign to cookies
             result.cookie('acetsi', userData.accessToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
@@ -37,8 +37,8 @@ class UserController {
     async access(request, result) {
         try {
             // Getting registration data from body
-            const { email, password } = JSON.parse(request.body);
-            const userData = await this.authService.login(email, password);
+            const { login, password } = JSON.parse(request.body);
+            const userData = await this.authService.login(login, password);
 
             // Set user id and its refresh token sign to cookies
             result.cookie('acetsi', userData.accessToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });

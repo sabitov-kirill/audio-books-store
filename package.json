@@ -4,9 +4,9 @@
   "description": "Audio books web store application.",
   "main": "index.js",
   "scripts": {
-    "server": "cd server && npm start",
-    "client": "cd client && npm start",
-    "prod": "cd ./client/ && npm run build && cd ./../server/ && npm start"
+    "server": "cd server && npm run start",
+    "client": "cd client && npm run start",
+    "prod": "cd ./client/ && npm run build && cd ./../server/ && npm run start"
   },
   "repository": {
     "type": "git",

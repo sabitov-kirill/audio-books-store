@@ -6,12 +6,11 @@
     display: flex;
     padding: 15px;
     gap: 15px;
-    margin-bottom: 2rem;
+    margin: 1rem 0;
     border-radius: 10px;
     position: relative;
-    box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
     background-color: $main;
-    color: #ffffff;
+    color: $text;
 
     .coverContainer {
         display: contents;
@@ -64,22 +63,13 @@
             display: flex;
             flex-flow: row wrap;
             gap: 5px;
-            font-size: 14px;
             padding: 0;
             margin: 0;
         
             .tagItem {
-                display: inline-block;
-                background: rgba(83, 83, 83, 0.4);
-                border-radius: 3px;
-                padding: 2.5px 10px;
-                cursor: default;
-                user-select: none;
-                transition: background-color 0.3s;
-        
-                &:hover {
-                    background: rgba(83, 83, 83, 0.8);
-                }
+                align-items: center;
+                display: flex;
+                flex-direction: row; 
             }
         }
     }
