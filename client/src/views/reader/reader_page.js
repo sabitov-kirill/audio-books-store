@@ -17,14 +17,15 @@
 
 import { useState } from "react";
 import Alert from '@material-ui/lab/Alert'
-
+import parse from "html-react-parser"
 
 export default function ReaderPageView(props) {
     const [page, setPage] = useState(0);
 
     const handlePageMove = (event) => {
-        if (event.key == "ArrowRigth" && page !== props.pages.lenght()) setPage(page + 1);
-        else if (event.key == "ArrowLeft" && page !== 0) setPage(page - 1);
+        if (event.key === "ArrowRight" && page !== props.pages.length) setPage(page + 1);
+        else if (event.key === "ArrowLeft" && page !== 0) setPage(page - 1);
+        console.log(event.key, props.pages.length === page);
     }
 
     const pageRotationWarning = () => {
@@ -32,8 +33,9 @@ export default function ReaderPageView(props) {
     }
 
     return (
-        <div onKeyDown={handlePageMove}>
-            {pageRotationWarning() && <Alert>Place your device in a horizontal position.</Alert>}
+        <div onKeyDown={handlePageMove} onClick={handlePageMove} tabIndex="0">
+            {parse(props.pages[page])}
+            {pageRotationWarning() && <Alert severity="info" >Place your device in a horizontal position.</Alert>}
         </div>
     );
 }
