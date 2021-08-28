@@ -10,13 +10,14 @@
  */
 
 import { useState } from "react";
-import parse from "html-react-parser";
 
-export default function ReaderPageView(props) {
+import './reader.scss';
+
+export default function ReaderPageView() {
     const [page, setPage] = useState(0);
 
     const handlePageMove = (event) => {
-        if (event.key === "ArrowRight" && page < props.pages.length - 1) {
+        if (event.key === "ArrowRight" && page < 14) {
             setPage((page) => page + 1);
             console.log(event.key, page);
         }
@@ -26,10 +27,9 @@ export default function ReaderPageView(props) {
         }
     }
 
-    console.log(`page: ${page}`);
     return (
-        <div onKeyUp={handlePageMove} onClick={handlePageMove} tabIndex="0">
-            {parse(props.pages[page])}
+        <div onKeyUp={handlePageMove} tabIndex="0" className="reader">
+            <div className="page" ></div>
         </div>
     );
 }
