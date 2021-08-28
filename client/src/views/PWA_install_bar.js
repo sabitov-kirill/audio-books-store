@@ -48,6 +48,7 @@ export default function InstallPWA() {
 
     return (
         <Snackbar
+            className="installbar"
             anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'center',

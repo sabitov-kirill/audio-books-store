@@ -10,12 +10,10 @@
   &:hover {
     background-color: $accent-active !important;
   }
-;
 
   &:active {
     background-color: $accent-active !important;
   }
-;
 }
 
 .MuiIconButton-root {
@@ -32,10 +30,6 @@
 
 .MuiPaperBase-root {
   width: 270px !important;
-}
-
-.MuiSvgIcon-root {
-  color: $accent-active !important;
 }
 
 .MuiFormLabel-root.Mui-focused {
@@ -62,7 +56,7 @@
   margin: 7px !important;
 }
 
-.MuiPaper-elevation6 {
+.installbar {
   background-color: $main !important;
   color: $text !important;
 }
