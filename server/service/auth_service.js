@@ -53,7 +53,6 @@ class AuthService {
         // Comparing passwords, if success 
         const isPassEquals = await bcrypt.compare(password, user.password);
         if (!isPassEquals) throw new Error(`Неправельный пароль.`);
-        await user.populate('bagBooks').execPopulate();
         const userDTO = new UserDTO(user);
 
         // Generating user access and refresh tokens 
@@ -70,7 +69,6 @@ class AuthService {
         // Finding user by stored in token id
         const user = await userModel.findOne({ _id: payload.userId });
         if (!user) throw new Error('Пользователь с сохраненым идентификатором не найден.');
-        await user.populate('bagBooks').execPopulate();
         return new UserDTO(user);
     }
 }
