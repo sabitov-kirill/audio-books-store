@@ -12,8 +12,9 @@
 import { connect } from "react-redux";
 import { createAsyncThunk, configureStore } from "@reduxjs/toolkit";
 
-import userReducer from '../models/user_model'
-import booksReducer from '../models/books_model'
+import userReducer from '../models/user_model';
+import booksReducer from '../models/books_model';
+import readerReducer from '../models/reader_model';
 
 import userApi from '../api/user_api';
 import AppView from "../views/app_view";
@@ -22,7 +23,8 @@ import AppView from "../views/app_view";
 export const store = configureStore({
   reducer: {
     books: booksReducer,
-    user: userReducer
+    user: userReducer,
+    reader: readerReducer
   },
 });
 

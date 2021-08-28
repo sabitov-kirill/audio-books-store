@@ -17,68 +17,68 @@ const readerSlice = createSlice({
     initialState:  {
         bookUrl: '',
         page: 0,
-        audio: '',
-        audioStatus: 'none'
+        pageCount: 0,
+
+        audio: undefined,
+        isAudioLoading: false,
+        audioStatus: 'playing'
     },
 
     reducers: {
         init: (state, action) => {
             state.bookUrl = action.payload.bookUrl;
+            state.pageCount = action.payload.pageCount;
 
-            const audioUrl = `${state.bookUrl}/audio_${page}.mp3`;
-            state.audio = new Audio(audioUrl);
-            state.audioStatus = 'pending';
-
-            state.audio.addEventListener('canplay', () => {
-                state.audioStatus = 'canplay';
-            });
+            // Precahe all book data
+            for (let bookPage = 0; bookPage < state.pageCount; bookPage++) {
+                fetch(`public/${state.bookUrl}/audio_${bookPage}.mp3`);
+                fetch(`public/${state.bookUrl}/page_${bookPage}.mp3`);
+            }
         },
         nextPage: (state) => {
-            state.page += 1;
+            if (state.page < state.pageCount - 1) {
+                state.page += 1;
 
-            const audioUrl = `${state.bookUrl}/audio_${page}.mp3`;
-            state.audio = new Audio(audioUrl);
-            state.audioStatus = 'pending';
-            
-            state.audio.addEventListener('canplay', () => {
-                if (state.audioStatus !== 'paused') {
-                    state.audioStatus = 'playing';
-                    state.audio.play();
-                } else {
-                    state.audioStatus = 'canplay';
+                if (state.audio) state.audio.pause();
+                if (state.page != 0) {
+                    const audioUrl = `${state.bookUrl}/audio_${state.page}.mp3`;
+                    state.audio = new Audio(audioUrl);
+                    state.isAudioLoading = true;
                 }
-            });
+            }
         },
-        previousPage: (state) => {
-            state.page -= 1;
+        prevPage: (state) => {
+            if (state.page > 0) {
+                state.page -= 1;
 
-            const audioUrl = `${state.bookUrl}/audio_${page}.mp3`;
-            state.audio = new Audio(audioUrl);
-            state.audioStatus = 'pending';
-            
-            state.audio.addEventListener('canplay', () => {
-                if (state.audioStatus !== 'paused') {
-                    state.audioStatus = 'playing';
-                    state.audio.play();
-                } else {
-                    state.audioStatus = 'canplay';
+                if (state.audio) state.audio.pause();
+                if (state.page != 0) {
+                    const audioUrl = `${state.bookUrl}/audio_${state.page}.mp3`;
+                    state.audio = new Audio(audioUrl);
+                    state.isAudioLoading = true;
                 }
-            });
+            }
+        },
+        setSuccessAudioLoad: (state) => {
+            state.isAudioLoading = false;
         },
         playAudio: (state) => {
-            if (state.audioStatus === 'canplay' || state.audioStatus !== 'paused') {
+            if (!state.isAudioLoading) {
                 state.audioStatus = 'playing';
-                state.audio.play();
+                if (state.audio) state.audio.play();
             }
         },
         pauseAudio: (state) => {
-            if (state.audioStatus === 'playing') {
+            if (!state.isAudioLoading) {
                 state.audioStatus = 'paused';
-                state.audio.pause();
+                if (state.audio) state.audio.pause();
             }
         }
     }
 });
+
+// Export action creators
+export const { init, nextPage, prevPage, setSuccessAudioLoad, playAudio, pauseAudio } = readerSlice.actions;
 
 // User slice reducer
 export default readerSlice.reducer;
