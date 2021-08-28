@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 
 import ReaderPage from "../../controllers/reader/reader_page_controller";
+import ReaderControl from "../../controllers/reader/reader_controll_controller"
 
 import './reader.scss';
 
@@ -29,6 +30,7 @@ export default function Reader(props) {
     useEffect(() => {
         if (isLoading) {
             props.audio.addEventListener('canplay', () => {
+                alert("flex");
                 if (props.audioStatus !== 'paused') {
                     props.setSuccessAudioLoad();
                     props.playAudio();
@@ -49,6 +51,7 @@ export default function Reader(props) {
 
     return (
         <div className="reader">
+            <ReaderControl />
             <ReaderPage />
         </div>
     );

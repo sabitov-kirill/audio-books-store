@@ -21,7 +21,9 @@ const readerSlice = createSlice({
 
         audio: undefined,
         isAudioLoading: false,
-        audioStatus: 'playing'
+        audioStatus: 'paused',
+
+        isControlPanel: true,
     },
 
     reducers: {
@@ -42,6 +44,7 @@ const readerSlice = createSlice({
                 if (state.audio) state.audio.pause();
                 if (state.page !== 0) {
                     const audioUrl = `${state.bookUrl}/audio_${state.page}.mp3`;
+                    // state.audioStatus = 'playing';
                     state.audio = new Audio(audioUrl);
                     state.isAudioLoading = true;
                 }
@@ -56,6 +59,9 @@ const readerSlice = createSlice({
                     const audioUrl = `${state.bookUrl}/audio_${state.page}.mp3`;
                     state.audio = new Audio(audioUrl);
                     state.isAudioLoading = true;
+                }
+                else {
+                    state.audioStatus = 'paused'
                 }
             }
         },
@@ -73,12 +79,16 @@ const readerSlice = createSlice({
                 state.audioStatus = 'paused';
                 if (state.audio) state.audio.pause();
             }
-        }
+        },
+
+        switchControlPanel: (state) => {
+            state.isControlPanel = !state.isControlPanel;
+        },
     }
 });
 
 // Export action creators
-export const { init, nextPage, prevPage, setSuccessAudioLoad, playAudio, pauseAudio } = readerSlice.actions;
+export const { init, nextPage, prevPage, setSuccessAudioLoad, playAudio, pauseAudio, switchControlPanel } = readerSlice.actions;
 
 // User slice reducer
 export default readerSlice.reducer;

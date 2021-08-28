@@ -11,7 +11,7 @@
 
 import { connect } from "react-redux";
 
-import { nextPage, prevPage } from "../../models/reader_model";
+import { nextPage, prevPage, switchControlPanel } from "../../models/reader_model";
 import ReaderPageView from "../../views/reader/reader_page_view";
 
 // Connecting component view to model with controller
@@ -21,6 +21,7 @@ export default connect(
     }),
     (dispatch) => ({
         prevPage: () => dispatch(prevPage()),
-        nextPage: () => dispatch(nextPage())
+        nextPage: () => dispatch(nextPage()),
+        switchControlPanel: () => dispatch(switchControlPanel()),
     })
 )(ReaderPageView);
