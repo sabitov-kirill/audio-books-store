@@ -21,11 +21,12 @@ import AppView from "../views/app_view";
 
 // Application global states store creation
 export const store = configureStore({
-  reducer: {
-    books: booksReducer,
-    user: userReducer,
-    reader: readerReducer
-  },
+    reducer: {
+      books: booksReducer,
+      user: userReducer,
+      reader: readerReducer
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
 
 // Creating auto re-login thunk

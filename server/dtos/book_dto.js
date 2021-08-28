@@ -14,34 +14,11 @@ class BookDTO {
     constructor(model) {
         this.id =           model.id;
         this.title =        model.title;
-        this.author =       model.author;
         this.year =         model.year;
         this.description =  model.description;
         this.price =        model.price;
-        this.imagePath =    model.imagePath;
-        this.textPath =     model.textPath;
-        this.speechPath =   model.speechPath;
-        this.spechMapPath = model.spechMapPath;
-    }
-
-    card() {
-        return {
-            id: this.id,
-            title: this.title,
-            author: this.author,
-            year: this.year,
-            description: this.description,
-            price: this.price,
-            imagePath: this.imagePath
-        }
-    }
-
-    data() {
-        return {
-            textPath: this.textPath,
-            speechPath: this.speechPath,
-            spechMapPath: this.spechMapPath
-        }    
+        this.isPremiere =   model.isPremiere;
+        this.pagesCount =   model.pagesCount;
     }
 }
 

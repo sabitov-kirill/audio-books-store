@@ -95,7 +95,7 @@ class UserController {
     async validateBookOwnership(request, result, next) {
         try {
             const { user } = request.user;
-            const { bookId } = JSON.parse(request.body);
+            const { bookId } = request.params;
 
             if (!user.ownedBooks.includes(bookId)) {
                 throw new Error('User does not own this book');

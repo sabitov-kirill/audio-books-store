@@ -16,14 +16,14 @@ import BookView from "../../views/books/book_view";
 import bookApi from '../../api/book_api';
 
 // Trunks for calling books API
-export const fetchBook = createAsyncThunk(
-    'books/fetchBook', bookApi.testFunc
+export const buyBook = createAsyncThunk(
+    'books/buyBook'
 );
 
 // Component view, connected to model
 export default connect(
     null,
     (dispatch) => ({
-        select: async (book) => await dispatch(fetchBook(book))
+        buyBook: async (book) => await dispatch(buyBook(book))
     })
 )(BookView);

@@ -11,8 +11,9 @@
 import {
     Event, LocalOffer,
     ShoppingCart, AddShoppingCart,
-    PlayArrow, AccountBox
+    PlayArrow, NewReleases
 } from '@material-ui/icons'
+import { useHistory } from 'react-router-dom';
 
 import './book.scss';
 
@@ -25,7 +26,7 @@ function Cover(props) {
         <div className='coverContainer'>
             <img 
                 onClick={props.select}
-                src={props.imagePath} 
+                src={`books/${props.bookId}/image.png`} 
                 style={activeFlag}
                 className='cover'
                 alt='Book cover' 
@@ -35,20 +36,24 @@ function Cover(props) {
 }
 
 function Tags(props) {
+    const history = useHistory();
+    const onReadRedirect = () => history.push(`/reader/${props.book.id}`);
+
     const notOwnedTags = <>
         <li className="tagItem fogged"><LocalOffer fontSize='small' />{' '}{props.book.price + ' ₽'}</li>
-        <li className="actionButton tagItem" onClick={props.select}><AddShoppingCart fontSize='small' />{' '}{'Купить'}</li>
+        <li className="actionButton tagItem"><AddShoppingCart fontSize='small' />{' '}{'Купить'}</li>
     </>
     const ownedTags = <>
         <li className="tagItem fogged" ><ShoppingCart fontSize='small' />{' '}{'Куплено'}</li>
-        <li className="actionButton tagItem" onClick={props.select}><PlayArrow fontSize='small' />{' '}{'Читать'}</li>
+        <li className="actionButton tagItem" onClick={onReadRedirect}><PlayArrow fontSize='small' />{' '}{'Читать'}</li>
     </>
+    const premiereTags = 
+        <li className="tagItem fogged" ><NewReleases fontSize='small' />{' '}{'Скоро...'}</li>
 
     return (
         <ul className="tagsContainer">
-            <li className="tagItem fogged"><AccountBox fontSize='small' />{' '}{props.book.author}</li>
             <li className="tagItem fogged"><Event fontSize='small' />{' '}{props.book.year + ' г.'}</li>
-            {props.isOwned ? ownedTags : notOwnedTags}
+            {props.book.isPremiere ? premiereTags : props.isOwned ? ownedTags : notOwnedTags}
         </ul>
     );
 }
@@ -67,7 +72,7 @@ function Text(props) {
 export default function BookView(props) {
     return (
         <div className='cardContainer shadow'>
-            <Cover isActive={props.isOwned} imagePath={props.book.imagePath} select={props.select} />
+            <Cover isActive={props.isOwned} bookId={props.book.id} select={props.select} />
             <Text book={props.book} isOwned={props.isOwned} select={props.select} />          
         </div>
     );

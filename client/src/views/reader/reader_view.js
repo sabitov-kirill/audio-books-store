@@ -9,18 +9,25 @@
  *
  */
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
+import { useParams, Redirect } from 'react-router-dom';
+
 import ReaderPage from "../../controllers/reader/reader_page_controller";
 
 import './reader.scss';
 
 export default function Reader(props) {
     const initSelf = props.init;
+    const isLoading = props.isAudioLoading;
+    const { bookId } = useParams();
+    const book = props.books.find((book) => book.id === bookId)
+
     useEffect(() => {
-        initSelf({ bookUrl: 'books/Eamneaequebonorum', pageCount: 15 })
-    }, [initSelf]);
+        if (book) initSelf({ bookUrl: `/books/${bookId}`, pagesCount: book.pagesCount });
+        return props.pauseAudio;
+    }, []);
     useEffect(() => {
-        if (props.isAudioLoading) {
+        if (isLoading) {
             props.audio.addEventListener('canplay', () => {
                 if (props.audioStatus !== 'paused') {
                     props.setSuccessAudioLoad();
@@ -28,9 +35,17 @@ export default function Reader(props) {
                 } else {
                     props.setSuccessAudioLoad();
                 }
-            })
+            });
+
+            props.audio.addEventListener('ended', () => {
+                props.nextPage();
+            });
         }
-    }, [props.isAudioLoading]);
+    }, [isLoading]);
+
+    if (!book) return <Redirect to='/' />
+    if (props.isLoading) return <h1>Loading account data...</h1>
+    if (!props.ownedBooks.includes(bookId)) return <Redirect to='/' />
 
     return (
         <div className="reader">

@@ -23,6 +23,15 @@ body {
 	color: $text;
 }
 
+.column {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	gap: 5px;
+	padding: 5px;
+	overflow: scroll;
+}
+
 .actionButton {
 	border-radius: 3px;
 	padding: 2.5px 10px;
@@ -34,7 +43,7 @@ body {
 
 	&:hover {
 		background-color: $accent-active !important;
-		color: white;
+		color: white !important;
 	}
 }
 

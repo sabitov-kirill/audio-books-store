@@ -14,7 +14,7 @@ export default function ReaderPageView(props) {
     const handlePageMove = (event) => {
         console.log('flex');
         if      (event.key === "ArrowRight") props.nextPage();
-        else if (event.key === "ArrowLeft") props.prevPage();
+        else if (event.key === "ArrowLeft")  props.prevPage();
     }
 
     return (

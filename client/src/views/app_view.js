@@ -19,10 +19,10 @@ import "./mui_custom.scss";
 
 // Application pages routes
 const pagesRoutes = [
-    { path: '/authorization', isHeader: false, Component: React.lazy(() => import('./authorization/auth_form')) },
-    { path: '/admin',         isHeader: false, Component: React.lazy(() => import('../controllers/books/admin_books_creation_controller')) },
-    { path: '/',              isHeader: true,  Component: React.lazy(() => import('../controllers/books/books_page_controller')) },
-    { path: '/reader',        isHeader: false, Component: React.lazy(() => import('../controllers/reader/reader_controller')) },
+    { path: '/authorization',  isHeader: false, Component: React.lazy(() => import('./authorization/auth_form')) },
+    { path: '/admin',          isHeader: false, Component: React.lazy(() => import('../controllers/books/admin_books_creation_controller')) },
+    { path: '/reader/:bookId', isHeader: false, Component: React.lazy(() => import('../controllers/reader/reader_controller')) },
+    { path: '/',               isHeader: true,  Component: React.lazy(() => import('../controllers/books/books_page_controller')) },
 ];
 
 // Application main component

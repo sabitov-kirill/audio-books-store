@@ -17,7 +17,7 @@ const readerSlice = createSlice({
     initialState:  {
         bookUrl: '',
         page: 0,
-        pageCount: 0,
+        pagesCount: 0,
 
         audio: undefined,
         isAudioLoading: false,
@@ -27,20 +27,20 @@ const readerSlice = createSlice({
     reducers: {
         init: (state, action) => {
             state.bookUrl = action.payload.bookUrl;
-            state.pageCount = action.payload.pageCount;
+            state.pagesCount = action.payload.pagesCount;
 
             // Precahe all book data
-            for (let bookPage = 0; bookPage < state.pageCount; bookPage++) {
-                fetch(`public/${state.bookUrl}/audio_${bookPage}.mp3`);
-                fetch(`public/${state.bookUrl}/page_${bookPage}.mp3`);
+            for (let bookPage = 0; bookPage < state.pagesCount; bookPage++) {
+                fetch(`${state.bookUrl}/audio_${bookPage}.mp3`);
+                fetch(`${state.bookUrl}/page_${bookPage}.mp3`);
             }
         },
         nextPage: (state) => {
-            if (state.page < state.pageCount - 1) {
+            if (state.page < state.pagesCount - 1) {
                 state.page += 1;
 
                 if (state.audio) state.audio.pause();
-                if (state.page != 0) {
+                if (state.page !== 0) {
                     const audioUrl = `${state.bookUrl}/audio_${state.page}.mp3`;
                     state.audio = new Audio(audioUrl);
                     state.isAudioLoading = true;
@@ -52,7 +52,7 @@ const readerSlice = createSlice({
                 state.page -= 1;
 
                 if (state.audio) state.audio.pause();
-                if (state.page != 0) {
+                if (state.page !== 0) {
                     const audioUrl = `${state.bookUrl}/audio_${state.page}.mp3`;
                     state.audio = new Audio(audioUrl);
                     state.isAudioLoading = true;

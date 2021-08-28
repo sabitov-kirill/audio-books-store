@@ -10,6 +10,7 @@
  *
  */
 
+const path = require('path');
 const multer = require("multer");
 const fs = require("fs")
 
@@ -33,50 +34,45 @@ class BookService {
                 cb(null, path);
             },
             filename: function (request, file, cb) {
-                // Creating file new by adding extestion to its fieldname
-                let extArray = file.mimetype.split('/');
-                let extension = extArray[extArray.length - 1];
-                const name = `${file.fieldname}.${extension}`
-
-                cb(null, name);
+                cb(null, file.originalname);
             }
         });    
         this.fields = [
-            { name: 'image'     },
-            { name: 'text'      },
-            { name: 'speech'    },
-            { name: 'speechMap' }
+            { name: 'image'  },
+            { name: 'pages'  },
+            { name: 'audios' }
         ];
         this.createFiles = multer({ storage: this.storage }).fields(this.fields);
     }
 
-    async create(title, author, year, description, price, files) {
-        await bookModel.create({
+    async create(title, year, description, price, isPremiere, pagesCount, files) {
+        const book = await bookModel.create({
             title,
-            author,
             year,
             description,
             price,
-            imagePath: files.image[0].path.slice(14),
-            textPath: files.text[0].path.slice(14),
-            speechPath: files.speech[0].path.slice(14),
-            speechMapPath: files.speechMap[0].path.slice(14)            
+            isPremiere,
+            pagesCount     
         });
+
+        // Rename directory with book files
+        const path = files.pages[0].destination;
+
+        let splited_path = path.split('/');
+        splited_path[splited_path.length - 2] = book._id; 
+        const new_path = splited_path.join('/');
+        
+        fs.rename('../../' + path, new_path);
     }
 
-    async data(id) {
-        const book = await bookModel.find({ _id: id });
-        if (!book) throw Error('Такой книги не существует.');
-
-        const bookDTO = new BookDTO(book);
-        return new bookDTO.data();
+    filePath(file) {
+        return path.resolve(__dirname, `../${this.booksStorePath}/${file}`, 'index.html')
     }
 
     async cards() {
         const books = await bookModel.find({});
         const booksCards = books.map(book => {
-            const bookDTO = new BookDTO(book);
-            return bookDTO.card();
+            return new BookDTO(book);
         })
         return booksCards;
     }

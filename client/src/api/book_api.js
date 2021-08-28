@@ -10,10 +10,6 @@
  */
 
 const bookApi = {
-    async testFunc(book) {
-        return book; // lol idk why
-    },
-
     async fetchBooksCards() {
         const response = await fetch('api/books/cards', {
             method: "GET",

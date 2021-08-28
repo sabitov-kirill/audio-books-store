@@ -40,9 +40,6 @@ class Server {
                                           this.userController.validateAdmin.bind(this.userController),
                                           this.bookController.uploadFiles,
                                           this.bookController.create.bind(this.bookController));
-        this.router.get('/books/data',    this.userController.validate.bind(this.bookController),
-                                          this.userController.validateBookOwnership.bind(this.bookController),
-                                          this.bookController.sendData.bind(this.bookController));
         this.router.get('/books/cards',   this.bookController.sendCards.bind(this.bookController));
     }
 

@@ -24,9 +24,8 @@ class BookController {
     async create(request, result) {
         try {
             // const { title, author, description, price } = request.body;
-            const { title, author, year, description, price } = request.body;
-            const files = request.files;
-            await this.bookService.create(title, author, Number(year), description, Number(price), files);
+            const { title, year, description, price, pagesCount, isPremiere } = request.body;
+            await this.bookService.create(title, Number(year), description, Number(price), isPremiere, pagesCount, request.files);
             
             result.sendStatus(200);
         } catch (error) {
@@ -36,15 +35,13 @@ class BookController {
 
     async sendData(request, result) {
         try {
-            const { id } = JSON.parse(request.body);
-            const book = await this.bookService.data(id);
-
-            result.status(200).json(book);
+            const { file } = request.parametrs; 
+            result.sendFile(this.bookService.filePath(file));
         } catch (error) {
             result.status(400).json({ error: error.message });
         }
     }
-
+    
     async sendCards(request, result) {
         try {
             const books = await this.bookService.cards();

@@ -11,66 +11,72 @@
  *
  */
 
-import { useState, createRef } from 'react'
+import { useState, createRef } from 'react';
 import { Redirect } from "react-router-dom";
 
 export default function AdminBooksCreationView(props) {
     const [error, setError] = useState('');
+    const [isPremiere, setIsPremiere] = useState(false);
     const form = createRef();
-    const image = createRef();
-    const text = createRef();
-    const speech = createRef();
-    const speechMap = createRef();
+    
+    const onIsPremiereChange = (e) => {
+        setIsPremiere(isPremiere => !isPremiere);
+    }
  
     const onUploadBook = async (e) => {
-        e.preventDefault();
         try {
+            e.preventDefault();
             const formData = new FormData(form.current);
-            for(var value of formData.values()) {
-                if (!value) throw new Error('Fill all fields before submit.');
-            }
+            formData.append('isPremiere', isPremiere)
 
             const response = await fetch('/api/books/create', {
                 method: 'POST',
                 body: formData
             });
-     
+
             const result = await response.json();
             if (!response.ok) throw new Error(result.error);
         } catch (e) {
             setError(e.message);
         }
-    }
+    }        
 
-    if (props.isLoading) return <h1>Loading accoutn data...</h1>
+    if (props.isLoading) return <h1>Loading account data...</h1>
     if (!props.isAdmin) return <Redirect to='/'/>
 
     return (
         <form onSubmit={onUploadBook} ref={form} >
-            <div className="d-grid gap-1 p-3">
- 
+            <div className='column' style={{height: '100vh', flexWrap: 'nowrap'}} >
                 <input type='text' name='title' placeholder='Title' />
-                <input type='text' name='author' placeholder='Author' />
                 <input type='text' name='year' placeholder='Year' />
                 <textarea type='text' name='description' placeholder='Description' />
-                <input type='text' name='price' placeholder='Price' className='mb-3' />
+                <input type='text' name='price' placeholder='Price' />
+                <input type='text' name='pagesCount' placeholder='Pages Count' />
+                <label>
+                    Is Premiere:{' '}
+                    <input type='checkbox' name='isPremiere' onChange={onIsPremiereChange}/>
+                </label>
+                <div className='fogged' style={{height: 'fir-content', display: 'inline-block'}} >
+                    <h1>Cover Image</h1>
+                    <label>
+                        Select Cover Image:{' '}
+                        <input type='file' name='image' />
+                    </label>
+                </div>
 
-                <label>
-                    Select Book Image:{' '}
-                    <input type='file' name='image' ref={image} />
-                </label>
-                <label>
-                    Select Book Text:{' '}
-                    <input type='file' name='text' ref={text} />
-                </label>
-                <label>
-                    Select Book Speech:{' '}
-                    <input type='file' name='speech' ref={speech} />
-                </label>
-                <label>
-                    Select Books Speech Map:{' '}
-                    <input type='file' name='speechMap' className='mb-3' ref={speechMap} />
-                </label>
+                {!isPremiere && 
+                    <div className='fogged' style={{height: 'fir-content', display: 'inline-block'}} >
+                        <h1>Pages Data</h1>
+                        <label>
+                            Select Pages Images:{' '}
+                            <input type='file' name='pages' multiple />
+                        </label>
+                        <label>
+                            Select Pages Audio:{' '}
+                            <input type='file' name='audios' multiple />
+                        </label>
+                    </div>
+                }
 
                 {error !== '' && <div className="alert alert-danger mb-3" role="alert">{error}</div>}
 
