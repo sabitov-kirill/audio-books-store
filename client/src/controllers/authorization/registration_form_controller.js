@@ -17,7 +17,7 @@ import RegistrationFormView from "../../views/authorization/registration_form_vi
 
 // Creating registration thunk
 export const userRegister = createAsyncThunk(
-    'authorization/userRegister',
+    'user/userRegister',
     userApi.registration
 );
 

@@ -18,14 +18,8 @@ import './header.scss';
 
 function Logo(props) {
     return (
-        <div className='headerItem'>
-        </div>
-    );
-}
-
-function Brand(props) {
-    return (
-        <div className='headerItem'>
+        <div className='logo'>
+            <img src='/images/512.png' />
         </div>
     );
 }
@@ -33,7 +27,9 @@ function Brand(props) {
 function UserGreeting(props) {
     return (
         <div className='greetings fogged' >
-            Добро пожаловать,<AccountBox />{props.userName}!
+            <p className='extra'>Добро пожаловать,</p>
+            <AccountBox />{props.userName}
+            <p className='extra'>!</p>
         </div>
     );
 }
@@ -47,12 +43,12 @@ function UserActions(props) {
     const LoginButton = 
         <button className='actionButton' onClick={redirectToLogin} >
             <VpnKey />
-            <p>Войти</p>   
+            <p className='actionButtonText'>Войти</p>   
         </button>
     const LogoutButton = 
         <button className='actionButton' onClick={props.userLogout} >
             <ExitToApp />
-            <p>Выйти</p>    
+            <p className='actionButtonText'>Выйти</p>    
         </button>
     const Action = props.isLoggedIn ? LogoutButton : LoginButton;
 
@@ -66,7 +62,6 @@ export default function HeaderView(props) {
             <UserActions isLoggedIn={props.isLoggedIn} userLogout={props.userLogout} />
             {props.isLoggedIn && <UserGreeting userName={props.userName} />}
             <Logo />
-            <Brand />
         </div>
     );
 }

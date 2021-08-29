@@ -26,7 +26,9 @@ export default function Reader(props) {
     useEffect(() => {
         if (book) {
             initSelf({ bookId: bookId, pagesCount: book.pagesCount });
-            props.flipNotify();
+
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile && (window.innerHeight > window.innerWidth)) props.flipNotify();
         }
         return props.close;
     }, []);
@@ -53,8 +55,8 @@ export default function Reader(props) {
 
     return (
         <div className="reader">
-            <ReaderControl />
             <ReaderPage />
+            <ReaderControl />
         </div>
     );
 }

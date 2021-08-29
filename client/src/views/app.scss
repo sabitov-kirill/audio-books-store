@@ -41,9 +41,18 @@ body {
 	cursor: pointer !important;
 	border-style: none;
 
+    .actionButtonText {
+        color: $text;
+        font-size: 14px;
+    }
+
 	&:hover {
 		background-color: $accent-active !important;
 		color: white !important;
+
+        .actionButtonText {
+            color: white;
+        }
 	}
 }
 
@@ -52,7 +61,15 @@ body {
 	transition: color 0.5s ease !important;
 	cursor: pointer !important;
 
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+
 	&:hover {
+        background-color: transparent;
 		color: $accent-active !important;
 	}
 }

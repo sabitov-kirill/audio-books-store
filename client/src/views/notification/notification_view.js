@@ -24,6 +24,11 @@ function dispatch(code) {
                 message: 'Test',
                 type: 'success',
             };
+        case 'flip':
+            return {
+                message: 'Пожалуйста, переверните девайс. Так читать будет удобнее.',
+                type: 'info',
+            };
         default:
             return {
                 message: 'Кто-то наклал...',
@@ -41,7 +46,8 @@ class NotificationView extends Component {
         this.key = 0;
         this.id = 0;
     }
-    handleNotify = () => {
+
+    componentDidUpdate() {
         const {message, type} = dispatch(this.props.notification);
         this.id = this.props.id;
         if (type !== 'cgsgForever') {
@@ -57,11 +63,10 @@ class NotificationView extends Component {
                     variant: type,
                 });
         }
-    };
+    }
 
     render() {
         console.log(this.props.notification);
-        this.handleNotify();
         return (<></>);
     };
 }

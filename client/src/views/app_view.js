@@ -22,7 +22,7 @@ import NotificationView from "../controllers/notification/notification_controlle
 
 // Application pages routes
 const pagesRoutes = [
-    { path: '/authorization', isHeader: false, Component: React.lazy(() => import('../controllers/authorization/auth_form_controller')) },
+    { path: '/authorization',  isHeader: false, Component: React.lazy(() => import('../controllers/authorization/auth_form_controller')) },
     { path: '/admin',          isHeader: false, Component: React.lazy(() => import('../controllers/books/admin_books_creation_controller')) },
     { path: '/reader/:bookId', isHeader: false, Component: React.lazy(() => import('../controllers/reader/reader_controller')) },
     { path: '/',               isHeader: true,  Component: React.lazy(() => import('../controllers/books/books_page_controller')) },

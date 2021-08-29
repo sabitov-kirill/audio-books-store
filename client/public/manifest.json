@@ -99,10 +99,5 @@
       "sizes": "256x256 16x16 24x24 32x32 64x64 72x72 96x96 128x128",
       "type": "image/x-icon"
     }
-  ],
-  "related_applications": [
-    {
-      "platform": "web"
-    }
   ]
 }

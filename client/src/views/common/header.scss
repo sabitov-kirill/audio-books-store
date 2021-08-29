@@ -13,13 +13,21 @@
     height: 30px;
     padding: 10px;
 
+    .logo {
+        height: 30px;
+    }
+
     .greetings {
-        display: none;
+        display: flex;
         flex-direction: row; 
         align-items: center;
         
         height: 100%;
         padding: 0 5px;
+
+        .extra {
+            display: none;
+        }
     }
 
     .actionButton {
@@ -33,6 +41,18 @@
         height: 100%;
         padding: 0 5px;
     }
+
+    .actionButtonText {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 568px) {
+    .header {
+        .actionButtonText {
+            display: unset;
+        }
+    }
 }
 
 @media screen and (min-width: 768px) {
@@ -41,12 +61,14 @@
         height: 35px;
         padding: 15px;
 
-        .greetings {
-            display: flex;
+        .logo {
+            height: 35px;
         }
 
-        .actionText {
-            display: unset;
-        }
+        .greetings {
+            .extra {
+                display: unset;
+            }
+        } 
     }
 }

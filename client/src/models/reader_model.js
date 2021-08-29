@@ -55,7 +55,7 @@ const readerSlice = createSlice({
         },
         nextPage: (state) => {
             if (state.page < state.pagesCount - 1) {
-                state.page += 1;
+                state.page = Number(state.page) + 1;
 
                 if (state.audio) state.audio.pause();
                 if (state.page !== 0) {
@@ -68,7 +68,7 @@ const readerSlice = createSlice({
         },
         prevPage: (state) => {
             if (state.page > 0) {
-                state.page -= 1;
+                state.page = Number(state.page) - 1;
 
                 if (state.audio) state.audio.pause();
                 if (state.page !== 0) {

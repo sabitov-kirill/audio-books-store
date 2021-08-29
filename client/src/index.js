@@ -21,12 +21,10 @@ import App, { store } from './controllers/app_controller';
 
 // Rendering main component witch store provider.
 ReactDOM.render(
-  <React.StrictMode>
     <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+        <App />
+    </Provider>,
+    document.getElementById('root')
 );
 
 serviceWorkerRegistration.register();

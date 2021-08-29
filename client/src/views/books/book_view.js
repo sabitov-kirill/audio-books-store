@@ -36,16 +36,13 @@ function Cover(props) {
 }
 
 function Tags(props) {
-    const history = useHistory();
-    const onReadRedirect = () => history.push(`/reader/${props.book.id}`);
-
     const notOwnedTags = <>
         <li className="tagItem fogged"><LocalOffer fontSize='small' />{' '}{props.book.price + ' ₽'}</li>
-        <li className="actionButton tagItem"><AddShoppingCart fontSize='small' />{' '}{'Купить'}</li>
+        <li className="actionButton tagItem" onClick={props.select}><AddShoppingCart fontSize='small' />{' '}{'Купить'}</li>
     </>
     const ownedTags = <>
         <li className="tagItem fogged" ><ShoppingCart fontSize='small' />{' '}{'Куплено'}</li>
-        <li className="actionButton tagItem" onClick={onReadRedirect}><PlayArrow fontSize='small' />{' '}{'Читать'}</li>
+        <li className="actionButton tagItem" onClick={props.select}><PlayArrow fontSize='small' />{' '}{'Читать'}</li>
     </>
     const premiereTags = 
         <li className="tagItem fogged" ><NewReleases fontSize='small' />{' '}{'Скоро...'}</li>
@@ -61,7 +58,7 @@ function Tags(props) {
 function Text(props) {
     return (
         <div className='textContainer'>
-            <h1 className='title actionText' >{props.book.title}</h1>            
+            <h1 className='actionText' onClick={props.select} >{props.book.title}</h1>            
             <div className='separator'></div>            
             <p className='descripion '>{props.book.description}</p>
             <Tags book={props.book} isOwned={props.isOwned} select={props.select} />
@@ -70,10 +67,15 @@ function Text(props) {
 }
 
 export default function BookView(props) {
+    const history = useHistory();
+    const onReadRedirect = () => history.push(`/reader/${props.book.id}`);
+    const onBuyRedirect = () => history.push(`/buy-book/${props.book.id}`);
+    const select = props.isOwned ? onReadRedirect : onBuyRedirect;
+
     return (
         <div className='cardContainer shadow'>
-            <Cover isActive={props.isOwned} bookId={props.book.id} select={props.select} />
-            <Text book={props.book} isOwned={props.isOwned} select={props.select} />          
+            <Cover isActive={props.isOwned} bookId={props.book.id} select={select} />
+            <Text book={props.book} isOwned={props.isOwned} select={select} />          
         </div>
     );
 }
