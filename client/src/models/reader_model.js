@@ -12,7 +12,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import * as cookies from 'cookie'
 
-// App store user slice
+// App store authorization slice
 const readerSlice = createSlice({
     name: 'reader',
     initialState:  {

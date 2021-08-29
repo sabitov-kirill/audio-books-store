@@ -16,7 +16,7 @@ import userApi from '../../api/user_api';
 import LoginFormView from "../../views/authorization/login_form_view";
 
 // Creating login thunk
-const userReLogin = createAsyncThunk('user/userLogin', userApi.login);
+const userReLogin = createAsyncThunk('authorization/userLogin', userApi.login);
 
 // Connecting component view to model with controller
 export default connect(

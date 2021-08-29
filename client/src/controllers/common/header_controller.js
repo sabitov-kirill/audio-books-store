@@ -17,7 +17,7 @@
  
  // Creating auto re-login thunk
  const userLogout = createAsyncThunk(
-    'user/userLogout',
+    'authorization/userLogout',
     userApi.logout
  );
  

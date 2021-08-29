@@ -9,14 +9,19 @@
  *
  */
 
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice, nanoid} from "@reduxjs/toolkit";
 
 const notificationSlice = createSlice({
     name: 'notification',
-    initialState: '',
+    initialState: {
+        code: '',
+        id: 0,
+    },
     reducers: {
-        notify(state, code) {
-            state = code.payload
+        notify(state, action){
+            state.code = action.payload.code;
+            state.id = nanoid();
+            console.log(state);
         },
     },
     extraReducers: {},

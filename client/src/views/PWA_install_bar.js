@@ -13,7 +13,7 @@ export default function InstallPWA() {
             e.preventDefault();
             // Stash the event so it can be triggered later.
             deferredPrompt = e;
-            // Update UI notify the user they can install the PWA
+            // Update UI notify the authorization they can install the PWA
             setInstallable(true);
             setOpen(true);
 
@@ -36,7 +36,7 @@ export default function InstallPWA() {
         setInstallable(false);
         // Show the install prompt
         deferredPrompt.prompt();
-        // Wait for the user to respond to the prompt
+        // Wait for the authorization to respond to the prompt
         deferredPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
                 console.log('User accepted the install prompt');

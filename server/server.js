@@ -29,11 +29,11 @@ class Server {
         this.router = new Router();
 
         // Authentication requests handle
-        this.router.post('/user/create',  this.userController.add.bind(this.userController));
-        this.router.post('/user/access',  this.userController.access.bind(this.userController));
-        this.router.get('/user/reaccess', this.userController.validate.bind(this.userController), 
+        this.router.post('/authorization/create',  this.userController.add.bind(this.userController));
+        this.router.post('/authorization/access',  this.userController.access.bind(this.userController));
+        this.router.get('/authorization/reaccess', this.userController.validate.bind(this.userController),
                                           this.userController.reAccess.bind(this.userController));
-        this.router.get('/user/leave',    this.userController.leave.bind(this.userController));
+        this.router.get('/authorization/leave',    this.userController.leave.bind(this.userController));
 
         // Book interactions requests
         this.router.post('/books/create', this.userController.validate.bind(this.userController),

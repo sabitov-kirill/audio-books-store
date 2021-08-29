@@ -26,7 +26,7 @@ class AuthService {
         // Creatign password hash to store
         const hashedPassword = await bcrypt.hash(password, 4);
 
-        // Creating new user document, creating its transfer object
+        // Creating new authorization document, creating its transfer object
         const user = await userModel.create({
             name,
             login,
@@ -38,15 +38,15 @@ class AuthService {
             });
         const userDTO = new UserDTO(user);
 
-        // Generating user access and refresh tokens
+        // Generating authorization access and refresh tokens
         const accessToken = this.tokenSerice.generate({ userId: user._id });
 
-        // Return user info object
+        // Return authorization info object
         return { user: userDTO, accessToken };
     }
 
     async login(login, password) {
-        // Check if user with passed login exist
+        // Check if authorization with passed login exist
         const user = await userModel.findOne({ login });
         if (!user) throw new Error('Неправильный логин. Пользователь не найден.');
 
@@ -55,18 +55,18 @@ class AuthService {
         if (!isPassEquals) throw new Error(`Неправельный пароль.`);
         const userDTO = new UserDTO(user);
 
-        // Generating user access and refresh tokens 
+        // Generating authorization access and refresh tokens
         const accessToken = this.tokenSerice.generate({ userId: user._id });
 
-        // Return user info object
+        // Return authorization info object
         return { user: userDTO, accessToken };
     }
 
     async validate(accessToken) {
-        // Check if user accessToken is valid and generated on this server
+        // Check if authorization accessToken is valid and generated on this server
         const payload = this.tokenSerice.validate(accessToken);
 
-        // Finding user by stored in token id
+        // Finding authorization by stored in token id
         const user = await userModel.findOne({ _id: payload.userId });
         if (!user) throw new Error('Пользователь с сохраненым идентификатором не найден.');
         return new UserDTO(user);
