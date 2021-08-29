@@ -48,12 +48,13 @@ export default function InstallPWA() {
 
     return (
         <Snackbar
+            className="installbar"
             anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'center',
             }}
             open={open && installable}
-            autoHideDuration={60000}
+            autoHideDuration={6000}
             onClose={handleClose}
             message="Вы можете установить наше приложение, что бы использовать оффлайн!"
             action={

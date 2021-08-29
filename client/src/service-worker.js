@@ -39,6 +39,14 @@ self.addEventListener('message', (event) => {
 
 // Any other custom service worker logic can go here.
 
+//Кэшируем google шрифты
+registerRoute(
+    ({url}) => url.origin === 'https://fonts.googleapis.com',
+    new StaleWhileRevalidate({
+        cacheName: 'google-fonts-stylesheets',
+    })
+);
+
 // Кэшируем изображения
 registerRoute(
     // проверяем, что цель запроса - изображение

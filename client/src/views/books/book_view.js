@@ -61,7 +61,7 @@ function Tags(props) {
 function Text(props) {
     return (
         <div className='textContainer'>
-            <h1 onClick={props.select} className='title actionText' >{props.book.title}</h1>            
+            <h1 className='title actionText' >{props.book.title}</h1>            
             <div className='separator'></div>            
             <p className='descripion '>{props.book.description}</p>
             <Tags book={props.book} isOwned={props.isOwned} select={props.select} />

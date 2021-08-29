@@ -11,6 +11,7 @@
 
 import { connect } from "react-redux";
 
+import { notify } from "../../models/notification_model";
 import { 
     init, close,
     setSuccessAudioLoad, playAudio,
@@ -33,6 +34,7 @@ export default connect(
         close: () => dispatch(close()),
         setSuccessAudioLoad: () => dispatch(setSuccessAudioLoad()),
         playAudio: () => dispatch(playAudio()),
-        nextPage: () => dispatch(nextPage())
+        nextPage: () => dispatch(nextPage()),
+        flipNotify: () => dispatch(notify({ code: 'flip' }))
     })
 )(ReaderView);

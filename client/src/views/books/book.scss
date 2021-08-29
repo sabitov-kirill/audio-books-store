@@ -57,6 +57,13 @@
             text-overflow: ellipsis;
             text-align: justify;
             margin: 0;
+
+            &::-webkit-scrollbar-thumb {
+                background-color: $accent;
+                &:hover {
+                    background-color: $accent-active;
+                }
+            }
         }
 
         .tagsContainer {

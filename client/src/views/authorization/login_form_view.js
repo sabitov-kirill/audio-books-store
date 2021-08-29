@@ -100,7 +100,7 @@ export default function LoginFormView(props) {
                     }
                     endAdornment={
                         <InputAdornment position="end">
-                            <AccountCircle/>
+                            <AccountCircle className="accActCol" />
                         </InputAdornment>
                     }
                     onChange={handleChange('login')}
@@ -124,6 +124,7 @@ export default function LoginFormView(props) {
                     endAdornment={
                         <InputAdornment position="end">
                             <IconButton
+                                className="accActCol"
                                 aria-label="toggle password visibility"
                                 onClick={handleClickShowPassword}
                                 onMouseDown={handleMouseDownPassword}

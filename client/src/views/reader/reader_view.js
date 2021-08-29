@@ -24,7 +24,10 @@ export default function Reader(props) {
     const book = props.books.find((book) => book.id === bookId)
 
     useEffect(() => {
-        if (book) initSelf({ bookId: bookId, pagesCount: book.pagesCount });
+        if (book) {
+            initSelf({ bookId: bookId, pagesCount: book.pagesCount });
+            props.flipNotify();
+        }
         return props.close;
     }, []);
     useEffect(() => {

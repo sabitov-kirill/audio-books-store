@@ -13,9 +13,12 @@
 
 import React,  { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { SnackbarProvider } from "notistack";
+
+import "./mui_custom.scss";
 import InstallPWA from "./PWA_install_bar";
 import Header from '../controllers/common/header_controller';
-import "./mui_custom.scss";
+import NotificationView from "../controllers/notification/notification_controller";
 
 // Application pages routes
 const pagesRoutes = [
@@ -33,6 +36,9 @@ export default function AppView(props) {
     return (
         <Router>
             <InstallPWA />
+            <SnackbarProvider>
+                <NotificationView />
+            </SnackbarProvider>
 
             <React.Suspense fallback={<h1>Loading</h1>}>
             <Switch>
