@@ -21,7 +21,6 @@ const notificationSlice = createSlice({
         notify(state, action){
             state.code = action.payload.code;
             state.id = nanoid();
-            console.log(state);
         },
     },
     extraReducers: {},

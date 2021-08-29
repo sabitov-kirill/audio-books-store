@@ -155,7 +155,7 @@ export default function LoginFormView(props) {
             <Button
                 onClick={onLogin}
                 type='submit'
-                disabled={props.isLoginPending}
+                disabled={props.isLoginPending || props.isOffline}
             >
                 {props.isLoginPending ? 'Вход...' : 'Войти'}
             </Button>

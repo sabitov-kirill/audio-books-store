@@ -27,7 +27,7 @@ function LoginForm(props) {
         >
             <h1 className="accActCol start-margin">Вход</h1>
             <div className="authForm">
-                <LoginFormController />
+                <LoginFormController isOffline={props.isOffline} />
             </div>
             <p className="text">
                 {"Ещё не зарегестрированы? "}
@@ -51,7 +51,7 @@ function RegisterForm(props) {
         >
             <h1 className="accActCol start-margin">Регистрация</h1>
             <div  className="authForm">
-                <RegistrationFormController />
+                <RegistrationFormController isOffline={props.isOffline} />
             </div>
             <p className="text">
                 {"Уже есть аккаунт? "}
@@ -70,20 +70,17 @@ export default function AuthForm(props) {
     const [isOffline, setOnline] = useState(false);
 
     useEffect(() => {
-        const goOnline = () => setOnline(false)
         const goOffline = () => setOnline(true)
 
-        window.addEventListener('offline', goOffline);
-        window.addEventListener('online', goOnline);
+        window.addEventListener('offline', () => {
+            goOffline();
+            props.offline()
+        });
 
         return () => {
             window.removeEventListener('offline', goOffline);
-            window.removeEventListener('online', goOnline);
         }
     }, []);
-
-    if (isOffline)
-        props.offline();
 
     // Evens callbacks handle
     const onSetLogin = () => {
@@ -96,7 +93,7 @@ export default function AuthForm(props) {
 
     return (
         isLoginForm
-            ? <LoginForm onSetRegister={onSetRegister} />
-            : <RegisterForm onSetLogin={onSetLogin} />
+            ? <LoginForm isOffline={isOffline} onSetRegister={onSetRegister} />
+            : <RegisterForm isOffline={isOffline} onSetLogin={onSetLogin} />
     );
 }

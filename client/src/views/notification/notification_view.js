@@ -9,15 +9,15 @@
  *
  */
 
-import React, {Component} from "react";
-import { withSnackbar } from 'notistack';
+import React, {Component, useEffect} from "react";
+import { useSnackbar } from 'notistack';
 
 function dispatch(code) {
     switch (code) {
         case 'offlineAuth':
             return {
                 message: 'Для авторизации нужно подключение к интернету.',
-                type: 'info',
+                type: 'warning',
             };
         case 'test':
             return {
@@ -37,21 +37,14 @@ function dispatch(code) {
     }
 }
 
-class NotificationView extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: true,
-        }
-        this.key = 0;
-        this.id = 0;
-    }
+export default function(props) {
+    const id = props.id;
+    const { enqueueSnackbar } = useSnackbar();
 
-    componentDidUpdate() {
-        const {message, type} = dispatch(this.props.notification);
-        this.id = this.props.id;
+    useEffect(() => {
+        const {message, type} = dispatch(props.notification);
         if (type !== 'cgsgForever') {
-            this.key = this.props.enqueueSnackbar(message,
+            const key = enqueueSnackbar(message,
                 {
                     anchorOrigin: {
                         vertical: 'top',
@@ -63,12 +56,7 @@ class NotificationView extends Component {
                     variant: type,
                 });
         }
-    }
+    }, [props.id, props.code]);
 
-    render() {
-        console.log(this.props.notification);
-        return (<></>);
-    };
+    return (<></>);
 }
-
-export default withSnackbar(NotificationView);

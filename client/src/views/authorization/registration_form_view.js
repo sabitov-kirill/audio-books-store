@@ -193,11 +193,11 @@ export default function RegistrationFormView(props) {
 
             <Grid item>
             <Button
-                variant="outline"
+                variant="outlined"
                 onClick={onRegister}
                 type='submit'
                 style={{ width: '100%'}}
-                disabled={props.isRegisterPending}
+                disabled={props.isRegisterPending || props.isOffline}
             >
                 {props.isRegisterPending ? 'Регистрация...' : 'Зарегестрироваться'}
             </Button>

@@ -18,9 +18,7 @@ import './header.scss';
 
 function Logo(props) {
     return (
-        <div className='logo'>
-            <img src='/images/512.png' />
-        </div>
+        <img className='logo' src='/images/logo.svg' />
     );
 }
 
