@@ -75,3 +75,12 @@
         } 
     }
 }
+
+.MuiSnackbarContent-root {
+    background-color: $main !important;
+    color: $text !important;
+}
+
+.instl {
+    border-radius: $def-border-radius !important;
+}

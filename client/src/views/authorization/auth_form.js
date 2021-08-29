@@ -18,6 +18,11 @@ import './auth.scss'
 
 // Component to render if login sign in selected
 function LoginForm(props) {
+    useEffect(() => {
+        if (props.isOffline)
+            props.offline();
+    }, [props.isOffline]);
+
     return (
         <Grid
             container
@@ -42,6 +47,11 @@ function LoginForm(props) {
 
 // Component to render if login sign up selected
 function RegisterForm(props) {
+    useEffect(() => {
+        if (props.isOffline)
+            props.offline();
+    }, [props.isOffline]);
+
     return (
         <Grid
             container
@@ -72,10 +82,7 @@ export default function AuthForm(props) {
     useEffect(() => {
         const goOffline = () => setOnline(true)
 
-        window.addEventListener('offline', () => {
-            goOffline();
-            props.offline()
-        });
+        window.addEventListener('offline', goOffline);
 
         return () => {
             window.removeEventListener('offline', goOffline);
@@ -93,7 +100,7 @@ export default function AuthForm(props) {
 
     return (
         isLoginForm
-            ? <LoginForm isOffline={isOffline} onSetRegister={onSetRegister} />
-            : <RegisterForm isOffline={isOffline} onSetLogin={onSetLogin} />
+            ? <LoginForm isOffline={isOffline} offline={props.offline} onSetRegister={onSetRegister} />
+            : <RegisterForm isOffline={isOffline} offline={props.offline} onSetLogin={onSetLogin} />
     );
 }

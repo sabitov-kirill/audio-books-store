@@ -91,9 +91,9 @@ const connectionSyncPlugin = new BackgroundSyncPlugin('userConnectionQueue', {
 // Регистрация или вход
 registerRoute(
     ({ url }) =>
-        url.pathname.startsWith('/api/authorization/access') ||
-        url.pathname.startsWith('/api/authorization/create') ||
-        url.pathname.startsWith('/api/authorization/leave'),
+        url.pathname.startsWith('/api/user/access') ||
+        url.pathname.startsWith('/api/user/create') ||
+        url.pathname.startsWith('/api/user/leave'),
     new NetworkOnly({
         plugins: [
             connectionSyncPlugin
@@ -104,7 +104,7 @@ registerRoute(
 //Переподключение
 registerRoute(
     ({ url }) =>
-        url.pathname.startsWith('/api/authorization/reaccess'),
+        url.pathname.startsWith('/api/user/reaccess'),
     new NetworkFirst({
         cacheName: 'user',
         plugins: [
@@ -145,7 +145,7 @@ const booksContentSyncPlugin = new BackgroundSyncPlugin('booksContentQueue', {
 //Загрухка контента книг
 registerRoute(
     ({ url }) =>
-        url.pathname.startsWith('/api/books/data'),
+        url.pathname.startsWith('/books'),
     new CacheFirst({
         cacheName: 'booksContent',
         plugins: [

@@ -13,7 +13,7 @@
 class UserDTO {
     constructor(model) {
         this.id          = model.id;
-        this.email       = model.email;
+        this.login       = model.login;
         this.name        = model.name;
         this.bagBooks    = model.bagBooks;
         this.ownedBooks  = model.ownedBooks;
