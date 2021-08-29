@@ -32,7 +32,7 @@ export const store = configureStore({
 
 // Creating auto re-login thunk
 const userReLogin = createAsyncThunk(
-    'user/userReLogin',
+    'authorization/userReLogin',
     userApi.reLogin
 );
 

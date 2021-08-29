@@ -16,6 +16,7 @@ import NotificationView from "../../views/notification/notification_view";
 // Component view, connected to model
 export default connect(
     (state) =>({
-        notification: state.notification
+        notification: state.notification.code,
+        id: state.notification.id,
     })
 )(NotificationView);

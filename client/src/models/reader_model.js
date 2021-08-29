@@ -11,7 +11,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-// App store user slice
+// App store authorization slice
 const readerSlice = createSlice({
     name: 'reader',
     initialState:  {

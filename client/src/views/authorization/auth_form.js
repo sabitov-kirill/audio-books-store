@@ -9,10 +9,10 @@
  *
  */
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
-import LoginFormController from '../../controllers/user/login_form_controller';
-import RegistrationFormController from '../../controllers/user/registration_form_controller';
+import LoginFormController from '../../controllers/authorization/login_form_controller';
+import RegistrationFormController from '../../controllers/authorization/registration_form_controller';
 import {Grid, Link} from "@material-ui/core";
 import './auth.scss'
 
@@ -65,8 +65,25 @@ function RegisterForm(props) {
 }
 
 // Component view
-export default function AuthForm() {
+export default function AuthForm(props) {
     const [isLoginForm, setIsLoginForm] = useState(true);
+    const [isOffline, setOnline] = useState(false);
+
+    useEffect(() => {
+        const goOnline = () => setOnline(false)
+        const goOffline = () => setOnline(true)
+
+        window.addEventListener('offline', goOffline);
+        window.addEventListener('online', goOnline);
+
+        return () => {
+            window.removeEventListener('offline', goOffline);
+            window.removeEventListener('online', goOnline);
+        }
+    }, []);
+
+    if (isOffline)
+        props.offline();
 
     // Evens callbacks handle
     const onSetLogin = () => {

@@ -24,10 +24,10 @@ class UserController {
             const { name, login, password } = JSON.parse(request.body);
             const userData = await this.authService.registration(name, login, password);
 
-            // Set user id and its refresh token sign to cookies
+            // Set authorization id and its refresh token sign to cookies
             result.cookie('acetsi', userData.accessToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
 
-            // Return user data
+            // Return authorization data
             result.status(200).json(userData.user);
         } catch (e) {
             result.status(400).json({ error: e.message });
@@ -40,10 +40,10 @@ class UserController {
             const { login, password } = JSON.parse(request.body);
             const userData = await this.authService.login(login, password);
 
-            // Set user id and its refresh token sign to cookies
+            // Set authorization id and its refresh token sign to cookies
             result.cookie('acetsi', userData.accessToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
 
-            // Return user data
+            // Return authorization data
             result.status(200).json(userData.user);
         } catch (e) {
             result.status(401).json({ error: e.message });
@@ -56,10 +56,10 @@ class UserController {
 
     async leave(request, result) {
         try {
-            // Delete access token from cookies, so user woun't re-login
+            // Delete access token from cookies, so authorization woun't re-login
             result.clearCookie('acetsi');
 
-            // Return empty user object
+            // Return empty authorization object
             result.sendStatus(200);
         } catch (e) {
             result.status(400).json(e);
@@ -72,7 +72,7 @@ class UserController {
             const accessToken = request.cookies.acetsi;
             if (!accessToken) throw new Error('You must login before.');
 
-            // Set user data
+            // Set authorization data
             request.user = await this.authService.validate(accessToken);
 
             next();
