@@ -11,7 +11,7 @@
  *
  */
 
-import React,  { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import InstallPWA from "./common/PWA_install_bar";
 import Header from '../controllers/common/header_controller';
@@ -30,6 +30,7 @@ const pagesRoutes = [
 // Application main component
 export default function AppView(props) {
     const reLogin = props.userReLogin;
+
     useEffect(() => reLogin(), [reLogin]);
 
     return (

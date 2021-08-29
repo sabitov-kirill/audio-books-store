@@ -44,7 +44,9 @@ function UserActions(props) {
             <p className='actionButtonText'>Войти</p>   
         </button>
     const LogoutButton = 
-        <button className='actionButton' onClick={props.userLogout} >
+        <button className='actionButton' onClick={(e) => {
+            props.userLogout(e);
+        }} >
             <ExitToApp />
             <p className='actionButtonText'>Выйти</p>    
         </button>
