@@ -11,7 +11,11 @@
 
 import { connect } from "react-redux";
 
-import { init, setSuccessAudioLoad, playAudio, pauseAudio, nextPage } from "../../models/reader_model";
+import { 
+    init, close,
+    setSuccessAudioLoad, playAudio,
+    nextPage
+} from "../../models/reader_model";
 import ReaderView from "../../views/reader/reader_view";
 
 // Connecting component view to model with controller
@@ -26,9 +30,9 @@ export default connect(
     }),
     (dispatch) => ({
         init: (bookData) => dispatch(init(bookData)),
+        close: () => dispatch(close()),
         setSuccessAudioLoad: () => dispatch(setSuccessAudioLoad()),
         playAudio: () => dispatch(playAudio()),
-        pauseAudio: () => dispatch(pauseAudio()),
         nextPage: () => dispatch(nextPage())
     })
 )(ReaderView);

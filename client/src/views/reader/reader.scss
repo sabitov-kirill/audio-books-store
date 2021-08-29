@@ -3,26 +3,65 @@ $div-height: 960;
 $ratio: $div-width / $div-height;
 
 .reader {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  left: 50%;
-  top: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
 
-  @media screen and (max-width: (100 * $ratio) + vh) {
-    width: 100vw;
-    height: (100 / $ratio) + vw;
-  }
+    @media screen and (max-width: (100 * $ratio) + vh) {
+        width: 100vw;
+        height: (100 / $ratio) + vw;
+    }
 
-  @media screen and (min-width: (100 * $ratio) + vh) {
-    width: (100 * $ratio) + vh;
-    height: 100vh;
-  }
+    @media screen and (min-width: (100 * $ratio) + vh) {
+        width: (100 * $ratio) + vh;
+        height: 100vh;
+    }
 
-  .page {
-    width: 100%;
-    height: 100%;
-    background-size: contain;
-    background-repeat: no-repeat;
-    outline: 0px;
-  }
+    .page {
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        outline: 0px;
+    }
+
+    @keyframes fade-in {
+        from {opacity: 0}
+        to {opacity: 1}
+    }
+
+    .controlPanel {
+        position: absolute;
+        width: 280px;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        margin: 0 auto 5px auto;
+        padding: 0;
+
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+
+        animation: .2s fade-in;
+
+        .closeButton {
+            margin-left: auto;
+        }
+
+        .startPageButton {
+            display: none;
+        }
+
+        @media screen and (min-width: 360px) {
+            .startPageButton {
+                display: unset;
+            }
+        }
+
+        @media screen and (min-width: 769px) {
+            width: 500px;
+        }
+    }
 }

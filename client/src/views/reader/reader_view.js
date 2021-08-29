@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 
 import ReaderPage from "../../controllers/reader/reader_page_controller";
-import ReaderControl from "../../controllers/reader/reader_controll_controller"
+import ReaderControl from "../../controllers/reader/reader_control_controller"
 
 import './reader.scss';
 
@@ -24,13 +24,12 @@ export default function Reader(props) {
     const book = props.books.find((book) => book.id === bookId)
 
     useEffect(() => {
-        if (book) initSelf({ bookUrl: `/books/${bookId}`, pagesCount: book.pagesCount });
-        return props.pauseAudio;
+        if (book) initSelf({ bookId: bookId, pagesCount: book.pagesCount });
+        return props.close;
     }, []);
     useEffect(() => {
         if (isLoading) {
             props.audio.addEventListener('canplay', () => {
-                alert("flex");
                 if (props.audioStatus !== 'paused') {
                     props.setSuccessAudioLoad();
                     props.playAudio();

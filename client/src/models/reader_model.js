@@ -10,11 +10,13 @@
  */
 
 import { createSlice } from "@reduxjs/toolkit";
+import * as cookies from 'cookie'
 
 // App store user slice
 const readerSlice = createSlice({
     name: 'reader',
     initialState:  {
+        bookId: '',
         bookUrl: '',
         page: 0,
         pagesCount: 0,
@@ -28,14 +30,28 @@ const readerSlice = createSlice({
 
     reducers: {
         init: (state, action) => {
-            state.bookUrl = action.payload.bookUrl;
+            // Set book data
+            state.bookId = action.payload.bookId;
+            state.bookUrl = `/books/${action.payload.bookId}`;
             state.pagesCount = action.payload.pagesCount;
+
+            // Get last seen page number from cookeis
+            const lastSeenPage = cookies.parse(document.cookie)[state.bookId];
+            if (lastSeenPage) state.page = lastSeenPage;
 
             // Precahe all book data
             for (let bookPage = 0; bookPage < state.pagesCount; bookPage++) {
                 fetch(`${state.bookUrl}/audio_${bookPage}.mp3`);
                 fetch(`${state.bookUrl}/page_${bookPage}.mp3`);
             }
+        },
+        close: (state) => {
+            if (state.page) {
+                document.cookie = cookies.serialize(state.bookId, state.page, { 
+                    maxAge: 30 * 24 * 60 * 60 * 1000
+                });
+            }
+            if (state.audio) delete state.audio;
         },
         nextPage: (state) => {
             if (state.page < state.pagesCount - 1) {
@@ -65,6 +81,11 @@ const readerSlice = createSlice({
                 }
             }
         },
+        startPage(state) {
+            state.page = 0;
+            state.audioStatus = 'paused';
+            if (state.audio) state.audio.pause();
+        },
         setSuccessAudioLoad: (state) => {
             state.isAudioLoading = false;
         },
@@ -88,7 +109,12 @@ const readerSlice = createSlice({
 });
 
 // Export action creators
-export const { init, nextPage, prevPage, setSuccessAudioLoad, playAudio, pauseAudio, switchControlPanel } = readerSlice.actions;
+export const { 
+    init, close, 
+    nextPage, prevPage, startPage,
+    setSuccessAudioLoad, playAudio,
+    pauseAudio, switchControlPanel
+} = readerSlice.actions;
 
 // User slice reducer
 export default readerSlice.reducer;
