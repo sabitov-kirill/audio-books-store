@@ -146,9 +146,26 @@ registerRoute(
 
 //Загрухка контента(аудио) книг
 registerRoute(
-    ({ request }) => request.destination === 'audio',
+    ({ request }) => request.destination === 'audio' ||
+    request.destination === 'audioworklet',
     new CacheFirst({
         cacheName: 'audio',
+        plugins: [
+            new CacheableResponsePlugin({
+                statuses: [200]
+            }),
+            new BackgroundSyncPlugin('audioQueue', {
+                maxRetentionTime: 10 // Retry for max of 10 minutes (specified in minutes)
+            }),
+        ]
+    })
+)
+
+//Загрухка контента(аудио) книг
+registerRoute(
+    ({ url }) => url.pathname.endsWith('.mp3'),
+    new CacheFirst({
+        cacheName: 'audioKal',
         plugins: [
             new CacheableResponsePlugin({
                 statuses: [200]
