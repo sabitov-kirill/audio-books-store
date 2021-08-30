@@ -54,10 +54,6 @@ export default function ReaderControl(props) {
         history.push("/");
     }
 
-    const playAudio = () =>  {
-        props.playAudio();
-    }
-
     const FullscreenButton = () => {
         if (fullscreen) {
             return (
@@ -74,9 +70,9 @@ export default function ReaderControl(props) {
     }
     
     const AudioButton = () => {
-        if (props.audioStatus === "paused") {
+        if (props.isAudioPaused) {
             return (
-                <IconButton onClick={playAudio}>
+                <IconButton onClick={props.playAudio}>
                     <PlayArrow />
                 </IconButton>
             );

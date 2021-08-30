@@ -18,36 +18,31 @@ import ReaderControl from "../../controllers/reader/reader_control_controller"
 import './reader.scss';
 
 export default function Reader(props) {
-    const initSelf = props.init;
-    const isLoading = props.isAudioLoading;
     const { bookId } = useParams();
-    const book = props.books.find((book) => book.id === bookId)
+    const book = props.books.find((book) => book.id === bookId);
+
+    const onAudioCanPlay = () => {
+        props.autoPlay();
+    }
+
+    const onAudioEnd = () => {
+        props.nextPage();
+    }
 
     useEffect(() => {
         if (book) {
-            initSelf({ bookId: bookId, pagesCount: book.pagesCount });
+            props.init({ 
+                bookId,
+                pagesCount: book.pagesCount,
+                onAudioCanPlay,
+                onAudioEnd,
+            });
 
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile && (window.innerHeight > window.innerWidth)) props.flipNotify();
         }
         return props.close;
     }, []);
-    useEffect(() => {
-        if (isLoading) {
-            props.audio.addEventListener('canplay', () => {
-                if (props.audioStatus !== 'paused') {
-                    props.setSuccessAudioLoad();
-                    props.playAudio();
-                } else {
-                    props.setSuccessAudioLoad();
-                }
-            });
-
-            props.audio.addEventListener('ended', () => {
-                props.nextPage();
-            });
-        }
-    }, [isLoading]);
 
     if (!book) return <Redirect to='/' />
     if (props.isLoading) return <h1>Loading account data...</h1>
