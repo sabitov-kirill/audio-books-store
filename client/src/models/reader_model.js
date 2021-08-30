@@ -39,13 +39,15 @@ const readerSlice = createSlice({
             const lastSeenPage = cookies.parse(document.cookie)[state.bookId];
             if (lastSeenPage) state.page = Number(lastSeenPage);
 
-            // Precahe all book data
-            for (let bookPage = 0; bookPage < state.pagesCount; bookPage++) {
-                fetch(`/books/${action.payload.bookId}/audio_${bookPage}.mp3`).then(() => {
-                    console.log(`/books/${action.payload.bookId}/audio_${bookPage}.mp3 - fetched`)
-                });
-                fetch(`/books/${action.payload.bookId}/page_${bookPage}.png`).then(() => {
-                    console.log(`/books/${action.payload.bookId}/page_${bookPage}.png - fetched`)
+            // Precahe all book data if not done before
+            if (!cookies.parse(document.cookie)[`${state.bookId}_cahed`]) {
+                for (let bookPage = 0; bookPage < state.pagesCount; bookPage++) {
+                    new Audio(`/books/${action.payload.bookId}/audio_${bookPage}.mp3`);
+                    new Image().src = `/books/${action.payload.bookId}/page_${bookPage}.png`;
+                }
+
+                document.cookie = cookies.serialize(`${state.bookId}_cahed`, true, {
+                    maxAge: 30 * 24 * 60 * 60 * 1000
                 });
             }
         },
