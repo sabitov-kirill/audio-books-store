@@ -10,15 +10,28 @@
  */
 
 import { Container } from "@material-ui/core";
+import { useEffect, useState } from "react";
 
 import BookView from "../../controllers/books/book_controller";
 import './books_list.scss';
 
 export default function BooksListView(props) {
+    const [booksArray, setBooksArray] = useState(props.books);
+    useEffect(() => {
+        setBooksArray(
+            booksArray.concat().sort((book1, book2) => {
+                const isBook1Owned = props.ownedBooks.includes(book1.id);
+                const isBook2Owned = props.ownedBooks.includes(book2.id);
+
+                return Number(isBook2Owned) - Number(isBook1Owned);
+            })
+        );
+    }, [props.books, props.ownedBooks])
+
     return (
         <Container maxWidth="md" className='booksList' >
             {props.books.length > 0
-                ? props.books.map((book) => (
+                ? booksArray.map((book) => (
                         <BookView
                             isOwned={props.ownedBooks.includes(book.id)}
                             key={`todo-${book.id}`}
