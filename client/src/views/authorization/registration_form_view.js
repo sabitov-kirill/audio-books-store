@@ -85,7 +85,10 @@ export default function RegistrationFormView(props) {
         }
     }
 
-    if (props.isLoggedIn) return <Redirect to='/'/>
+    if (props.isLoggedIn) {
+        document.location.replace('/');
+        return <></>
+    }
 
     // Errors handle
     let isFieldsError = values.errorCode === 'fields';

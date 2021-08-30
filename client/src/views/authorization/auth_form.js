@@ -75,22 +75,8 @@ function RegisterForm(props) {
 }
 
 // Component view
-export default function AuthForm(props) {
+export default function AuthForm() {
     const [isLoginForm, setIsLoginForm] = useState(true);
-    const [isOffline, setIsOffline] = useState(!navigator.onLine)
-
-    useEffect(() => {
-        const goOffline = () => setIsOffline(true);
-        const goOnline = () => setIsOffline(false);
-
-        window.addEventListener('offline', goOffline);
-        window.addEventListener('online', goOnline);
-
-        return () => {
-            window.removeEventListener('offline', goOffline);
-            window.removeEventListener('online', goOnline);
-        }
-    }, []);
 
     // Evens callbacks handle
     const onSetLogin = () => {
@@ -103,7 +89,7 @@ export default function AuthForm(props) {
 
     return (
         isLoginForm
-            ? <LoginForm isOffline={isOffline} offline={props.offline} onSetRegister={onSetRegister} />
-            : <RegisterForm isOffline={isOffline} offline={props.offline} onSetLogin={onSetLogin} />
+            ? <LoginForm onSetRegister={onSetRegister} />
+            : <RegisterForm onSetLogin={onSetLogin} />
     );
 }

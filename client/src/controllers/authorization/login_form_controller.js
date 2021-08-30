@@ -14,6 +14,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import userApi from '../../api/user_api';
 import LoginFormView from "../../views/authorization/login_form_view";
+import {notify} from "../../models/notification_model";
 
 // Creating login thunk
 const userReLogin = createAsyncThunk('user/userLogin', userApi.login);
@@ -24,9 +25,11 @@ export default connect(
         isLoginPending: state.user.loginStatus === 'pending',
         isLoginError:   state.user.loginStatus === 'failed',
         isLoggedIn:     state.user.loginStatus === 'success',
-        error:          state.user.error
+        error:          state.user.error,
+        isOffline:      state.user.isOffline,
     }),
     (dispatch) => ({
-        login: (login, password) => dispatch(userReLogin({ login: login, password }))
+        login: (login, password) => dispatch(userReLogin({ login: login, password })),
+        offline: () => dispatch(notify({ code: 'offlineAuth' })),
     })
 )(LoginFormView);

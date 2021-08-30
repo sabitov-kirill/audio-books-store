@@ -17,6 +17,8 @@ import booksReducer from '../models/books_model';
 import readerReducer from '../models/reader_model';
 import notificationReducer from '../models/notification_model'
 
+import { goOffline, goOnline } from "../models/user_model";
+
 import userApi from '../api/user_api';
 import AppView from "../views/app_view";
 
@@ -39,8 +41,10 @@ const userReLogin = createAsyncThunk(
 
 // Connecting component view to model with controller
 export default connect(
-  null,
+    null,
   (dispatch) => ({
-    userReLogin: () => dispatch(userReLogin())
+      userReLogin: () => dispatch(userReLogin()),
+      goOffline: () => dispatch(goOffline()),
+      goOnline: () => dispatch(goOnline()),
   })
 )(AppView);

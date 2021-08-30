@@ -143,6 +143,10 @@ registerRoute(
         ]
     })
 )
+const kal =
+        new BackgroundSyncPlugin('audioQueue', {
+            maxRetentionTime: 10 // Retry for max of 10 minutes (specified in minutes)
+        });
 
 //Загрухка контента(аудио) книг
 registerRoute(
@@ -154,9 +158,7 @@ registerRoute(
             new CacheableResponsePlugin({
                 statuses: [200]
             }),
-            new BackgroundSyncPlugin('audioQueue', {
-                maxRetentionTime: 10 // Retry for max of 10 minutes (specified in minutes)
-            }),
+            kal,
         ]
     })
 )
@@ -167,12 +169,7 @@ registerRoute(
     new CacheFirst({
         cacheName: 'audioKal',
         plugins: [
-            new CacheableResponsePlugin({
-                statuses: [200]
-            }),
-            new BackgroundSyncPlugin('audioQueue', {
-                maxRetentionTime: 10 // Retry for max of 10 minutes (specified in minutes)
-            }),
+            kal,
         ]
     })
 )

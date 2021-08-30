@@ -14,6 +14,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import userApi from '../../api/user_api';
 import RegistrationFormView from "../../views/authorization/registration_form_view";
+import {notify} from "../../models/notification_model";
 
 // Creating registration thunk
 export const userRegister = createAsyncThunk(
@@ -27,9 +28,11 @@ export default connect(
         isRegisterPending: state.user.loginStatus === 'pending',
         isRegisterError:   state.user.loginStatus === 'failed',
         isLoggedIn:       state.user.loginStatus === 'success',
-        error:            state.user.error
+        error:            state.user.error,
+        isOffline:      state.user.isOffline,
     }),
     (dispatch) => ({
-        register: (name, login, password) => dispatch(userRegister({ name, login, password }))
+        register: (name, login, password) => dispatch(userRegister({ name, login, password })),
+        offline: () => dispatch(notify({ code: 'offlineAuth' })),
     })
 )(RegistrationFormView);
