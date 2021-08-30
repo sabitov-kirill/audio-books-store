@@ -143,20 +143,6 @@ registerRoute(
     })
 )
 
-const myCacheOnlyRouteHandler = new CacheOnly({
-    cacheName: 'audio',
-    plugins: [
-        new CacheableResponsePlugin({statuses: [200]}),
-        new RangeRequestsPlugin(),
-    ],
-    matchOptions: {
-        // This is needed since cached resources have a ?_WB_REVISION=... URL param added to them.
-        ignoreSearch: true,
-        // Firebase vary header caused cache match to fail for mp3 until added this.
-        ignoreVary: true,
-    }
-});
-
 ///PONOS
 
 importScripts('https://cdn.jsdelivr.net/gh/daffinm/pwa-utils@latest/js/assert.js');
@@ -173,10 +159,13 @@ const audioRouteMatcher = ({url, event}) => {
     let matches = event.request.url.match(/.*\.mp3$/);
     return matches;
 };
+
 const audioRouteHandlerCacheOnly = new CacheOnly({
     cacheName: 'audio',
     plugins: [
-        new CacheableResponsePlugin({statuses: [200]}),
+        new CacheableResponsePlugin({
+            statuses: [200]
+        }),
         new RangeRequestsPlugin(),
     ],
     matchOptions: {
