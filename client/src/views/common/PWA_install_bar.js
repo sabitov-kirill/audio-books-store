@@ -1,6 +1,7 @@
 import React, {Fragment, useEffect, useState} from "react";
 import {IconButton, Snackbar} from "@material-ui/core";
 import {Close, GetApp} from "@material-ui/icons";
+import './header.scss'
 
 let deferredPrompt;
 
@@ -48,7 +49,7 @@ export default function InstallPWA() {
 
     return (
         <Snackbar
-            className="installbar"
+            className="installBar"
             anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'center',

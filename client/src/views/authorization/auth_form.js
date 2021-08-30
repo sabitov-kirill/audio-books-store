@@ -18,6 +18,11 @@ import './auth.scss'
 
 // Component to render if login sign in selected
 function LoginForm(props) {
+    useEffect(() => {
+        if (props.isOffline)
+            props.offline();
+    }, [props.isOffline]);
+
     return (
         <Grid
             container
@@ -27,7 +32,7 @@ function LoginForm(props) {
         >
             <h1 className="accActCol start-margin">Вход</h1>
             <div className="authForm">
-                <LoginFormController isOffline={props.isOffline} />
+                <LoginFormController offline={props.offline} isOffline={props.isOffline} />
             </div>
             <p className="text">
                 {"Ещё не зарегестрированы? "}
@@ -42,6 +47,11 @@ function LoginForm(props) {
 
 // Component to render if login sign up selected
 function RegisterForm(props) {
+    useEffect(() => {
+        if (props.isOffline)
+            props.offline();
+    }, [props.isOffline]);
+
     return (
         <Grid
             container
@@ -51,7 +61,7 @@ function RegisterForm(props) {
         >
             <h1 className="accActCol start-margin">Регистрация</h1>
             <div  className="authForm">
-                <RegistrationFormController isOffline={props.isOffline} />
+                <RegistrationFormController offline={props.offline} isOffline={props.isOffline} />
             </div>
             <p className="text">
                 {"Уже есть аккаунт? "}
@@ -67,18 +77,18 @@ function RegisterForm(props) {
 // Component view
 export default function AuthForm(props) {
     const [isLoginForm, setIsLoginForm] = useState(true);
-    const [isOffline, setOnline] = useState(false);
+    const [isOffline, setIsOffline] = useState(!navigator.onLine)
 
     useEffect(() => {
-        const goOffline = () => setOnline(true)
+        const goOffline = () => setIsOffline(true);
+        const goOnline = () => setIsOffline(false);
 
-        window.addEventListener('offline', () => {
-            goOffline();
-            props.offline()
-        });
+        window.addEventListener('offline', goOffline);
+        window.addEventListener('online', goOnline);
 
         return () => {
             window.removeEventListener('offline', goOffline);
+            window.removeEventListener('online', goOnline);
         }
     }, []);
 
@@ -93,7 +103,7 @@ export default function AuthForm(props) {
 
     return (
         isLoginForm
-            ? <LoginForm isOffline={isOffline} onSetRegister={onSetRegister} />
-            : <RegisterForm isOffline={isOffline} onSetLogin={onSetLogin} />
+            ? <LoginForm isOffline={isOffline} offline={props.offline} onSetRegister={onSetRegister} />
+            : <RegisterForm isOffline={isOffline} offline={props.offline} onSetLogin={onSetLogin} />
     );
 }

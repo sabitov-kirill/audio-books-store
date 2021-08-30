@@ -48,8 +48,9 @@ const UserApi = {
         const response = await fetch('/api/user/leave', {
             method: "GET"
         });
-
         if (!response.ok) throw new Error("Ошибка при выходе из системы.");
+
+        if (navigator.onLine) caches.delete('user').then(function(ok){});
     },
 }
 

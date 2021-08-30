@@ -153,9 +153,14 @@ export default function LoginFormView(props) {
 
             <Grid item>
             <Button
-                onClick={onLogin}
+                onClick={(e) => {
+                    if (props.isOffline)
+                        props.offline();
+                    else
+                        return onLogin(e);
+                }}
                 type='submit'
-                disabled={props.isLoginPending || props.isOffline}
+                disabled={props.isLoginPending}
             >
                 {props.isLoginPending ? 'Вход...' : 'Войти'}
             </Button>

@@ -62,7 +62,10 @@ registerRoute(
             new ExpirationPlugin({
                 maxEntries: 50,
                 maxAgeSeconds: 60 * 60 * 24 * 30
-            })
+            }),
+            new BackgroundSyncPlugin('imageQueue', {
+                maxRetentionTime: 10 // Retry for max of 10 minutes (specified in minutes)
+            }),
         ]
     })
 )
@@ -79,7 +82,10 @@ registerRoute(
         plugins: [
             new CacheableResponsePlugin({
                 statuses: [200]
-            })
+            }),
+            new BackgroundSyncPlugin('assetsQueue', {
+                maxRetentionTime: 10 // Retry for max of 10 minutes (specified in minutes)
+            }),
         ]
     })
 )
@@ -89,11 +95,11 @@ const connectionSyncPlugin = new BackgroundSyncPlugin('userConnectionQueue', {
 });
 
 // Регистрация или вход
-registerRoute(
+    registerRoute(
     ({ url }) =>
-        url.pathname.startsWith('/api/authorization/access') ||
-        url.pathname.startsWith('/api/authorization/create') ||
-        url.pathname.startsWith('/api/authorization/leave'),
+        url.pathname.startsWith('/api/user/access') ||
+        url.pathname.startsWith('/api/user/create') ||
+        url.pathname.startsWith('/api/user/leave'),
     new NetworkOnly({
         plugins: [
             connectionSyncPlugin
@@ -104,8 +110,8 @@ registerRoute(
 //Переподключение
 registerRoute(
     ({ url }) =>
-        url.pathname.startsWith('/api/authorization/reaccess'),
-    new NetworkFirst({
+        url.pathname.startsWith('/api/user/reaccess'),
+    new StaleWhileRevalidate({
         cacheName: 'user',
         plugins: [
             new CacheableResponsePlugin({
@@ -145,7 +151,7 @@ const booksContentSyncPlugin = new BackgroundSyncPlugin('booksContentQueue', {
 //Загрухка контента книг
 registerRoute(
     ({ url }) =>
-        url.pathname.startsWith('/api/books/data'),
+        url.pathname.startsWith('/books'),
     new CacheFirst({
         cacheName: 'booksContent',
         plugins: [

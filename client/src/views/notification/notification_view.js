@@ -11,6 +11,9 @@
 
 import React, {Component, useEffect} from "react";
 import { useSnackbar } from 'notistack';
+import {Close} from "@material-ui/icons";
+import {IconButton} from "@material-ui/core";
+import './notification.css'
 
 function dispatch(code) {
     switch (code) {
@@ -39,18 +42,29 @@ function dispatch(code) {
 
 export default function(props) {
     const id = props.id;
-    const { enqueueSnackbar } = useSnackbar();
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+    const action = key => (
+        <IconButton
+            className="defColor"
+            size="small"
+            aria-label="closeNotification"
+            onClick={() => { closeSnackbar(key) }}>
+            <Close />
+        </IconButton>
+    );
 
     useEffect(() => {
         const {message, type} = dispatch(props.notification);
         if (type !== 'cgsgForever') {
             const key = enqueueSnackbar(message,
                 {
+                    action,
                     anchorOrigin: {
                         vertical: 'top',
                         horizontal: 'center'
                     },
-                    autoHideDuration: 2500,
+                    autoHideDuration: type === "success" ? 3000 : 8500,
                     disableWindowBlurListener: true,
                     preventDuplicate: true,
                     variant: type,
