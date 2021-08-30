@@ -51,6 +51,7 @@ export default function Reader(props) {
 
     if (!book) return <Redirect to='/' />
     if (props.isLoading) return <h1>Loading account data...</h1>
+    if (!props.isLoggedIn) <Redirect to='/' />
     if (!props.ownedBooks.includes(bookId)) return <Redirect to='/' />
 
     return (

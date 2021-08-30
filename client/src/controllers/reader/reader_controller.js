@@ -26,6 +26,7 @@ export default connect(
         isAudioLoading: state.reader.isAudioLoading,
         audioStatus: state.reader.audioStatus,
         ownedBooks: state.user.ownedBooks,
+        isLoggedIn: state.user.loginStatus === 'success',
         isLoading: state.user.loginStatus === 'pending',
         books: state.books.bookStorage
     }),

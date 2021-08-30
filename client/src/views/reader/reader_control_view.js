@@ -56,10 +56,6 @@ export default function ReaderControl(props) {
 
     const playAudio = () =>  {
         props.playAudio();
-        if (props.page === 0) {
-            props.switchControlPanel();
-            props.nextPage();
-        }
     }
 
     const FullscreenButton = () => {
@@ -114,9 +110,9 @@ export default function ReaderControl(props) {
         <div className="controlPanel fogged" >
             <BackButton />
             <FullscreenButton />
-            <AudioButton />
             <PagesCount />
             <StartPage />
+            <AudioButton />
             <ControlButton />
         </div>;
 

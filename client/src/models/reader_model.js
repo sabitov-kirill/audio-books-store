@@ -37,21 +37,27 @@ const readerSlice = createSlice({
 
             // Get last seen page number from cookeis
             const lastSeenPage = cookies.parse(document.cookie)[state.bookId];
-            if (lastSeenPage) state.page = lastSeenPage;
+            if (lastSeenPage) state.page = Number(lastSeenPage);
 
             // Precahe all book data
             for (let bookPage = 0; bookPage < state.pagesCount; bookPage++) {
-                fetch(`${state.bookUrl}/audio_${bookPage}.mp3`);
-                fetch(`${state.bookUrl}/page_${bookPage}.mp3`);
+                fetch(`/books/${action.payload.bookId}/audio_${bookPage}.mp3`).then(() => {
+                    console.log(`/books/${action.payload.bookId}/audio_${bookPage}.mp3 - fetched`)
+                });
+                fetch(`/books/${action.payload.bookId}/page_${bookPage}.png`).then(() => {
+                    console.log(`/books/${action.payload.bookId}/page_${bookPage}.png - fetched`)
+                });
             }
         },
         close: (state) => {
-            if (state.page) {
-                document.cookie = cookies.serialize(state.bookId, state.page, { 
-                    maxAge: 30 * 24 * 60 * 60 * 1000
-                });
+            document.cookie = cookies.serialize(state.bookId, state.page, { 
+                maxAge: 30 * 24 * 60 * 60 * 1000
+            });
+
+            if (!state.isAudioLoading) {
+                state.audioStatus = 'paused';
+                if (state.audio) state.audio.pause();
             }
-            if (state.audio) delete state.audio;
         },
         nextPage: (state) => {
             if (state.page < state.pagesCount - 1) {
@@ -60,7 +66,6 @@ const readerSlice = createSlice({
                 if (state.audio) state.audio.pause();
                 if (state.page !== 0) {
                     const audioUrl = `${state.bookUrl}/audio_${state.page}.mp3`;
-                    // state.audioStatus = 'playing';
                     state.audio = new Audio(audioUrl);
                     state.isAudioLoading = true;
                 }
@@ -71,13 +76,13 @@ const readerSlice = createSlice({
                 state.page = Number(state.page) - 1;
 
                 if (state.audio) state.audio.pause();
-                if (state.page !== 0) {
+                if (state.page === 0) {
+                    state.audioStatus = 'paused';
+                }
+                else {
                     const audioUrl = `${state.bookUrl}/audio_${state.page}.mp3`;
                     state.audio = new Audio(audioUrl);
                     state.isAudioLoading = true;
-                }
-                else {
-                    state.audioStatus = 'paused'
                 }
             }
         },
@@ -90,7 +95,14 @@ const readerSlice = createSlice({
             state.isAudioLoading = false;
         },
         playAudio: (state) => {
-            if (!state.isAudioLoading) {
+            if (state.page === 0) {
+                state.page = 1;
+
+                const audioUrl = `${state.bookUrl}/audio_${state.page}.mp3`;
+                state.audio = new Audio(audioUrl);
+                state.isAudioLoading = true;
+                state.audioStatus = 'playing';
+            } else if (!state.isAudioLoading) {
                 state.audioStatus = 'playing';
                 if (state.audio) state.audio.play();
             }

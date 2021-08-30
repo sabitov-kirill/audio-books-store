@@ -25,7 +25,6 @@ export default connect(
         switchControlPanel: () => dispatch(switchControlPanel()),
         pauseAudio: () => dispatch(pauseAudio()),
         playAudio: () => dispatch(playAudio()),
-        nextPage: () => dispatch(nextPage()),
         startPage: () => dispatch(startPage())
     })
 )(ReaderControl);
