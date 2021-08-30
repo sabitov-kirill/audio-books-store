@@ -21,7 +21,7 @@ import NotificationView from "../controllers/notification/notification_controlle
 
 // Application pages routes
 const pagesRoutes = [
-    { path: '/authorization',  isHeader: false, Component: React.lazy(() => import('../controllers/authorization/auth_form_controller')) },
+    { path: '/authorization',  isHeader: false, Component: React.lazy(() => import('../views/authorization/auth_form')) },
     { path: '/admin',          isHeader: false, Component: React.lazy(() => import('../controllers/books/admin_books_creation_controller')) },
     { path: '/reader/:bookId', isHeader: false, Component: React.lazy(() => import('../controllers/reader/reader_controller')) },
     { path: '/',               isHeader: true,  Component: React.lazy(() => import('../controllers/books/books_page_controller')) },
@@ -30,6 +30,16 @@ const pagesRoutes = [
 // Application main component
 export default function AppView(props) {
     const reLogin = props.userReLogin;
+
+    useEffect(() => {
+        window.addEventListener('offline', props.goOffline);
+        window.addEventListener('online', props.goOnline);
+
+        return () => {
+            window.removeEventListener('offline', props.goOffline);
+            window.removeEventListener('online', props.goOnline);
+        }
+    }, []);
 
     useEffect(() => reLogin(), [reLogin]);
 

@@ -17,13 +17,21 @@ const userSlice = createSlice({
     initialState:  {
         name: '',
         isAdmin: false,
+        isOffline: !navigator.onLine,
         ownedBooks: [],
         loginStatus: 'unlogged',
         reLoginTried: false,
         error: ''
     },
 
-    reducers: {},
+    reducers: {
+        goOnline(state) {
+            state.isOffline = false;
+        },
+        goOffline(state) {
+            state.isOffline = true;
+        },
+    },
  
     extraReducers: {
         // Registration
@@ -80,9 +88,11 @@ const userSlice = createSlice({
             state.name = '';
             state.isAdmin = '';
             state.ownedBooks = '';
-        }
+        },
     }
 });
- 
+
+export const { goOnline, goOffline } = userSlice.actions;
+
 // User slice reducer
 export default userSlice.reducer;

@@ -50,7 +50,7 @@ registerRoute(
 // Кэшируем изображения
 registerRoute(
     // проверяем, что цель запроса - изображение
-    ({ request }) => request.destination === 'image',
+    ({ request}) => request.destination === 'image',
     new CacheFirst({
         // помещаем файлы в кэш с названием 'images'
         cacheName: 'images',
@@ -111,7 +111,7 @@ const connectionSyncPlugin = new BackgroundSyncPlugin('userConnectionQueue', {
 registerRoute(
     ({ url }) =>
         url.pathname.startsWith('/api/user/reaccess'),
-    new StaleWhileRevalidate({
+    new NetworkFirst({
         cacheName: 'user',
         plugins: [
             new CacheableResponsePlugin({
@@ -143,22 +143,33 @@ registerRoute(
         ]
     })
 )
+const kal =
+        new BackgroundSyncPlugin('audioQueue', {
+            maxRetentionTime: 10 // Retry for max of 10 minutes (specified in minutes)
+        });
 
-const booksContentSyncPlugin = new BackgroundSyncPlugin('booksContentQueue', {
-    maxRetentionTime: 60 // Retry for max of 60 minutes (specified in minutes)
-});
-
-//Загрухка контента книг
+//Загрухка контента(аудио) книг
 registerRoute(
-    ({ url }) =>
-        url.pathname.startsWith('/books'),
+    ({ request }) => request.destination === 'audio' ||
+    request.destination === 'audioworklet',
     new CacheFirst({
-        cacheName: 'booksContent',
+        cacheName: 'audio',
         plugins: [
             new CacheableResponsePlugin({
                 statuses: [200]
             }),
-            booksContentSyncPlugin
+            kal,
+        ]
+    })
+)
+
+//Загрухка контента(аудио) книг
+registerRoute(
+    ({ url }) => url.pathname.endsWith('.mp3'),
+    new CacheFirst({
+        cacheName: 'audioKal',
+        plugins: [
+            kal,
         ]
     })
 )
