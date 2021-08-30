@@ -7,13 +7,14 @@
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
 
-import { clientsClaim } from 'workbox-core';
-import { ExpirationPlugin } from 'workbox-expiration';
-import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
+import {clientsClaim} from 'workbox-core';
+import {ExpirationPlugin} from 'workbox-expiration';
+import {createHandlerBoundToURL, precacheAndRoute} from 'workbox-precaching';
 import {NavigationRoute, registerRoute} from 'workbox-routing';
-import {NetworkFirst, NetworkOnly, StaleWhileRevalidate, CacheFirst} from 'workbox-strategies';
-import { CacheableResponsePlugin } from 'workbox-cacheable-response'  
+import {CacheFirst, CacheOnly, NetworkFirst, NetworkOnly, StaleWhileRevalidate} from 'workbox-strategies';
+import {CacheableResponsePlugin} from 'workbox-cacheable-response'
 import {BackgroundSyncPlugin} from "workbox-background-sync";
+import {RangeRequestsPlugin} from "workbox-range-requests";
 
 clientsClaim();
 
@@ -125,51 +126,74 @@ registerRoute(
     })
 )
 
-const bookCardsSyncPlugin = new BackgroundSyncPlugin('bookCardsQueue', {
-    maxRetentionTime: 60 // Retry for max of 60 minutes (specified in minutes)
-});
-
-//Загрухка карточек книг
+//Загрузка карточек книг
 registerRoute(
     ({ url }) =>
         url.pathname.startsWith('/api/books/cards'),
     new StaleWhileRevalidate({
-        cacheName: 'bookCards',
+        cacheName: 'cards',
         plugins: [
             new CacheableResponsePlugin({
                 statuses: [200]
             }),
-            bookCardsSyncPlugin
-        ]
-    })
-)
-const kal =
-        new BackgroundSyncPlugin('audioQueue', {
-            maxRetentionTime: 10 // Retry for max of 10 minutes (specified in minutes)
-        });
-
-//Загрухка контента(аудио) книг
-registerRoute(
-    ({ request }) => request.destination === 'audio' ||
-    request.destination === 'audioworklet',
-    new CacheFirst({
-        cacheName: 'audio',
-        plugins: [
-            new CacheableResponsePlugin({
-                statuses: [200]
+            new BackgroundSyncPlugin('cardsQueue', {
+                maxRetentionTime: 60 // Retry for max of 60 minutes (specified in minutes)
             }),
-            kal,
         ]
     })
 )
 
-//Загрухка контента(аудио) книг
+const myCacheOnlyRouteHandler = new CacheOnly({
+    cacheName: 'audio',
+    plugins: [
+        new CacheableResponsePlugin({statuses: [200]}),
+        new RangeRequestsPlugin(),
+    ],
+    matchOptions: {
+        // This is needed since cached resources have a ?_WB_REVISION=... URL param added to them.
+        ignoreSearch: true,
+        // Firebase vary header caused cache match to fail for mp3 until added this.
+        ignoreVary: true,
+    }
+});
+
+///PONOS
+
+importScripts('https://cdn.jsdelivr.net/gh/daffinm/pwa-utils@latest/js/assert.js');
+
+async function addToAudioCache(url) {
+    assert.isTrue(url.endsWith('.mp3'), 'URL is not for audio/mp3', url);
+    const cache = await caches.open('audio');
+    if (!(await cache.match(url))) {
+        await cache.add(url);
+    }
+}
+
+const audioRouteMatcher = ({url, event}) => {
+    let matches = event.request.url.match(/.*\.mp3$/);
+    return matches;
+};
+const audioRouteHandlerCacheOnly = new CacheOnly({
+    cacheName: 'audio',
+    plugins: [
+        new CacheableResponsePlugin({statuses: [200]}),
+        new RangeRequestsPlugin(),
+    ],
+    matchOptions: {
+        // This is needed since precached resources may have a ?_WB_REVISION=... URL param.
+        ignoreSearch: true,
+        // Firebase vary header caused cache match to fail for mp3 until added this.
+        ignoreVary: true,
+    }
+});
+
+// Register the audio router.
 registerRoute(
-    ({ url }) => url.pathname.endsWith('.mp3'),
-    new CacheFirst({
-        cacheName: 'audioKal',
-        plugins: [
-            kal,
-        ]
-    })
-)
+    audioRouteMatcher,
+    ({event, request}) => {
+        event.respondWith((async () => {
+            await addToAudioCache(request.url);
+            return audioRouteHandlerCacheOnly.handle({event, request});
+        })());
+    }
+);

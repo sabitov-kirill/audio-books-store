@@ -9,7 +9,7 @@
  *
  */
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Redirect } from "react-router-dom";
 import {Alert} from "@material-ui/lab";
 import {
@@ -34,6 +34,11 @@ export default function RegistrationFormView(props) {
         errorCode: '',
         showPassword: false,
     });
+
+    useEffect(() => {
+        if (props.isOffline)
+            props.offline();
+    }, [props.isOffline]);
 
     const handleChange = (prop) => (event) => {
         const newValues = {...values};

@@ -18,11 +18,6 @@ import './auth.scss'
 
 // Component to render if login sign in selected
 function LoginForm(props) {
-    useEffect(() => {
-        if (props.isOffline)
-            props.offline();
-    }, [props.isOffline]);
-
     return (
         <Grid
             container
@@ -47,11 +42,6 @@ function LoginForm(props) {
 
 // Component to render if login sign up selected
 function RegisterForm(props) {
-    useEffect(() => {
-        if (props.isOffline)
-            props.offline();
-    }, [props.isOffline]);
-
     return (
         <Grid
             container
