@@ -76,7 +76,7 @@ export default function LoginFormView(props) {
         }
     }
     
-    if (props.isLoggedIn) return <Redirect to='/'/>
+    if (props.isLoggedIn) document.location.replace('/');
 
     // Rendering element
     return (
