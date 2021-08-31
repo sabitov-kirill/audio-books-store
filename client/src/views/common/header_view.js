@@ -44,7 +44,13 @@ function UserActions(props) {
             <p className='actionButtonText'>Войти</p>   
         </button>
     const LogoutButton = 
-        <button className='actionButton' onClick={props.userLogout} >
+        <button className='actionButton' onClick={(e) => {
+            if (props.isOffline)
+                props.offlineLogout();
+            else
+                props.userLogout(e);
+            }}
+        >
             <ExitToApp />
             <p className='actionButtonText'>Выйти</p>    
         </button>
@@ -57,7 +63,7 @@ function UserActions(props) {
 export default function HeaderView(props) {
     return (
         <div className='header'>
-            <UserActions isLoggedIn={props.isLoggedIn} userLogout={props.userLogout} />
+            <UserActions isLoggedIn={props.isLoggedIn} userLogout={props.userLogout} isOffline={props.isOffline} offlineLogout={props.offlineLogout} />
             {props.isLoggedIn && <UserGreeting userName={props.userName} />}
             <Logo />
         </div>

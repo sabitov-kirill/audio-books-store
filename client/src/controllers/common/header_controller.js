@@ -11,7 +11,9 @@
 
  import { connect } from "react-redux";
  import { createAsyncThunk } from "@reduxjs/toolkit";
- 
+
+ import { notify } from '../../models/notification_model';
+
  import userApi from '../../api/user_api';
  import HeaderView from "../../views/common/header_view";
  
@@ -26,9 +28,11 @@ export default connect(
     (state) => ({
         isLoggedIn: state.user.loginStatus === 'success',
         isLogoutSuccess: state.user.loginStatus === 'loggedout',
-        userName: state.user.name
+        userName: state.user.name,
+        isOffline: state.user.isOffline,
     }),
     (dispatch) => ({
-        userLogout: () => dispatch(userLogout())
+        userLogout: () => dispatch(userLogout()),
+        offlineLogout: () => dispatch(notify({ code: 'offlineLogout' })),
     })
 )(HeaderView);
