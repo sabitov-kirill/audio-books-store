@@ -1,1 +1,1 @@
-web: cd ./server/ && node index.js
+web: cd ./client/ && npm install && cd ../server/ && npm install && node index.js
