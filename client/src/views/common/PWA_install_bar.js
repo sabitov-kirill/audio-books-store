@@ -18,12 +18,12 @@ export default function InstallPWA() {
             setInstallable(true);
             setOpen(true);
 
-            console.log("Can be installed");
+            //console.log("Can be installed");
         });
 
         window.addEventListener('appinstalled', () => {
             // Log install to analytics
-            console.log('INSTALL: Success');
+            //console.log('INSTALL: Success');
         });
     });
     const handleClose = (event, reason) => {
@@ -40,9 +40,9 @@ export default function InstallPWA() {
         // Wait for the authorization to respond to the prompt
         deferredPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
+                //console.log('User accepted the install prompt');
             } else {
-                console.log('User dismissed the install prompt');
+                //console.log('User dismissed the install prompt');
             }
         });
     };
