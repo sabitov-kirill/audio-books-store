@@ -4,7 +4,7 @@
   "description": "Audio books web store application.",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd ./server & npm install & cd ../client & npm install & cd ../",
+    "postinstall": "cd ./server & npm install & cd ./../client & npm install & cd ./../",
     "server": "cd ./server/ & node index.js",
     "client": "cd ./client/ & npm run start",
     "prod": "cd ./client/ & npm run build & cd ./../server/ & node index.js"
