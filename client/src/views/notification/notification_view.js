@@ -9,7 +9,7 @@
  *
  */
 
-import React, {Component, useEffect} from "react";
+import React, {useEffect} from "react";
 import { useSnackbar } from 'notistack';
 import {Close} from "@material-ui/icons";
 import {IconButton} from "@material-ui/core";
@@ -17,15 +17,15 @@ import './notification.css'
 
 function dispatch(code) {
     switch (code) {
+        case 'offlineLogout':
+            return {
+                message: 'Для выходя из аккаунта нужно подключение к интернету.',
+                type: 'warning',
+            };
         case 'offlineAuth':
             return {
                 message: 'Для авторизации нужно подключение к интернету.',
                 type: 'warning',
-            };
-        case 'test':
-            return {
-                message: 'Test',
-                type: 'success',
             };
         case 'flip':
             return {
