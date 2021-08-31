@@ -4,6 +4,7 @@
   "description": "Audio books web store application.",
   "main": "index.js",
   "scripts": {
+    "start": "cd ./server & node index.js",
     "server": "cd ./server/ & node index.js",
     "client": "cd ./client/ & npm run start",
     "prod": "cd ./client/ & npm run build & cd ./../server/ & node index.js"

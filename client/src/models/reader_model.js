@@ -93,8 +93,10 @@ const readerSlice = createSlice({
                 // Pause audio of previous page
                 if (bookAudio) bookAudio.pause();
 
-                // Load new audio
-                if (state.page !== 0) {
+                if (state.page === 0) {
+                    state.isPaused = true;
+                } else {
+                    // Load new audio
                     bookAudio = new Audio(`${state.bookUrl}/audio_${state.page}.mp3`);
                     bookAudio.addEventListener('canplay', onAudioCanPlay);
                     bookAudio.addEventListener('ended', onAudioEnd);
