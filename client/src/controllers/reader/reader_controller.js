@@ -12,7 +12,7 @@
 import { connect } from "react-redux";
 
 import { notify } from "../../models/notification_model";
-import { init, close, playAudio, autoPlay, nextPage } from "../../models/reader_model";
+import { init, close, playAudio, autoPlay, autoNextPage } from "../../models/reader_model";
 import ReaderView from "../../views/reader/reader_view";
 
 // Connecting component view to model with controller
@@ -28,7 +28,7 @@ export default connect(
         close: () => dispatch(close()),
         playAudio: () => dispatch(playAudio()),
         autoPlay: () => dispatch(autoPlay()),
-        nextPage: () => dispatch(nextPage()),
+        autoNextPage: () => dispatch(autoNextPage()),
         flipNotify: () => dispatch(notify({ code: 'flip' }))
     })
 )(ReaderView);

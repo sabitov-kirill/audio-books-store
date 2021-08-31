@@ -12,7 +12,7 @@
 import { useHistory } from 'react-router-dom';
 import { 
     ArrowBack, PlayArrow,
-    Stop, Close, FastRewind,
+    Pause, Close, FastRewind,
     Fullscreen, FullscreenExit
 } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
@@ -79,7 +79,7 @@ export default function ReaderControl(props) {
         }
         return (
             <IconButton onClick={props.pauseAudio} >
-                <Stop />
+                <Pause />
             </IconButton>
         );
     }

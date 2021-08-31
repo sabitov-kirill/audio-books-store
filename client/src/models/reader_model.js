@@ -13,7 +13,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import * as cookies from 'cookie';
 
 let onAudioCanPlay, onAudioEnd;
-let bookAudio = null;
+let bookAudio = null, bookBackgroundMusic = null;
 
 // App store authorization slice
 const readerSlice = createSlice({
@@ -28,7 +28,7 @@ const readerSlice = createSlice({
     },
 
     reducers: {
-        init: (state, action) => {
+        init(state, action) {
             // Set book data
             state.bookId = action.payload.bookId;
             state.bookUrl = `/books/${action.payload.bookId}`;
@@ -58,13 +58,20 @@ const readerSlice = createSlice({
                 bookAudio.addEventListener('canplay', onAudioCanPlay);
                 bookAudio.addEventListener('ended', onAudioEnd);
             }
+
+            // Play bacground music
+            bookBackgroundMusic = new Audio(`${state.bookUrl}/background.mp3`);
+            bookBackgroundMusic.autoplay = true;
+            bookBackgroundMusic.loop = true;
+            bookBackgroundMusic.volume = 0.01;
         },
 
-        close: (state) => {
+        close(state) {
             if (bookAudio) bookAudio.pause();
+            if (bookBackgroundMusic) bookBackgroundMusic.pause();
         },
 
-        nextPage: (state) => {
+        nextPage(state) {
             if (state.page < state.pagesCount - 1) {
                 // Turn next page
                 state.page = Number(state.page) + 1;
@@ -85,7 +92,7 @@ const readerSlice = createSlice({
             }
         },
 
-        prevPage: (state) => {
+        prevPage(state) {
             if (state.page > 0) {
                 // Turn next page
                 state.page = Number(state.page) - 1;
@@ -112,6 +119,24 @@ const readerSlice = createSlice({
             if (!state.isPaused) bookAudio.play();
         },
 
+        autoNextPage(state) {
+            if (state.page < state.pagesCount - 1) {
+                // Turn next page
+                state.page = Number(state.page) + 1;
+
+                bookAudio = new Audio(`${state.bookUrl}/audio_${state.page}.mp3`);
+                bookAudio.addEventListener('canplay', onAudioCanPlay);
+                bookAudio.addEventListener('ended', onAudioEnd);
+
+                document.cookie = cookies.serialize(state.bookId, state.page, {
+                    maxAge: 30 * 24 * 60 * 60 * 1000
+                });
+            } else {
+                if (bookAudio) bookAudio.pause();
+                state.isPaused = true;
+            }
+        },
+
         startPage(state) {
             // Turn next page
             state.page = 0;
@@ -125,7 +150,7 @@ const readerSlice = createSlice({
             });
         },
 
-        playAudio: (state) => {
+        playAudio(state) {
             if (state.page === 0) {
                 state.page = 1;
 
@@ -140,12 +165,12 @@ const readerSlice = createSlice({
             }
         },
 
-        pauseAudio: (state) => {
+        pauseAudio(state) {
             if (bookAudio) bookAudio.pause();
             state.isPaused = true;
         },
 
-        switchControlPanel: (state) => {
+        switchControlPanel(state) {
             state.isControlPanel = !state.isControlPanel;
         },
     }
@@ -155,7 +180,8 @@ const readerSlice = createSlice({
 export const { 
     init, close, 
     nextPage, prevPage, startPage,
-    setSuccessAudioLoad, playAudio, autoPlay,
+    setSuccessAudioLoad, playAudio, 
+    autoPlay, autoNextPage,
     pauseAudio, switchControlPanel
 } = readerSlice.actions;
 

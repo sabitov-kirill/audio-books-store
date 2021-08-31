@@ -26,7 +26,7 @@ export default function Reader(props) {
     }
 
     const onAudioEnd = () => {
-        props.nextPage();
+        props.autoNextPage();
     }
 
     useEffect(() => {
