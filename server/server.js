@@ -64,7 +64,7 @@ class Server {
         this.server = require('http').createServer(this.app);
 
         // Setting up enviroment data
-        this.port = env.PORT;
+        this.port = env.PORT || 5000;
         this.databaseURL = env.DB_URL;
         this.path = path;
 
