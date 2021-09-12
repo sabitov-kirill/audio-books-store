@@ -62,7 +62,7 @@ registerRoute(
             // кэшируем до 50 изображений в течение 30 дней
             new ExpirationPlugin({
                 maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 30
+                maxAgeSeconds: 60 * 60 * 1.5,
             }),
             new BackgroundSyncPlugin('imageQueue', {
                 maxRetentionTime: 10 // Retry for max of 10 minutes (specified in minutes)
@@ -77,8 +77,8 @@ registerRoute(
     request.destination === 'style' ||
     request.destination === 'script' ||
     request.destination === 'worker',
-    new CacheFirst({
-        // помещаем файлы в кэш с названием 'images'
+    new StaleWhileRevalidate({
+        // помещаем файлы в кэш с названием 'assets'
         cacheName: 'assets',
         plugins: [
             new CacheableResponsePlugin({
@@ -143,7 +143,7 @@ registerRoute(
     })
 )
 
-///PONOS
+///Audio cache
 
 importScripts('https://cdn.jsdelivr.net/gh/daffinm/pwa-utils@latest/js/assert.js');
 
