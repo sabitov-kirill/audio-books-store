@@ -17,13 +17,29 @@ const notificationSlice = createSlice({
         code: '',
         id: 0,
     },
+    
     reducers: {
         notify(state, action){
             state.code = action.payload.code;
             state.id = nanoid();
         },
     },
-    extraReducers: {},
+
+    extraReducers: {
+        // New book bought
+        'user/buyBook/pending': (state) => {
+            state.code = 'buyPending';
+            state.id = nanoid();
+        },
+        'user/buyBook/fulfilled': (state) => {
+            state.code = 'buySuccess';
+            state.id = nanoid();
+        },
+        'user/buyBook/rejected': (state) => {
+            state.code = 'buyError';
+            state.id = nanoid();
+        },
+    },
 });
 
 export const { notify } = notificationSlice.actions;

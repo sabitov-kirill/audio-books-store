@@ -17,11 +17,14 @@ import ReaderPageView from "../../views/reader/reader_page_view";
 // Connecting component view to model with controller
 export default connect(
     (state) => ({
-        imageUrl: `${state.reader.bookUrl}/page_${state.reader.page}.png`
+        page: state.reader.page,
+        pagesCount: state.reader.pagesCount,
+        bookUrl: state.reader.bookUrl,
     }),
     (dispatch) => ({
         prevPage: () => dispatch(prevPage()),
         nextPage: () => dispatch(nextPage()),
-        switchControlPanel: () => dispatch(switchControlPanel()),
-    })
+    }),
+    null,
+    { forwardRef: true }
 )(ReaderPageView);

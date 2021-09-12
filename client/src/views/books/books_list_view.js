@@ -10,7 +10,6 @@
  */
 
 import { Container } from "@material-ui/core";
-import { useState } from "react";
 
 import BookView from "../../controllers/books/book_controller";
 import './books_list.scss';

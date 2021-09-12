@@ -19,7 +19,7 @@ function dispatch(code) {
     switch (code) {
         case 'offlineLogout':
             return {
-                message: 'Для выходя из аккаунта нужно подключение к интернету.',
+                message: 'Для выхода из аккаунта нужно подключение к интернету.',
                 type: 'warning',
             };
         case 'offlineAuth':
@@ -27,11 +27,34 @@ function dispatch(code) {
                 message: 'Для авторизации нужно подключение к интернету.',
                 type: 'warning',
             };
+        case 'offlineBuy':
+            return {
+                message: 'Для покупки книги нужно подключение к интернету.',
+                type: 'warning',
+            };
+        
         case 'flip':
             return {
                 message: 'Пожалуйста, переверните девайс. Так читать будет удобнее.',
                 type: 'info',
             };
+
+        case 'buyPending':
+            return {
+                message: 'Вскоре вы будете перенаправлены на страницу покупки. После оплаты книга автоматически станет доступна для чтения.',
+                type: 'info',
+            };
+        case 'buySuccess':
+            return {
+                message: 'Книга успешно куплена.',
+                type: 'success',
+            };
+        case 'buyError':
+            return {
+                message: 'При покупке книги произошла ошибка.',
+                type: 'error',
+            };
+
         default:
             return {
                 message: 'Кто-то наклал...',
@@ -40,24 +63,23 @@ function dispatch(code) {
     }
 }
 
-export default function(props) {
-    const id = props.id;
+export default function NotificationView(props) {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-    const action = key => (
-        <IconButton
-            className="defColor"
-            size="small"
-            aria-label="closeNotification"
-            onClick={() => { closeSnackbar(key) }}>
-            <Close />
-        </IconButton>
-    );
-
     useEffect(() => {
-        const {message, type} = dispatch(props.notification);
+        const action = key => (
+            <IconButton
+                className="defColor"
+                size="small"
+                aria-label="closeNotification"
+                onClick={() => { closeSnackbar(key) }}>
+                <Close />
+            </IconButton>
+        );
+        const { message, type } = dispatch(props.notification);
+
         if (type !== 'cgsgForever') {
-            const key = enqueueSnackbar(message,
+            enqueueSnackbar(message,
                 {
                     action,
                     anchorOrigin: {
@@ -70,7 +92,7 @@ export default function(props) {
                     variant: type,
                 });
         }
-    }, [props.id, props.code]);
+    }, [props.id, props.code, props.notification, enqueueSnackbar, closeSnackbar]);
 
     return (<></>);
 }

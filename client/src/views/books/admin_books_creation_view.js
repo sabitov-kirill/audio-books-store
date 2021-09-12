@@ -16,18 +16,20 @@ import { Redirect } from "react-router-dom";
 
 export default function AdminBooksCreationView(props) {
     const [error, setError] = useState('');
-    const [isPremiere, setIsPremiere] = useState(false);
+    const [bookStatus, setBookStatus] = useState(false);
     const form = createRef();
     
-    const onIsPremiereChange = (e) => {
-        setIsPremiere(isPremiere => !isPremiere);
+    const onBookStatusChange = (e) => {
+        setBookStatus(e.target.value);
     }
  
     const onUploadBook = async (e) => {
         try {
             e.preventDefault();
             const formData = new FormData(form.current);
-            formData.append('isPremiere', isPremiere)
+            for(var pair of formData.entries()) {
+                console.log(pair[0]+ ', '+ pair[1]);
+             }
 
             const response = await fetch('/api/books/create', {
                 method: 'POST',
@@ -51,10 +53,20 @@ export default function AdminBooksCreationView(props) {
                 <input type='text' name='year' placeholder='Year' />
                 <textarea type='text' name='description' placeholder='Description' />
                 <input type='text' name='price' placeholder='Price' />
-                <input type='text' name='pagesCount' placeholder='Pages Count' />
-                <label>
-                    Is Premiere:{' '}
-                    <input type='checkbox' name='isPremiere' onChange={onIsPremiereChange}/>
+                <label className='column'>
+                    Select book status:{' '}
+                    <label>
+                        Can buy{' '}
+                        <input type='radio' value='canbuy' name='status' onChange={onBookStatusChange}/>
+                    </label>
+                    <label>
+                        Premiere{' '}
+                        <input type='radio' value='premiere' name='status' onChange={onBookStatusChange}/>
+                    </label>
+                    <label>
+                        In development{' '}
+                        <input type='radio' value='indev' name='status' onChange={onBookStatusChange}/>
+                    </label>
                 </label>
                 <div className='fogged' style={{height: 'fir-content', display: 'inline-block'}} >
                     <h1>Cover Image</h1>
@@ -64,8 +76,9 @@ export default function AdminBooksCreationView(props) {
                     </label>
                 </div>
 
-                {!isPremiere && 
+                {bookStatus === 'canbuy' && 
                     <div className='fogged' style={{height: 'fir-content', display: 'inline-block'}} >
+                        <input type='text' name='pagesCount' placeholder='Pages Count' />
                         <h1>Pages Data</h1>
                         <label>
                             Select Pages Images:{' '}

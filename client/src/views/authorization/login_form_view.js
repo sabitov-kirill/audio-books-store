@@ -9,8 +9,7 @@
  *
  */
 
-import {useEffect, useState} from "react";
-import { Redirect } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
     InputLabel, OutlinedInput,
     InputAdornment, IconButton,
@@ -34,10 +33,10 @@ export default function LoginFormView(props) {
         showPassword: false,
     });
 
+    const warnOffline = props.offline;
     useEffect(() => {
-        if (props.isOffline)
-            props.offline();
-    }, [props.isOffline]);
+        if (props.isOffline) warnOffline();
+    }, [props.isOffline, warnOffline]);
 
     const handleChange = (prop) => (event) => {
         const newValues = {...values};

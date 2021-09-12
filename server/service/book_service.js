@@ -10,7 +10,7 @@
  *
  */
 
-const path = require('path');
+const _path = require('path');
 const multer = require("multer");
 const fs = require("fs")
 
@@ -45,24 +45,15 @@ class BookService {
         this.createFiles = multer({ storage: this.storage }).fields(this.fields);
     }
 
-    async create(title, year, description, price, isPremiere, pagesCount, files) {
-        const book = await bookModel.create({
+    async create(title, year, description, price, status, pagesCount, files) {
+        await bookModel.create({
             title,
             year,
             description,
             price,
-            isPremiere,
+            status,
             pagesCount     
         });
-
-        // Rename directory with book files
-        const path = files.pages[0].destination;
-
-        let splited_path = path.split('/');
-        splited_path[splited_path.length - 2] = book._id; 
-        const new_path = splited_path.join('/');
-        
-        fs.rename('../../' + path, new_path);
     }
 
     filePath(file) {

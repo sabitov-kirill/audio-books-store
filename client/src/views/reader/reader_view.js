@@ -9,7 +9,7 @@
  *
  */
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 
 import ReaderPage from "../../controllers/reader/reader_page_controller";
@@ -21,28 +21,27 @@ export default function Reader(props) {
     const { bookId } = useParams();
     const book = props.books.find((book) => book.id === bookId);
 
-    const onAudioCanPlay = () => {
-        props.autoPlay();
-    }
-
-    const onAudioEnd = () => {
-        props.autoNextPage();
-    }
+    let flipBookRef = useRef();
+    const flipNotify = props.flipNotify;
+    const init = props.init;
+    const onAudioCanPlay = props.autoPlay;    
+    const onAudioEnd = props.autoNextPage;
 
     useEffect(() => {
         if (book) {
-            props.init({ 
+            init({ 
                 bookId,
                 pagesCount: book.pagesCount,
                 onAudioCanPlay,
                 onAudioEnd,
+                flipBookRef,
             });
 
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            if (isMobile && (window.innerHeight > window.innerWidth)) props.flipNotify();
+            if (isMobile && (window.innerHeight > window.innerWidth)) flipNotify();
         }
         return props.close;
-    }, []);
+    }, [bookId, book, flipNotify, init, onAudioCanPlay, onAudioEnd, props.close, flipBookRef]);
 
     if (!book) return <Redirect to='/' />
     if (props.isLoading) return <h1>Loading account data...</h1>
@@ -50,8 +49,11 @@ export default function Reader(props) {
     if (!props.ownedBooks.includes(bookId)) return <Redirect to='/' />
 
     return (
-        <div className="reader">
-            <ReaderPage />
+        <div
+            className="reader"
+            onClick={props.switchControlPanel}
+        >
+            <ReaderPage ref={flipBookRef} />
             <ReaderControl />
         </div>
     );

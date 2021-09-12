@@ -17,7 +17,7 @@ class BookDTO {
         this.year =         model.year;
         this.description =  model.description;
         this.price =        model.price;
-        this.isPremiere =   model.isPremiere;
+        this.status =       model.status;
         this.pagesCount =   model.pagesCount;
     }
 }

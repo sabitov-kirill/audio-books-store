@@ -11,7 +11,7 @@
 
 import { connect } from "react-redux";
 
-import NotificationView from "../../views/notification/notification_view";
+import NotificationView from "../../views/common/notification_view";
 
 // Component view, connected to model
 export default connect(

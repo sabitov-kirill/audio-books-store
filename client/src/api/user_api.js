@@ -51,6 +51,14 @@ const UserApi = {
         if (!response.ok) throw new Error("Ошибка при выходе из системы.");
         else caches.delete('user').then(function(ok){});
     },
+
+    async buyBook({ bookId }) {
+        const response = await fetch('/api/user/buy-book/' + bookId, {
+            method: "POST"
+        });
+        if (!response.ok) throw new Error("Ошибка при покупке книги.");
+        return { bookId };
+    },
 }
 
 export default UserApi;

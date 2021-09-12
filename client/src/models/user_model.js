@@ -89,6 +89,11 @@ const userSlice = createSlice({
             state.isAdmin = '';
             state.ownedBooks = '';
         },
+
+        // New book bought
+        'user/buyBook/fulfilled': (state, action) => {
+            state.ownedBooks.push(action.payload.bookId);
+        }
     }
 });
 

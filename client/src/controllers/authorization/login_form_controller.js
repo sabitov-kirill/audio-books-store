@@ -14,7 +14,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import userApi from '../../api/user_api';
 import LoginFormView from "../../views/authorization/login_form_view";
-import {notify} from "../../models/notification_model";
+import { notify } from "../../models/notification_model";
 
 // Creating login thunk
 const userReLogin = createAsyncThunk('user/userLogin', userApi.login);

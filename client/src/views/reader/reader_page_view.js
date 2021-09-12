@@ -9,69 +9,55 @@
  *
  */
 
-import { useRef, useEffect, useState } from "react";
+import { useState, forwardRef } from "react";
+import HTMLFlipBook from "react-pageflip";
 
-export default function ReaderPageView(props) {
-    const pageContainer = useRef(null);
-    useEffect(() => {
-        pageContainer.current.focus();
-    }, []);
-
-    const handlePageMove = (event) => {
-        if      (event.key === "ArrowRight") props.nextPage();
-        else if (event.key === "ArrowLeft")  props.prevPage();        
+const ReaderPageView = forwardRef((props, ref) => {
+    const pageElement = (pageNumber) => (
+        <div className="pageConent" >
+            <img src={`${props.bookUrl}/page_${pageNumber}.png`} alt={`page ${pageNumber} image`}/>
+            <div
+                className={pageNumber % 2 === 0 ? "pageImageLeftShadow" : "pageImageRightShadow"}
+            ></div>
+        </div>
+    );
+    let pagesImages = [];
+    for (let pageNumber = 0; pageNumber < props.pagesCount; pageNumber++) {    
+        pagesImages.push(pageElement(pageNumber * 2));
+        pagesImages.push(pageElement(pageNumber * 2 + 1));
     }
 
-    const [xDown, setXDown] = useState(null);
-    const [xDiff, setXDiff] = useState(0);
-    const epsilon = 50;
-    const handleTouchStart = (evt) => {
-        if (evt.touches !== undefined) setXDown(evt.touches[0].clientX);
-        else setXDown(evt.clientX);
-    };                                                
-                                                                               
-    const handleTouchMove = (evt) => {
-        if (!xDown) {
-            return;
-        }
- 
-        let xMove;
-        if (evt.touches !== undefined) {
-            xMove = evt.touches[0].clientX;
-        } else {
-            xMove = evt.clientX;
-        }
-        setXDiff(xDown - xMove);
-        if (Math.abs(xDiff) > epsilon) {
-            if      (xDiff > 0) props.nextPage();
-            else if (xDiff < 0) props.prevPage();
+    const [flipBookPage, setFlipBookPage] = useState(props.page * 2);
+    const onFlip = ({ data: newFlipBookPage }) => {
+        if      (newFlipBookPage === flipBookPage + 2) props.nextPage();
+        else if (newFlipBookPage === flipBookPage - 2) props.prevPage();
+        setFlipBookPage(newFlipBookPage);
+    }
 
-            setXDown(null);
-        }                
-    };
-
-    const handleTouchEnd = () => {
-        if (Math.abs(xDiff) < 5) {
-            props.switchControlPanel();
-        }
-
-        setXDown(null);
-        setXDiff(0);
+    const onInit = () => {
+        ref.current.pageFlip().turnToPage(props.page * 2);
     }
 
     return (
-        <div 
-            className="page"
-            tabIndex='0'
-            ref={pageContainer}            
-            style={{backgroundImage: `url(${props.imageUrl})`}}
-
-            onKeyUp={handlePageMove}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onMouseDown={handleTouchStart}
-            onMouseMove={handleTouchMove}
-            onMouseUp={handleTouchEnd}
-        />
+        <div className="page">
+            <HTMLFlipBook
+                width={960}
+                height={960}
+                size="stretch"
+                minWidth={160}
+                maxWidth={1920}
+                minHeight={160}
+                maxHeight={1920}
+                maxShadowOpacity={0.5}
+                usePortrait={false}
+                onFlip={onFlip}
+                onInit={onInit}
+                ref={ref}
+            >
+                {pagesImages}
+             </HTMLFlipBook>
+        </div>
     );
-}
+});
+
+export default ReaderPageView;

@@ -10,12 +10,14 @@
  *
  */
 
-const AuthService = require('../service/auth_service')
+const AuthService = require('../service/auth_service');
+const StoreService = require('../service/store_service');
 
 // User controller class
 class UserController {
     constructor(accessTokenKey, adminAccessTokenKey) {
         this.authService = new AuthService(accessTokenKey, adminAccessTokenKey);
+        this.storeService = new StoreService();
     }
 
     async add(request, result) {
@@ -66,11 +68,23 @@ class UserController {
         }
     }
 
+    async buyBook(request, result) {
+        try {
+            const { id: bookId } = request.params;
+            const { id: userId } = request.user;
+
+            await this.storeService.buyBook(userId, bookId);
+            result.sendStatus(200);
+        } catch (e) {
+            result.status(406).json({ error: e.message });
+        }
+    }
+
     async validate(request, result, next) {
         try {
             // Get access token from cookie and validate it
             const accessToken = request.cookies.acetsi;
-            if (!accessToken) throw new Error('You must login before.');
+            if (!accessToken) throw new Error('Для выполнения запроса необходимо войти.');
 
             // Set authorization data
             request.user = await this.authService.validate(accessToken);
@@ -84,7 +98,7 @@ class UserController {
     async validateAdmin(request, result, next) {
         try {
             const { user } = request;
-            if (!user.isAdmin) throw new Error('User dont have permissions for that operation.');
+            if (!user.isAdmin) throw new Error('У вас нет прав на выполнение данной операции.');
 
             next();
         } catch (e) {
@@ -98,7 +112,7 @@ class UserController {
             const { bookId } = request.params;
 
             if (!user.ownedBooks.includes(bookId)) {
-                throw new Error('User does not own this book');
+                throw new Error('Вы не владеете этой книгой.');
             }
         } catch (e) {
             result.status(406).json({ error: e.message });

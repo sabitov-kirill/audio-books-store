@@ -7,10 +7,17 @@ $ratio: $div-width / $div-height;
     height: 100vh;
 
     .page {
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        outline: 0px;
+
         position: absolute;
         transform: translate(-50%, -50%);
         left: 50%;
         top: 50%;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
 
         @media screen and (max-width: (100 * $ratio) + vh) {
             width: 100vw;
@@ -22,16 +29,58 @@ $ratio: $div-width / $div-height;
             height: 100vh;
         }
 
-        width: 100%;
-        height: 100%;
-        background-size: contain;
-        background-repeat: no-repeat;
-        outline: 0px;
+        @media screen and (min-width: 1600px) {
+            @media screen and (max-width: (100 * $ratio) + vh) {
+                width: 85vw;
+                height: (85 / $ratio) + vw;
+            }
+    
+            @media screen and (min-width: (100 * $ratio) + vh) {
+                width: (85 * $ratio) + vh;
+                height: 85vh;
+            }
+        }
+
+        img {
+            width: 100%; /* or any custom size */
+            height: 100%; 
+            object-fit: contain;
+        }
+
+        .pageConent {
+            width: 100%;
+            height: 100%;
+        }
+
+        .pageImageLeftShadow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            box-shadow: -71px 0px 100px -86px rgba(34, 60, 80, 1) inset;
+            top: 0;
+            left: 0;
+        }
+
+        .pageImageRightShadow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            box-shadow: 71px 0px 100px -86px rgba(34, 60, 80, 1) inset;
+            top: 0;
+            left: 0;
+        }
     }
 
+    /*======*
+     * Reader controller
+     *===*/
     @keyframes fade-in {
         from {opacity: 0}
         to {opacity: 1}
+    }
+    @keyframes fade-out {
+        from {opacity: 1}
+        to {opacity: 0}
     }
 
     .controlPanel {
@@ -66,5 +115,9 @@ $ratio: $div-width / $div-height;
         @media screen and (min-width: 769px) {
             width: 500px;
         }
+    }
+
+    &:active .controlPanel {
+        animation: .2s fade-out;
     }
 }

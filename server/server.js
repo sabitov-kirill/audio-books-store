@@ -34,6 +34,8 @@ class Server {
         this.router.get('/user/reaccess', this.userController.validate.bind(this.userController),
                                           this.userController.reAccess.bind(this.userController));
         this.router.get('/user/leave',    this.userController.leave.bind(this.userController));
+        this.router.post('/user/buy-book/:id', this.userController.validate.bind(this.userController),
+                                               this.userController.buyBook.bind(this.userController));
 
         // Book interactions requests
         this.router.post('/books/create', this.userController.validate.bind(this.userController),

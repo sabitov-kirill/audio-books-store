@@ -14,6 +14,7 @@ import * as cookies from 'cookie';
 
 let onAudioCanPlay, onAudioEnd;
 let bookAudio = null, bookBackgroundMusic = null;
+let flipBookRef = null;
 
 // App store authorization slice
 const readerSlice = createSlice({
@@ -29,12 +30,13 @@ const readerSlice = createSlice({
 
     reducers: {
         init(state, action) {
-            // Set book data
+            // Set book data. Pages count + 1 because of preview
             state.bookId = action.payload.bookId;
             state.bookUrl = `/books/${action.payload.bookId}`;
             state.pagesCount = action.payload.pagesCount;
             onAudioCanPlay = action.payload.onAudioCanPlay;
             onAudioEnd = action.payload.onAudioEnd;
+            flipBookRef = action.payload.flipBookRef;
 
             // Precahe all book data if not done before
             if (!cookies.parse(document.cookie)[`${state.bookId}_cahed`]) {
@@ -122,15 +124,7 @@ const readerSlice = createSlice({
         autoNextPage(state) {
             if (state.page < state.pagesCount - 1) {
                 // Turn next page
-                state.page = Number(state.page) + 1;
-
-                bookAudio = new Audio(`${state.bookUrl}/audio_${state.page}.mp3`);
-                bookAudio.addEventListener('canplay', onAudioCanPlay);
-                bookAudio.addEventListener('ended', onAudioEnd);
-
-                document.cookie = cookies.serialize(state.bookId, state.page, {
-                    maxAge: 30 * 24 * 60 * 60 * 1000
-                });
+                flipBookRef.current.pageFlip().flipNext();
             } else {
                 if (bookAudio) bookAudio.pause();
                 state.isPaused = true;
@@ -140,6 +134,7 @@ const readerSlice = createSlice({
         startPage(state) {
             // Turn next page
             state.page = 0;
+            flipBookRef.current.pageFlip().turnToPage(0);
 
             // Pause audio
             bookAudio.pause();
@@ -152,12 +147,7 @@ const readerSlice = createSlice({
 
         playAudio(state) {
             if (state.page === 0) {
-                state.page = 1;
-
-                // Play audio
-                bookAudio = new Audio(`${state.bookUrl}/audio_${state.page}.mp3`);
-                bookAudio.addEventListener('ended', onAudioEnd);
-                bookAudio.autoplay = true;
+                flipBookRef.current.pageFlip().flipNext();
                 state.isPaused = false;
             } else {
                 if (bookAudio) bookAudio.play();

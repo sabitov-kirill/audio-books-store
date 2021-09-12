@@ -11,13 +11,14 @@
  *
  */
 
-import React, {useEffect, useState} from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {SnackbarProvider} from "notistack";
+
+import "./mui_custom.scss";
 import InstallPWA from "./common/PWA_install_bar";
 import Header from '../controllers/common/header_controller';
-import "./mui_custom.scss";
-import {SnackbarProvider} from "notistack";
-import NotificationView from "../controllers/notification/notification_controller";
+import NotificationView from "../controllers/common/notification_controller";
 
 // Application pages routes
 const pagesRoutes = [
@@ -29,8 +30,6 @@ const pagesRoutes = [
 
 // Application main component
 export default function AppView(props) {
-    const reLogin = props.userReLogin;
-
     useEffect(() => {
         window.addEventListener('offline', props.goOffline);
         window.addEventListener('online', props.goOnline);
@@ -39,9 +38,10 @@ export default function AppView(props) {
             window.removeEventListener('offline', props.goOffline);
             window.removeEventListener('online', props.goOnline);
         }
-    }, []);
+    }, [props.goOffline, props.goOnline]);
 
-    useEffect(() => reLogin(), [reLogin]);
+    const reLogin = props.userReLogin;
+    useEffect(reLogin, [reLogin]);
 
     return (
         <Router>

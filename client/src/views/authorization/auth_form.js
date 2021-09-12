@@ -9,11 +9,12 @@
  *
  */
 
-import {useEffect, useState} from "react";
+import { useState } from "react";
+import { useLocation } from "react-router";
 
 import LoginFormController from '../../controllers/authorization/login_form_controller';
 import RegistrationFormController from '../../controllers/authorization/registration_form_controller';
-import {Grid, Link} from "@material-ui/core";
+import { Grid, Link } from "@material-ui/core";
 import './auth.scss'
 
 // Component to render if login sign in selected
@@ -26,6 +27,9 @@ function LoginForm(props) {
             alignItems="center"
         >
             <h1 className="accActCol start-margin">Вход</h1>
+            {props.fromBuy &&
+                <p className="accActCol">Перед покупкой книг необходимо войти.</p>
+            }
             <div className="authForm">
                 <LoginFormController offline={props.offline} isOffline={props.isOffline} />
             </div>
@@ -34,7 +38,7 @@ function LoginForm(props) {
                 <Link
                     onClick={props.onSetRegister}
                     className="accActCol"
-                >Регистрация!</Link>
+                >Зарегистрируйтесь!</Link>
             </p>
         </Grid>
     );
@@ -50,6 +54,9 @@ function RegisterForm(props) {
             alignItems="center"
         >
             <h1 className="accActCol start-margin">Регистрация</h1>
+            {props.fromBuy &&
+                <p className="accActCol">Перед покупкой книг необходимо зарегестрироваться.</p>
+            }
             <div  className="authForm">
                 <RegistrationFormController offline={props.offline} isOffline={props.isOffline} />
             </div>
@@ -58,7 +65,7 @@ function RegisterForm(props) {
                 <Link
                     onClick={props.onSetLogin}
                     className="accActCol"
-                >Вход!</Link>
+                >Войдите!</Link>
             </p>
         </Grid>
     );
@@ -67,19 +74,12 @@ function RegisterForm(props) {
 // Component view
 export default function AuthForm() {
     const [isLoginForm, setIsLoginForm] = useState(true);
-
-    // Evens callbacks handle
-    const onSetLogin = () => {
-        setIsLoginForm(true);
-    }
-    // Evens callbacks handle
-    const onSetRegister = () => {
-        setIsLoginForm(false);
-    }
+    const location = useLocation();
+    const fromBuy = location.search.split('=')[1] === 'buy';
 
     return (
         isLoginForm
-            ? <LoginForm onSetRegister={onSetRegister} />
-            : <RegisterForm onSetLogin={onSetLogin} />
+            ? <LoginForm onSetRegister={() => setIsLoginForm(false)} fromBuy={fromBuy} />
+            : <RegisterForm onSetLogin={() => setIsLoginForm(true)} fromBuy={fromBuy} />
     );
 }

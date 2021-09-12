@@ -5,7 +5,7 @@
   "start_url": ".",
   "display": "standalone",
   "prefer_related_applications": false,
-  "theme_color": "#f9bf7f",
+  "theme_color": "#a16452",
   "background_color": "#e6c7a9",
   "description": "Audio Books Store PWA.",
   "icons": [

@@ -24,8 +24,8 @@ class BookController {
     async create(request, result) {
         try {
             // const { title, author, description, price } = request.body;
-            const { title, year, description, price, pagesCount, isPremiere } = request.body;
-            await this.bookService.create(title, Number(year), description, Number(price), isPremiere, pagesCount, request.files);
+            const { title, year, description, price, pagesCount, status } = request.body;
+            await this.bookService.create(title, Number(year), description, Number(price), status, pagesCount, request.files);
             
             result.sendStatus(200);
         } catch (error) {

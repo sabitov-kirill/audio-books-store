@@ -11,7 +11,7 @@
 import {
     Event, LocalOffer,
     ShoppingCart, AddShoppingCart,
-    PlayArrow, NewReleases
+    PlayArrow, NewReleases, Build
 } from '@material-ui/icons'
 import { useHistory } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ import './book.scss';
 
 function Cover(props) {
     const activeFlag = {
-        filter: props.isActive ? "" : 'grayscale(100%)'
+        filter: props.isActive ? "" : 'grayscale(90%)'
     }
 
     return (
@@ -36,22 +36,28 @@ function Cover(props) {
 }
 
 function Tags(props) {
-    const notOwnedTags = <>
-        <li className="tagItem fogged"><LocalOffer fontSize='small' />{' '}{props.book.price + ' ₽'}</li>
-        <li className="actionButton tagItem" onClick={props.select}><AddShoppingCart fontSize='small' />{' '}{'Купить'}</li>
-    </>
-    const ownedTags = <>
-        <li className="tagItem fogged" ><ShoppingCart fontSize='small' />{' '}{'Куплено'}</li>
-        <li className="actionButton tagItem" onClick={props.select}><PlayArrow fontSize='small' />{' '}{'Читать'}</li>
-    </>
-    const premiereTags = 
-        <li className="tagItem fogged" ><NewReleases fontSize='small' />{' '}{'Скоро...'}</li>
+    let statusTags;
+    if (props.isOwned) {
+        statusTags = <>
+            <li className="tagItem fogged" ><ShoppingCart fontSize='small' />{' '}{'Куплено'}</li>
+            <li className="actionButton tagItem" onClick={props.select}><PlayArrow fontSize='small' />{' '}{'Читать'}</li>
+        </>
+    } else if (props.book.status === 'canbuy') {
+        statusTags = <>
+            <li className="tagItem fogged"><LocalOffer fontSize='small' />{' '}{props.book.price + ' ₽'}</li>
+            <li className="actionButton tagItem" onClick={props.select}><AddShoppingCart fontSize='small' />{' '}{'Купить'}</li>
+        </>
+    } else if (props.book.status === 'premiere') {
+        statusTags = <li className="tagItem fogged" ><NewReleases fontSize='small' />{' '}{'Скоро...'}</li>
+    } else if (props.book.status === 'indev') {
+        statusTags = <li className="tagItem fogged" ><Build fontSize='small' />{' '}{'В разработке'}</li>
+    }
 
     return (
         <ul className="tagsContainer">
-            <li className="tagItem fogged"><Event fontSize='small' />{' '}{props.book.year + ' г.'}</li>
-            {props.book.isPremiere ? premiereTags : props.isOwned ? ownedTags : notOwnedTags}
-        </ul>
+            <li className="tagItem fogged" ><Event fontSize='small' />{' '}{props.book.year}</li>
+            {statusTags}
+        </ul>        
     );
 }
 
@@ -68,10 +74,28 @@ function Text(props) {
 
 export default function BookView(props) {
     const history = useHistory();
-    const onReadRedirect = () => history.push(`/reader/${props.book.id}`);
-    const onBuyRedirect = () => history.push(`/buy-book/${props.book.id}`);
-    const select = props.isOwned ? onReadRedirect : onBuyRedirect;
 
+    const onReadRedirect = () => history.push(`/reader/${props.book.id}`);
+    const onBuyRedirect = () => {
+        if (props.isLoggedIn) {
+            if (props.isOffline) {
+                props.offlineBuyWarn();
+            } else {
+                props.buyBook(props.book);
+            }
+
+        } else {
+            history.push({
+                pathname: 'authorization',
+                search: 'from=buy',
+            });
+        }
+    }
+    const select = 
+        props.book.status === 'canbuy' ? 
+        props.isOwned ? onReadRedirect : onBuyRedirect :
+        () => {};
+    
     return (
         <div className='cardContainer shadow'>
             <Cover isActive={props.isOwned} bookId={props.book.id} select={select} />
