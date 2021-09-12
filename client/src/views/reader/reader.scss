@@ -74,15 +74,6 @@ $ratio: $div-width / $div-height;
     /*======*
      * Reader controller
      *===*/
-    @keyframes fade-in {
-        from {opacity: 0}
-        to {opacity: 1}
-    }
-    @keyframes fade-out {
-        from {opacity: 1}
-        to {opacity: 0}
-    }
-
     .controlPanel {
         position: absolute;
         width: 280px;
@@ -95,8 +86,6 @@ $ratio: $div-width / $div-height;
         display: flex;
         flex-wrap: nowrap;
         align-items: center;
-
-        animation: .2s fade-in;
 
         .closeButton {
             margin-left: auto;
@@ -117,7 +106,13 @@ $ratio: $div-width / $div-height;
         }
     }
 
-    &:active .controlPanel {
-        animation: .2s fade-out;
+    .showControlPanel {
+        position: absolute;
+        width: fit-content;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        margin: 0 0 5px 5px;
+        padding: 0;
     }
 }

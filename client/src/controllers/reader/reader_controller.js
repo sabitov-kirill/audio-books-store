@@ -12,7 +12,7 @@
 import { connect } from "react-redux";
 
 import { notify } from "../../models/notification_model";
-import { init, close, autoPlay, autoNextPage } from "../../models/reader_model";
+import { init, close, autoPlay, autoNextPage, switchControlPanel } from "../../models/reader_model";
 import ReaderView from "../../views/reader/reader_view";
 
 // Connecting component view to model with controller
@@ -29,6 +29,5 @@ export default connect(
         autoPlay: () => dispatch(autoPlay()),
         autoNextPage: () => dispatch(autoNextPage()),
         flipNotify: () => dispatch(notify({ code: 'flip' })),
-        switchControlPanel: () => dispatch(switchControlPanel()),
     })
 )(ReaderView);

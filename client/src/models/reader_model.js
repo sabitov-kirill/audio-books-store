@@ -159,10 +159,6 @@ const readerSlice = createSlice({
             if (bookAudio) bookAudio.pause();
             state.isPaused = true;
         },
-
-        switchControlPanel(state) {
-            state.isControlPanel = !state.isControlPanel;
-        },
     }
 });
 

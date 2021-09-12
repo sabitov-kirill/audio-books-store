@@ -13,13 +13,14 @@ import { useHistory } from 'react-router-dom';
 import { 
     ArrowBack, PlayArrow,
     Pause, Close, FastRewind,
-    Fullscreen, FullscreenExit
+    Fullscreen, FullscreenExit, MenuOpen
 } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
 import { useState } from 'react';
 
 export default function ReaderControl(props) {
     const history = useHistory();
+    const [isVisible, setIsVisible] = useState(true);
 
     const elem = document.documentElement;
     const [fullscreen, setFullscreen] = useState(false);
@@ -93,7 +94,7 @@ export default function ReaderControl(props) {
         <p>Стр. {Number(props.page) + 1}/{props.pagesCount}</p>    
     
     const ControlButton = () =>
-        <IconButton onClick={props.switchControlPanel} className='closeButton'>
+        <IconButton onClick={() => setIsVisible(false)} className='closeButton'>
             <Close />
         </IconButton>;
 
@@ -112,9 +113,17 @@ export default function ReaderControl(props) {
             <ControlButton />
         </div>;
 
+    const showControlPanel = 
+        <div className="showControlPanel fogged" >
+            <IconButton onClick={() => setIsVisible(true)} className='startPageButton' >
+                <MenuOpen />
+            </IconButton>
+        </div>;
+
     return (
         <>
-            {props.isControlPanel && controlPanel}
+            {isVisible && controlPanel}
+            {!isVisible && showControlPanel}
         </>
     );
 } 

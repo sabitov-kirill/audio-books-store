@@ -49,10 +49,7 @@ export default function Reader(props) {
     if (!props.ownedBooks.includes(bookId)) return <Redirect to='/' />
 
     return (
-        <div
-            className="reader"
-            onClick={props.switchControlPanel}
-        >
+        <div className="reader">
             <ReaderPage ref={flipBookRef} />
             <ReaderControl />
         </div>
